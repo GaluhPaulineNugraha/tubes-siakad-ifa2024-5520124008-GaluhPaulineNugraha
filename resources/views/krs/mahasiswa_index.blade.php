@@ -5,7 +5,7 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Kartu Rencana Studi (KRS)</h5>
+                <h5 class="mb-0"><i class="fas fa-clipboard-list me-2 text-primary"></i>Kartu Rencana Studi (KRS)</h5>
                 <div>
                     <a href="{{ route('krs.export.pdf') }}" class="btn btn-danger btn-sm me-2">
                         <i class="fas fa-file-pdf me-1"></i>Export PDF
@@ -16,29 +16,62 @@
                 </div>
             </div>
             <div class="card-body">
-                <!-- Statistik -->
-                <div class="row g-4 mb-4">
+                <!-- Statistik Cards - Sama seperti Dashboard Mahasiswa -->
+                <div class="row g-3 mb-4">
                     <div class="col-md-4">
-                        <div class="stat-card p-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 12px; color: white;">
-                            <i class="fas fa-book fa-2x mb-2"></i>
-                            <h3 class="mb-0">{{ $krsList->count() }}</h3>
-                            <small>Total Mata Kuliah</small>
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <small class="text-muted text-uppercase">Total Mata Kuliah</small>
+                                        <h2 class="mb-0 fw-bold mt-1">{{ $krsList->count() }}</h2>
+                                    </div>
+                                    <div class="rounded-3 p-3" style="background: #e8f0fe;">
+                                        <i class="fas fa-book fa-2x text-primary"></i>
+                                    </div>
+                                </div>
+                                <div class="progress mt-3" style="height: 6px;">
+                                    <div class="progress-bar bg-primary" style="width: {{ min(100, ($krsList->count()/10)*100) }}%"></div>
+                                </div>
+                                <small class="text-muted mt-2 d-block">Maksimal 10 Mata Kuliah</small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="stat-card p-3" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 12px; color: white;">
-                            <i class="fas fa-star fa-2x mb-2"></i>
-                            <h3 class="mb-0">{{ $totalSks }} SKS</h3>
-                            <small>Total SKS</small>
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <small class="text-muted text-uppercase">Total SKS</small>
+                                        <h2 class="mb-0 fw-bold mt-1">{{ $totalSks }} / 24</h2>
+                                    </div>
+                                    <div class="rounded-3 p-3" style="background: #e6f4ea;">
+                                        <i class="fas fa-star fa-2x text-success"></i>
+                                    </div>
+                                </div>
+                                <div class="progress mt-3" style="height: 6px;">
+                                    <div class="progress-bar bg-success" style="width: {{ min(100, ($totalSks/24)*100) }}%"></div>
+                                </div>
+                                <small class="text-muted mt-2 d-block">Sisa kuota: {{ 24 - $totalSks }} SKS</small>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <div class="stat-card p-3" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 12px; color: white;">
-                            <i class="fas fa-chart-line fa-2x mb-2"></i>
-                            <h3 class="mb-0">24 SKS</h3>
-                            <small>Maksimal SKS</small>
-                            <div class="progress mt-2" style="height: 6px;">
-                                <div class="progress-bar" style="background: white; width: {{ min(100, ($totalSks/24)*100) }}%"></div>
+                        <div class="card border-0 shadow-sm rounded-4 h-100">
+                            <div class="card-body p-4">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <div>
+                                        <small class="text-muted text-uppercase">Maksimal SKS</small>
+                                        <h2 class="mb-0 fw-bold mt-1">24 SKS</h2>
+                                    </div>
+                                    <div class="rounded-3 p-3" style="background: #fef3e6;">
+                                        <i class="fas fa-chart-line fa-2x text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="progress mt-3" style="height: 6px;">
+                                    <div class="progress-bar bg-warning" style="width: 100%"></div>
+                                </div>
+                                <small class="text-muted mt-2 d-block">Kuota penuh 24 SKS</small>
                             </div>
                         </div>
                     </div>

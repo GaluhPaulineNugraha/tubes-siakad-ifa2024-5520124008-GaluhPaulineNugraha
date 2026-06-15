@@ -40,18 +40,6 @@ class DashboardController extends Controller
             $latestDosen = Dosen::latest()->limit(5)->get();
             $latestMahasiswa = Mahasiswa::with('dosen')->latest()->limit(5)->get();
             
-            // My Courses untuk admin (bisa diisi static atau dari database)
-            $myCourses = [
-                'BASDAT A B 24',
-                'BASDAT A 24',
-                'MULTI A 24',
-                'KOMDAT A 24',
-                'RPL A 24',
-                'IMK A 24',
-                'JARKOM A 24',
-                'IT G A 24'
-            ];
-            
             return view('dashboard', compact(
                 'totalDosen',
                 'totalMahasiswa', 
@@ -61,9 +49,13 @@ class DashboardController extends Controller
                 'avgSksPerMhs',
                 'activeKRS',
                 'latestDosen',
-                'latestMahasiswa',
-                'myCourses'
+                'latestMahasiswa'
             ));
+        }
+        
+        if ($user->hasRole('dosen')) {
+            // Redirect ke halaman dashboard dosen
+            return redirect()->route('dosen.dashboard');
         }
         
         if ($user->hasRole('mahasiswa')) {
@@ -74,10 +66,7 @@ class DashboardController extends Controller
                 return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
             
-            // Total mata kuliah yang diambil
             $totalMatakuliah = KRS::where('npm', $mahasiswa->npm)->count();
-            
-            // Total SKS yang diambil
             $totalSks = KRS::with('matakuliah')
                 ->where('npm', $mahasiswa->npm)
                 ->get()
@@ -85,31 +74,13 @@ class DashboardController extends Controller
                     return $krs->matakuliah ? $krs->matakuliah->sks : 0;
                 });
             
-            // Mata kuliah terbaru yang diambil
             $latestKRS = KRS::with('matakuliah')
                 ->where('npm', $mahasiswa->npm)
                 ->latest()
                 ->limit(5)
                 ->get();
             
-            // My Courses - Mata kuliah yang diambil mahasiswa
-            $myCourses = KRS::with('matakuliah')
-                ->where('npm', $mahasiswa->npm)
-                ->get()
-                ->map(function($krs) {
-                    return $krs->matakuliah ? $krs->matakuliah->nama_matakuliah : '';
-                })
-                ->filter()
-                ->values()
-                ->toArray();
-            
-            return view('dashboard', compact(
-                'mahasiswa', 
-                'totalMatakuliah', 
-                'totalSks', 
-                'latestKRS',
-                'myCourses'
-            ));
+            return view('dashboard_mahasiswa', compact('mahasiswa', 'totalMatakuliah', 'totalSks', 'latestKRS'));
         }
         
         return view('dashboard');

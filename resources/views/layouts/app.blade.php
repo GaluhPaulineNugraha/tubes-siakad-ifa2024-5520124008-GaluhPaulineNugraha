@@ -399,7 +399,7 @@
                             {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
                         <div class="d-none d-md-block">
-                            <div class="fw-semibold" style="color: #2d3748;">Admin Universitas Nugraha</div>
+                            <div class="fw-semibold" style="color: #2d3748;">{{ Auth::user()->name }}</div>
                             <small class="text-muted" style="color: #a0aec0;">{{ Auth::user()->role }}</small>
                         </div>
                         <i class="fas fa-chevron-down text-muted" style="font-size: 11px;"></i>

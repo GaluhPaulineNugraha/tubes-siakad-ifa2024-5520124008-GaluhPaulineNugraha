@@ -3,69 +3,139 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Mahasiswa;
+use App\Models\Matakuliah;
+use App\Models\Jadwal;
+use App\Models\KRS;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DosenController extends Controller
 {
-    public function index(Request $request)
+    // HAPUS __construct() INI:
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    //     $this->middleware('role:dosen');
+    // }
+
+    public function dashboard()
     {
-        $query = Dosen::query();
+        $user = Auth::user();
+        $dosen = Dosen::where('nidn', $user->nidn)->first();
         
-        if ($request->search) {
-            $query->where('nama', 'like', "%{$request->search}%")
-                  ->orWhere('nidn', 'like', "%{$request->search}%");
-        }
+        // Statistik
+        $totalMahasiswaBimbingan = Mahasiswa::where('nidn', $dosen->nidn)->count();
+        $totalJadwalMengajar = Jadwal::where('nidn', $dosen->nidn)->count();
+        $totalKRS = KRS::whereIn('npm', Mahasiswa::where('nidn', $dosen->nidn)->pluck('npm'))->count();
         
-        $dosen = $query->orderBy('created_at', 'desc')->paginate(10);
+        // Data terbaru
+        $jadwalTerbaru = Jadwal::with(['matakuliah'])
+            ->where('nidn', $dosen->nidn)
+            ->latest()
+            ->limit(5)
+            ->get();
+            
+        $mahasiswaBimbingan = Mahasiswa::where('nidn', $dosen->nidn)
+            ->latest()
+            ->limit(5)
+            ->get();
         
-        return view('dosen.index', compact('dosen'));
+        return view('dosen.dashboard', compact(
+            'dosen',
+            'totalMahasiswaBimbingan',
+            'totalJadwalMengajar',
+            'totalKRS',
+            'jadwalTerbaru',
+            'mahasiswaBimbingan'
+        ));
     }
-    
-    public function create()
+
+    public function jadwalIndex()
     {
-        return view('dosen.create');
+        $user = Auth::user();
+        $dosen = Dosen::where('nidn', $user->nidn)->first();
+        
+        $jadwal = Jadwal::with(['matakuliah'])
+            ->where('nidn', $dosen->nidn)
+            ->paginate(10);
+            
+        return view('dosen.jadwal', compact('jadwal'));
     }
-    
-    public function store(Request $request)
+
+    public function jadwalCreate()
     {
-        $validated = $request->validate([
-            'nidn' => 'required|unique:dosen|max:10',
-            'nama' => 'required|max:50',
+        $matakuliah = Matakuliah::all();
+        return view('dosen.jadwal_create', compact('matakuliah'));
+    }
+
+    public function jadwalStore(Request $request)
+    {
+        $request->validate([
+            'kode_matakuliah' => 'required|exists:matakuliah,kode_matakuliah',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+            'kelas' => 'required|in:A,B,C,D,E',
+            'ruangan' => 'nullable|max:50',
         ]);
-        
-        // Tambahkan email otomatis jika diperlukan
-        $validated['email'] = $request->email ?? $validated['nidn'] . '@dosen.universitas.ac.id';
-        
-        Dosen::create($validated);
-        
-        return redirect()->route('dosen.index')->with('success', 'Dosen berhasil ditambahkan');
-    }
-    
-    public function edit($id)
-    {
-        $dosen = Dosen::findOrFail($id);
-        return view('dosen.edit', compact('dosen'));
-    }
-    
-    public function update(Request $request, $id)
-    {
-        $dosen = Dosen::findOrFail($id);
-        
-        $validated = $request->validate([
-            'nidn' => 'required|max:10|unique:dosen,nidn,' . $id,
-            'nama' => 'required|max:50',
+
+        $user = Auth::user();
+        $dosen = Dosen::where('nidn', $user->nidn)->first();
+
+        Jadwal::create([
+            'kode_matakuliah' => $request->kode_matakuliah,
+            'nidn' => $dosen->nidn,
+            'hari' => $request->hari,
+            'jam_mulai' => $request->jam_mulai,
+            'jam_selesai' => $request->jam_selesai,
+            'kelas' => $request->kelas,
+            'ruangan' => $request->ruangan,
         ]);
-        
-        $dosen->update($validated);
-        
-        return redirect()->route('dosen.index')->with('success', 'Dosen berhasil diupdate');
+
+        return redirect()->route('dosen.jadwal')->with('success', 'Jadwal berhasil ditambahkan');
     }
-    
-    public function destroy($id)
+
+    public function jadwalEdit($id)
     {
-        $dosen = Dosen::findOrFail($id);
-        $dosen->delete();
+        $jadwal = Jadwal::findOrFail($id);
+        $matakuliah = Matakuliah::all();
+        return view('dosen.jadwal_edit', compact('jadwal', 'matakuliah'));
+    }
+
+    public function jadwalUpdate(Request $request, $id)
+    {
+        $request->validate([
+            'kode_matakuliah' => 'required|exists:matakuliah,kode_matakuliah',
+            'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
+            'jam_mulai' => 'required',
+            'jam_selesai' => 'required',
+            'kelas' => 'required|in:A,B,C,D,E',
+            'ruangan' => 'nullable|max:50',
+        ]);
+
+        $jadwal = Jadwal::findOrFail($id);
+        $jadwal->update($request->all());
+
+        return redirect()->route('dosen.jadwal')->with('success', 'Jadwal berhasil diupdate');
+    }
+
+    public function jadwalDestroy($id)
+    {
+        $jadwal = Jadwal::findOrFail($id);
+        $jadwal->delete();
+
+        return redirect()->route('dosen.jadwal')->with('success', 'Jadwal berhasil dihapus');
+    }
+
+    public function mahasiswaIndex()
+    {
+        $user = Auth::user();
+        $dosen = Dosen::where('nidn', $user->nidn)->first();
         
-        return redirect()->route('dosen.index')->with('success', 'Dosen berhasil dihapus');
+        $mahasiswa = Mahasiswa::where('nidn', $dosen->nidn)
+            ->paginate(10);
+            
+        return view('dosen.mahasiswa', compact('mahasiswa', 'dosen'));
     }
 }

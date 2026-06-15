@@ -107,7 +107,7 @@
                             <div class="fw-semibold">{{ $mhs->nama }}</div>
                             <small class="text-muted">{{ $mhs->npm }}</small>
                         </div>
-                        <span class="badge bg-success bg-opacity-10 text-success">{{ KRS::where('npm', $mhs->npm)->count() }} MK</span>
+                        <span class="badge bg-success bg-opacity-10 text-success">{{ App\Models\KRS::where('npm', $mhs->npm)->count() }} MK</span>
                     </div>
                     @empty
                     <div class="text-center py-3 text-muted">Belum ada mahasiswa bimbingan</div>

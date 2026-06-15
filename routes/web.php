@@ -11,7 +11,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -39,12 +39,32 @@ Route::middleware('auth')->group(function () {
     
     // Nilai Routes
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
-    Route::put('/nilai/{id}', [NilaiController::class, 'update'])->name('nilai.update');
     
-    // Resource Routes
-    Route::resource('dosen', DosenController::class);
+    // ========== ROUTE DOSEN (MANUAL, TANPA RESOURCE) ==========
+    Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
+    Route::get('/dosen/create', [DosenController::class, 'create'])->name('dosen.create');
+    Route::post('/dosen', [DosenController::class, 'store'])->name('dosen.store');
+    Route::get('/dosen/{nidn}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
+    Route::put('/dosen/{nidn}', [DosenController::class, 'update'])->name('dosen.update');
+    Route::delete('/dosen/{nidn}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+    
+    // Mahasiswa Resource
     Route::resource('mahasiswa', MahasiswaController::class);
+    
+    // Matakuliah Resource
     Route::resource('matakuliah', MatakuliahController::class);
+    
+    // ========== ROUTE UNTUK DOSEN ==========
+    Route::prefix('dosen')->middleware(['role:dosen'])->name('dosen.')->group(function () {
+        Route::get('/dashboard', [DosenController::class, 'dashboard'])->name('dashboard');
+        Route::get('/jadwal', [DosenController::class, 'jadwalIndex'])->name('jadwal');
+        Route::get('/jadwal/create', [DosenController::class, 'jadwalCreate'])->name('jadwal.create');
+        Route::post('/jadwal', [DosenController::class, 'jadwalStore'])->name('jadwal.store');
+        Route::get('/jadwal/{id}/edit', [DosenController::class, 'jadwalEdit'])->name('jadwal.edit');
+        Route::put('/jadwal/{id}', [DosenController::class, 'jadwalUpdate'])->name('jadwal.update');
+        Route::delete('/jadwal/{id}', [DosenController::class, 'jadwalDestroy'])->name('jadwal.destroy');
+        Route::get('/mahasiswa', [DosenController::class, 'mahasiswaIndex'])->name('mahasiswa');
+    });
 });
 
 require __DIR__.'/auth.php';

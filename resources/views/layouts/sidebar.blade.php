@@ -70,6 +70,28 @@
         </li>
         @endrole
 
+        @role('dosen')
+        <!-- Menu Dosen -->
+        <li class="nav-item">
+            <a href="{{ route('dosen.dashboard') }}" class="nav-link {{ request()->routeIs('dosen.dashboard') ? 'active' : '' }}">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard Dosen</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('dosen.jadwal') }}" class="nav-link {{ request()->routeIs('dosen.jadwal*') ? 'active' : '' }}">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Jadwal Mengajar</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('dosen.mahasiswa') }}" class="nav-link {{ request()->routeIs('dosen.mahasiswa*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                <span>Mahasiswa Bimbingan</span>
+            </a>
+        </li>
+        @endrole
+
         @role('mahasiswa')
         <!-- Menu untuk Mahasiswa -->
         <li class="nav-item">
