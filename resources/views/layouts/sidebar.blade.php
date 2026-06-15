@@ -1,3 +1,4 @@
+```blade
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
@@ -45,7 +46,7 @@
 
         <!-- Akademik -->
         <li class="nav-item has-submenu">
-            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('jadwal.*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
+            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('jadwal.*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
                 <i class="fas fa-graduation-cap"></i>
                 <span>Akademik</span>
                 <i class="fas fa-chevron-right submenu-icon"></i>
@@ -57,7 +58,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('jadwal.index') }}" class="{{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.jadwal.index') }}" class="{{ request()->routeIs('admin.jadwal*') ? 'active' : '' }}">
                         <i class="fas fa-calendar-alt"></i> Jadwal Kuliah
                     </a>
                 </li>

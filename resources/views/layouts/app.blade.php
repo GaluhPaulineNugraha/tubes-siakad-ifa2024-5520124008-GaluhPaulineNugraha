@@ -391,7 +391,8 @@
         @include('layouts.sidebar')
         
         <div class="main-content">
-            <!-- Top Navbar -->
+            <!-- Top Navbar - hanya tampil jika user sudah login -->
+            @auth
             <nav class="navbar-top">
                 <div class="dropdown">
                     <div class="user-dropdown d-flex align-items-center gap-2" data-bs-toggle="dropdown">
@@ -405,7 +406,7 @@
                         <i class="fas fa-chevron-down text-muted" style="font-size: 11px;"></i>
                     </div>
                     <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 mt-2 py-2">
-                        <li><a class="dropdown-item py-2" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2" style="color: #718096;"></i> Profile</a></li>
+                        <li><a class="dropdown-item py-2" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2"></i> Profile</a></li>
                         <li><hr class="dropdown-divider my-1"></li>
                         <li>
                             <form method="POST" action="{{ route('logout') }}">
@@ -418,6 +419,7 @@
                     </ul>
                 </div>
             </nav>
+            @endauth
             
             <!-- Page Content -->
             @yield('content')

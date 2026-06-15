@@ -163,6 +163,27 @@
             color: #6c757d;
         }
 
+        /* Navigasi Beranda */
+        .nav-beranda {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .nav-beranda a {
+            color: #6c757d;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .nav-beranda a:hover {
+            color: #0A2540;
+        }
+
+        .nav-beranda i {
+            margin-right: 6px;
+        }
+
         .form-group {
             margin-bottom: 24px;
         }
@@ -322,6 +343,13 @@
             <!-- Right Side - Form Login -->
             <div class="col-lg-6 form-section">
                 <div class="login-card">
+                    <!-- Navigasi Beranda -->
+                    <div class="nav-beranda">
+                        <a href="{{ route('prodi.beranda') }}">
+                            <i class="fas fa-home"></i> Beranda
+                        </a>
+                    </div>
+
                     <div class="login-header">
                         <h3>Akses ke Platform</h3>
                         <p>Silakan masuk dengan akun Anda</p>
@@ -355,10 +383,6 @@
                         <button type="submit" class="btn-login">
                             <i class="fas fa-sign-in-alt me-2"></i> MASUK
                         </button>
-
-                        <div class="forgot-link">
-                            <a href="#">Lupa nama pengguna dan kata sandi Anda?</a>
-                        </div>
                     </form>
 
                     <div class="footer">
