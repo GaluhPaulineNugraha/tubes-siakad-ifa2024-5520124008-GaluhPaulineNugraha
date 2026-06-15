@@ -202,22 +202,9 @@
             margin-bottom: 24px;
             border-radius: 16px;
             border: 1px solid #edf2f7;
-        }
-
-        .menu-toggle {
-            background: #f7fafc;
-            border: 1px solid #edf2f7;
-            font-size: 18px;
-            color: #4a5568;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-
-        .menu-toggle:hover {
-            background: #edf2f7;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
         }
 
         .user-dropdown {
@@ -405,38 +392,30 @@
         
         <div class="main-content">
             <!-- Top Navbar -->
-            <nav class="navbar-top d-flex justify-content-between align-items-center">
-                <div>
-                    <button class="menu-toggle" id="menuToggle">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
-                
-                <div class="d-flex align-items-center gap-3">
-                    <div class="dropdown">
-                        <div class="user-dropdown d-flex align-items-center gap-2" data-bs-toggle="dropdown">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: #ebf8ff; color: #3182ce; font-weight: 600;">
-                                {{ substr(Auth::user()->name, 0, 1) }}
-                            </div>
-                            <div class="d-none d-md-block">
-                                <div class="fw-semibold" style="color: #2d3748;">{{ Auth::user()->name }}</div>
-                                <small class="text-muted" style="color: #a0aec0;">{{ Auth::user()->role }}</small>
-                            </div>
-                            <i class="fas fa-chevron-down text-muted" style="font-size: 11px;"></i>
+            <nav class="navbar-top">
+                <div class="dropdown">
+                    <div class="user-dropdown d-flex align-items-center gap-2" data-bs-toggle="dropdown">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: #ebf8ff; color: #3182ce; font-weight: 600;">
+                            {{ substr(Auth::user()->name, 0, 1) }}
                         </div>
-                        <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 mt-2 py-2">
-                            <li><a class="dropdown-item py-2" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2" style="color: #718096;"></i> Profile</a></li>
-                            <li><hr class="dropdown-divider my-1"></li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item py-2 text-danger">
-                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
+                        <div class="d-none d-md-block">
+                            <div class="fw-semibold" style="color: #2d3748;">Admin Universitas Nugraha</div>
+                            <small class="text-muted" style="color: #a0aec0;">{{ Auth::user()->role }}</small>
+                        </div>
+                        <i class="fas fa-chevron-down text-muted" style="font-size: 11px;"></i>
                     </div>
+                    <ul class="dropdown-menu dropdown-menu-end border-0 shadow-lg rounded-3 mt-2 py-2">
+                        <li><a class="dropdown-item py-2" href="{{ route('profile.edit') }}"><i class="fas fa-user me-2" style="color: #718096;"></i> Profile</a></li>
+                        <li><hr class="dropdown-divider my-1"></li>
+                        <li>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <button type="submit" class="dropdown-item py-2 text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
                 </div>
             </nav>
             
@@ -447,14 +426,7 @@
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
-        
-        if (menuToggle) {
-            menuToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('show');
-            });
-        }
         
         document.querySelectorAll('.has-submenu > .nav-link').forEach(function(link) {
             link.addEventListener('click', function(e) {
@@ -478,14 +450,6 @@
                     if (parentNav) {
                         parentNav.classList.add('active-submenu');
                     }
-                }
-            }
-        });
-        
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth <= 768) {
-                if (sidebar && !sidebar.contains(e.target) && !menuToggle?.contains(e.target)) {
-                    sidebar.classList.remove('show');
                 }
             }
         });
