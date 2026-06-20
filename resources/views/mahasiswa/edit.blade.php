@@ -16,7 +16,8 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">NPM <span class="text-danger">*</span></label>
                             <input type="text" name="npm" class="form-control @error('npm') is-invalid @enderror" 
-                                   value="{{ old('npm', $mahasiswa->npm) }}" required maxlength="10">
+                                   value="{{ old('npm', $mahasiswa->npm) }}" required maxlength="10" readonly style="background: #f0f0f0;">
+                            <small class="text-muted">NPM tidak dapat diubah</small>
                             @error('npm')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class KRS extends Model
 {
     protected $table = 'krs';
-    protected $fillable = ['npm', 'kode_matakuliah', 'status', 'tahun_akademik'];
+    protected $fillable = ['npm', 'kode_matakuliah'];
 
     public function mahasiswa()
     {

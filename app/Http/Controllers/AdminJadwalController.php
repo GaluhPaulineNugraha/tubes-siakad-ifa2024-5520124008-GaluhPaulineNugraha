@@ -6,16 +6,9 @@ use App\Models\Jadwal;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
 class AdminJadwalController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('role:admin');
-    }
-
     public function index(Request $request)
     {
         $query = Jadwal::with(['matakuliah', 'dosen']);
@@ -46,9 +39,7 @@ class AdminJadwalController extends Controller
             'nidn' => 'required|exists:dosen,nidn',
             'kelas' => 'required|in:A,B,C,D,E',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-            'ruangan' => 'nullable|max:50',
+            'jam' => 'required',
         ]);
 
         Jadwal::create($request->all());
@@ -71,9 +62,7 @@ class AdminJadwalController extends Controller
             'nidn' => 'required|exists:dosen,nidn',
             'kelas' => 'required|in:A,B,C,D,E',
             'hari' => 'required|in:Senin,Selasa,Rabu,Kamis,Jumat,Sabtu',
-            'jam_mulai' => 'required',
-            'jam_selesai' => 'required',
-            'ruangan' => 'nullable|max:50',
+            'jam' => 'required',
         ]);
 
         $jadwal = Jadwal::findOrFail($id);

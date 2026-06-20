@@ -79,9 +79,9 @@
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                         <div>
                             <div class="fw-semibold">{{ $j->matakuliah->nama_matakuliah }}</div>
-                            <small class="text-muted">{{ $j->hari }}, {{ date('H:i', strtotime($j->jam_mulai)) }} - {{ date('H:i', strtotime($j->jam_selesai)) }} | Kelas {{ $j->kelas }}</small>
+                            <small class="text-muted">{{ $j->hari }}, {{ date('H:i', strtotime($j->jam)) }} | Kelas {{ $j->kelas }}</small>
                         </div>
-                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ $j->ruangan ?? '-' }}</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ $j->kelas }}</span>
                     </div>
                     @empty
                     <div class="text-center py-3 text-muted">Belum ada jadwal mengajar</div>

@@ -12,14 +12,9 @@ return new class extends Migration
             $table->id();
             $table->char('npm', 10);
             $table->char('kode_matakuliah', 8);
-            $table->enum('status', ['aktif', 'batal'])->default('aktif');
-            $table->string('tahun_akademik', 20)->default('2024/2025');
             $table->timestamps();
             
-            $table->foreign('npm')->references('npm')->on('mahasiswa')->onDelete('cascade');
-            $table->foreign('kode_matakuliah')->references('kode_matakuliah')->on('matakuliah')->onDelete('cascade');
-            
-            $table->unique(['npm', 'kode_matakuliah', 'tahun_akademik'], 'unique_krs');
+            $table->unique(['npm', 'kode_matakuliah'], 'unique_krs');
         });
     }
 

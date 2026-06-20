@@ -20,6 +20,11 @@
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-search"></i> Cari
                             </button>
+                            @if(request('search'))
+                            <a href="{{ route('matakuliah.index') }}" class="btn btn-secondary btn-sm ms-2">
+                                <i class="fas fa-sync-alt me-1"></i> Reset
+                            </a>
+                            @endif
                         </form>
                     </div>
                 </div>
@@ -39,22 +44,34 @@
                         <tbody>
                             @forelse($matakuliah as $index => $item)
                             <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td>{{ $item->kode_matakuliah }}</td>
+                                <td class="text-center">{{ ($matakuliah->currentPage() - 1) * $matakuliah->perPage() + $loop->iteration }}</td>
+                                <td><strong>{{ $item->kode_matakuliah }}</strong></td>
                                 <td>{{ $item->nama_matakuliah }}</td>
-                                <td class="text-center">{{ $item->sks }} SKS</td>
                                 <td class="text-center">
-                                    <a href="{{ route('matakuliah.edit', $item->kode_matakuliah) }}" class="btn btn-warning btn-sm">Edit</a>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary">
+                                        {{ $item->sks }} SKS
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ route('matakuliah.edit', $item->kode_matakuliah) }}" class="btn btn-warning btn-sm">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
                                     <form action="{{ route('matakuliah.destroy', $item->kode_matakuliah) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">Hapus</button>
+                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
                                     </form>
                                 </td>
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center">Tidak ada data</td>
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                                    <h6>Tidak ada data mata kuliah</h6>
+                                    <small>Silakan tambah data baru</small>
+                                </td>
                             </tr>
                             @endforelse
                         </tbody>
@@ -63,7 +80,7 @@
 
                 <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-3">
-                    {{ $matakuliah->links('pagination::bootstrap-5') }}
+                    {{ $matakuliah->appends(request()->query())->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>

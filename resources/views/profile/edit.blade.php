@@ -9,36 +9,42 @@
             </div>
             <div class="card-body">
                 @if(session('success'))
-                    <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>{{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
                 @endif
-                
+
                 <form method="POST" action="{{ route('profile.update') }}">
                     @csrf
                     @method('PATCH')
                     
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Name</label>
-                        <input type="text" name="name" class="form-control" value="{{ old('name', $user->name) }}" required>
+                        <label class="form-label fw-bold">Nama <span class="text-danger">*</span></label>
+                        <input type="text" name="name" class="form-control @error('name') is-invalid @enderror" 
+                               value="{{ old('name', $user->name) }}" required>
+                        @error('name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ old('email', $user->email) }}" required>
+                        <label class="form-label fw-bold">Email <span class="text-danger">*</span></label>
+                        <input type="email" name="email" class="form-control @error('email') is-invalid @enderror" 
+                               value="{{ old('email', $user->email) }}" required>
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
-                    
+
                     @if($mahasiswa)
-                        <hr>
-                        <h6 class="mb-3">Informasi Mahasiswa</h6>
-                        <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">NPM</label>
-                                <input type="text" class="form-control bg-light" value="{{ $mahasiswa->npm }}" readonly disabled>
-                            </div>
-                            <div class="col-md-6 mb-3">
-                                <label class="form-label fw-bold">Dosen Wali</label>
-                                <input type="text" class="form-control bg-light" value="{{ $mahasiswa->dosen->nama ?? '-' }}" readonly disabled>
-                            </div>
-                        </div>
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Informasi Mahasiswa:</strong><br>
+                        NPM: {{ $mahasiswa->npm }}<br>
+                        Nama: {{ $mahasiswa->nama }}<br>
+                        Dosen Wali: {{ $mahasiswa->dosen->nama ?? '-' }}
+                    </div>
                     @endif
                     
                     <hr>

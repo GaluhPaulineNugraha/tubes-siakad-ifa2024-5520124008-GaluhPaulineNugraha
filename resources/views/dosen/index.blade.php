@@ -5,23 +5,23 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-users me-2"></i>Data Mahasiswa</h5>
-                <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>Tambah Mahasiswa
+                <h5 class="mb-0"><i class="fas fa-chalkboard-user me-2"></i>Data Dosen</h5>
+                <a href="{{ route('dosen.create') }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-plus me-1"></i>Tambah Dosen
                 </a>
             </div>
             <div class="card-body">
                 <!-- Form Search -->
                 <div class="row mb-3">
                     <div class="col-md-4">
-                        <form action="{{ route('mahasiswa.index') }}" method="GET" class="d-flex">
+                        <form action="{{ route('dosen.index') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm me-2" 
-                                   placeholder="Cari mahasiswa..." value="{{ request('search') }}">
+                                   placeholder="Cari dosen..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-search"></i> Cari
                             </button>
                             @if(request('search'))
-                            <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary btn-sm ms-2">
+                            <a href="{{ route('dosen.index') }}" class="btn btn-secondary btn-sm ms-2">
                                 <i class="fas fa-sync-alt me-1"></i> Reset
                             </a>
                             @endif
@@ -35,27 +35,25 @@
                         <thead class="table-light">
                             <tr>
                                 <th width="5%" class="text-center">No</th>
-                                <th width="15%">NPM</th>
-                                <th width="35%">Nama Mahasiswa</th>
-                                <th width="25%">Dosen Wali</th>
+                                <th width="20%">NIDN</th>
+                                <th width="55%">Nama Dosen</th>
                                 <th width="20%" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($mahasiswa as $index => $item)
+                            @forelse($dosen as $index => $item)
                             <tr>
-                                <td class="text-center">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $loop->iteration }}</td>
-                                <td><strong>{{ $item->npm }}</strong></td>
+                                <td class="text-center">{{ ($dosen->currentPage() - 1) * $dosen->perPage() + $loop->iteration }}</td>
+                                <td><strong>{{ $item->nidn }}</strong></td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->dosen->nama ?? '-' }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('mahasiswa.edit', $item->npm) }}" class="btn btn-warning btn-sm">
+                                    <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm">
                                         <i class="fas fa-edit"></i> Edit
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $item->npm }}', '{{ addslashes($item->nama) }}')">
+                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
                                         <i class="fas fa-trash"></i> Hapus
                                     </button>
-                                    <form id="delete-form-{{ $item->npm }}" action="{{ route('mahasiswa.destroy', $item->npm) }}" method="POST" style="display: none;">
+                                    <form id="delete-form-{{ $item->nidn }}" action="{{ route('dosen.destroy', $item->nidn) }}" method="POST" style="display: none;">
                                         @csrf
                                         @method('DELETE')
                                     </form>
@@ -63,9 +61,9 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center py-5 text-muted">
+                                <td colspan="4" class="text-center py-5 text-muted">
                                     <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
-                                    <h6>Tidak ada data mahasiswa</h6>
+                                    <h6>Tidak ada data dosen</h6>
                                     <small>Silakan tambah data baru</small>
                                 </td>
                             </tr>
@@ -76,7 +74,7 @@
 
                 <!-- Pagination -->
                 <div class="d-flex justify-content-center mt-3">
-                    {{ $mahasiswa->appends(request()->query())->links('pagination::bootstrap-5') }}
+                    {{ $dosen->appends(request()->query())->links('pagination::bootstrap-5') }}
                 </div>
             </div>
         </div>
@@ -95,9 +93,9 @@
             </div>
             <div class="modal-body p-4 text-center">
                 <div class="mb-3">
-                    <i class="fas fa-user-graduate fa-4x text-danger"></i>
+                    <i class="fas fa-trash-alt fa-4x text-danger"></i>
                 </div>
-                <h5 class="mb-2">Yakin ingin menghapus data mahasiswa ini?</h5>
+                <h5 class="mb-2">Yakin ingin menghapus data ini?</h5>
                 <p class="text-muted mb-0" id="deleteMessage">Data yang dihapus tidak dapat dikembalikan!</p>
             </div>
             <div class="modal-footer border-0 justify-content-center pb-4">
@@ -118,7 +116,7 @@
     
     function confirmDelete(id, nama) {
         deleteId = id;
-        document.getElementById('deleteMessage').innerHTML = `Apakah Anda yakin ingin menghapus mahasiswa <strong class="text-danger">${nama}</strong>?<br><small class="text-muted">Data yang dihapus tidak dapat dikembalikan!</small>`;
+        document.getElementById('deleteMessage').innerHTML = `Apakah Anda yakin ingin menghapus dosen <strong class="text-danger">${nama}</strong>?<br><small class="text-muted">Data yang dihapus tidak dapat dikembalikan!</small>`;
         new bootstrap.Modal(document.getElementById('deleteModal')).show();
     }
     

@@ -7,6 +7,7 @@ use App\Models\Dosen;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 
 class MahasiswaController extends Controller
 {
@@ -31,35 +32,40 @@ class MahasiswaController extends Controller
         $dosen = Dosen::all();
         return view('mahasiswa.create', compact('dosen'));
     }
+
     public function store(Request $request)
     {
-    $validated = $request->validate([
-        'npm' => 'required|unique:mahasiswa|max:10',
-        'nidn' => 'required|exists:dosen,nidn',
-        'nama' => 'required|max:50',
-    ]);
+        $validated = $request->validate([
+            'npm' => 'required|unique:mahasiswa|max:10',
+            'nidn' => 'required|exists:dosen,nidn',
+            'nama' => 'required|max:50',
+        ]);
 
-   
-    $email = strtolower(str_replace(' ', '', $validated['nama'])) . '@gmail.com';
-    
-   
-    $mahasiswa = Mahasiswa::create([
-        'npm' => $validated['npm'],
-        'nidn' => $validated['nidn'],
-        'nama' => $validated['nama'],
-        'email' => $email, 
-    ]);
+        $emailBase = strtolower(str_replace(' ', '', $validated['nama']));
+        $email = $emailBase . '@gmail.com';
+        
+        $counter = 1;
+        while (Mahasiswa::where('email', $email)->exists() || User::where('email', $email)->exists()) {
+            $email = $emailBase . $counter . '@gmail.com';
+            $counter++;
+        }
+        
+        $mahasiswa = Mahasiswa::create([
+            'npm' => $validated['npm'],
+            'nidn' => $validated['nidn'],
+            'nama' => $validated['nama'],
+        ]);
 
-    $user = User::create([
-        'name' => $validated['nama'],
-        'email' => $email,
-        'password' => bcrypt($validated['npm']),
-        'mahasiswa_id' => $validated['npm']
-    ]);
-    $user->assignRole('mahasiswa');
+        $user = User::create([
+            'name' => $validated['nama'],
+            'email' => $email,
+            'password' => Hash::make($validated['npm']),
+            'mahasiswa_id' => $validated['npm'],
+        ]);
+        $user->assignRole('mahasiswa');
 
-    return redirect()->route('mahasiswa.index')
-        ->with('success', 'Mahasiswa berhasil ditambahkan');
+        return redirect()->route('mahasiswa.index')
+            ->with('success', 'Mahasiswa berhasil ditambahkan! Akun login: ' . $email . ' / Password: ' . $validated['npm']);
     }
 
     public function edit($npm)
@@ -69,33 +75,31 @@ class MahasiswaController extends Controller
         return view('mahasiswa.edit', compact('mahasiswa', 'dosen'));
     }
 
-   public function update(Request $request, $npm)
+    public function update(Request $request, $npm)
     {
-    $mahasiswa = Mahasiswa::findOrFail($npm);
-    
-    $validated = $request->validate([
-        'npm' => ['required', 'max:10', Rule::unique('mahasiswa')->ignore($mahasiswa->npm, 'npm')],
-        'nidn' => 'required|exists:dosen,nidn',
-        'nama' => 'required|max:50',
-    ]);
-   
-    $mahasiswa->update([
-        'npm' => $validated['npm'],
-        'nidn' => $validated['nidn'],
-        'nama' => $validated['nama'],
-    ]);
-    
-    $user = User::where('mahasiswa_id', $npm)->first();
-    if ($user) {
-        $email = strtolower(str_replace(' ', '', $validated['nama'])) . '@gmail.com';
-        $user->update([
-            'name' => $validated['nama'],
-            'email' => $email,
+        $mahasiswa = Mahasiswa::findOrFail($npm);
+        
+        $validated = $request->validate([
+            'npm' => ['required', 'max:10', Rule::unique('mahasiswa')->ignore($mahasiswa->npm, 'npm')],
+            'nidn' => 'required|exists:dosen,nidn',
+            'nama' => 'required|max:50',
         ]);
-    }
-    
-    return redirect()->route('mahasiswa.index')
-        ->with('success', 'Mahasiswa berhasil diupdate');
+        
+        $mahasiswa->update([
+            'npm' => $validated['npm'],
+            'nidn' => $validated['nidn'],
+            'nama' => $validated['nama'],
+        ]);
+        
+        $user = User::where('mahasiswa_id', $npm)->first();
+        if ($user) {
+            $user->update([
+                'name' => $validated['nama'],
+            ]);
+        }
+        
+        return redirect()->route('mahasiswa.index')
+            ->with('success', 'Mahasiswa berhasil diupdate');
     }
 
     public function destroy($npm)

@@ -12,13 +12,11 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class KRSController extends Controller
 {
-    // Untuk Mahasiswa - Lihat KRS
     public function index(Request $request)
     {
         $user = Auth::user();
         
         if ($user->hasRole('admin')) {
-            // ADMIN: Lihat semua KRS
             $query = KRS::with(['mahasiswa.dosen', 'matakuliah']);
             
             if ($request->search) {
@@ -32,37 +30,31 @@ class KRSController extends Controller
                 $query->where('npm', $request->mahasiswa_id);
             }
             
-            // Urutkan berdasarkan NPM (A-Z)
             $krsList = $query->orderBy('npm', 'asc')
                             ->orderBy('created_at', 'desc')
                             ->paginate(10);
             
             $mahasiswa = Mahasiswa::all();
             
-            // Hitung total SKS semua
             $totalSks = KRS::with('matakuliah')->get()->sum(function($krs) {
                 return $krs->matakuliah ? $krs->matakuliah->sks : 0;
             });
             
             return view('krs.admin_index', compact('krsList', 'mahasiswa', 'totalSks'));
         } else {
-            // MAHASISWA: Lihat KRS sendiri
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
             
             if (!$mahasiswa) {
                 return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
             
-            // Ambil KRS milik mahasiswa ini
             $krsList = KRS::with(['matakuliah'])
                 ->where('npm', $mahasiswa->npm)
                 ->orderBy('created_at', 'desc')
                 ->get();
             
-            // Mata kuliah yang belum diambil
             $ambilMatkul = Matakuliah::whereNotIn('kode_matakuliah', $krsList->pluck('kode_matakuliah'))->get();
             
-            // Hitung total SKS
             $totalSks = 0;
             foreach ($krsList as $krs) {
                 if ($krs->matakuliah) {
@@ -74,7 +66,6 @@ class KRSController extends Controller
         }
     }
     
-    // Mahasiswa - Ambil Mata Kuliah
     public function store(Request $request)
     {
         $user = Auth::user();
@@ -84,7 +75,6 @@ class KRSController extends Controller
             'kode_matakuliah' => 'required|exists:matakuliah,kode_matakuliah'
         ]);
         
-        // Cek apakah sudah diambil
         $exists = KRS::where('npm', $mahasiswa->npm)
             ->where('kode_matakuliah', $validated['kode_matakuliah'])
             ->exists();
@@ -93,7 +83,6 @@ class KRSController extends Controller
             return back()->with('error', 'Mata kuliah sudah diambil!');
         }
         
-        // Hitung total SKS saat ini
         $currentSks = 0;
         $krsList = KRS::with('matakuliah')->where('npm', $mahasiswa->npm)->get();
         foreach ($krsList as $krs) {
@@ -116,7 +105,6 @@ class KRSController extends Controller
         return redirect()->route('krs.index')->with('success', 'Mata kuliah berhasil ditambahkan ke KRS');
     }
     
-    // Hapus KRS
     public function destroy($id)
     {
         $krs = KRS::findOrFail($id);
@@ -138,7 +126,6 @@ class KRSController extends Controller
         return redirect()->route('krs.index')->with('success', 'Mata kuliah berhasil dihapus dari KRS');
     }
     
-    // Mahasiswa - Export PDF
     public function exportPdf()
     {
         $user = Auth::user();
@@ -164,7 +151,6 @@ class KRSController extends Controller
         return $pdf->download('KRS_' . $mahasiswa->npm . '_' . date('Ymd') . '.pdf');
     }
     
-    // Admin - Export Excel
     public function exportExcel()
     {
         try {

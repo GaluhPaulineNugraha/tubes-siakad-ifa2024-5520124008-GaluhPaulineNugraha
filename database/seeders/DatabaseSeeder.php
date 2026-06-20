@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             JadwalSeeder::class,
             KrsSeeder::class,
-            RolePermissionSeeder::class,
+             UserSeeder::class,
         ]);
     }
 }

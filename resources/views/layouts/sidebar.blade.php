@@ -1,4 +1,3 @@
-```blade
 <!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">

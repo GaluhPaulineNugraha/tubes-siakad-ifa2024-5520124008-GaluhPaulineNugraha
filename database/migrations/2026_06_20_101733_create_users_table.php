@@ -18,9 +18,6 @@ return new class extends Migration
             $table->char('nidn', 10)->nullable();
             $table->rememberToken();
             $table->timestamps();
-            
-            // HAPUS FOREIGN KEY DARI SINI
-            // Foreign key akan ditambahkan di migration terpisah
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

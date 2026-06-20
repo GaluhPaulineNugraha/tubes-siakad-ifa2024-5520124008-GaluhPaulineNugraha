@@ -17,7 +17,6 @@
             background: #f7f9fc;
         }
 
-        /* Sidebar - Soft Gray */
         .sidebar {
             width: 280px;
             background: #ffffff;
@@ -111,7 +110,6 @@
             color: #3182ce;
         }
 
-        /* Submenu */
         .sidebar-nav .submenu {
             list-style: none;
             padding: 0;
@@ -160,7 +158,6 @@
             color: #3182ce;
         }
 
-        /* Scrollbar */
         .sidebar::-webkit-scrollbar {
             width: 4px;
         }
@@ -174,7 +171,6 @@
             border-radius: 10px;
         }
 
-        /* Main Content */
         .main-content {
             margin-left: 280px;
             padding: 24px 32px;
@@ -194,7 +190,6 @@
             }
         }
 
-        /* Top Navbar - Clean */
         .navbar-top {
             background: #ffffff;
             box-shadow: 0 1px 2px rgba(0,0,0,0.03);
@@ -218,7 +213,6 @@
             background: #f7fafc;
         }
 
-        /* Card - Clean White */
         .card {
             border-radius: 20px;
             border: 1px solid #edf2f7;
@@ -236,7 +230,6 @@
             border-radius: 20px 20px 0 0 !important;
         }
 
-        /* Button - Soft Colors */
         .btn-primary {
             background: #3182ce;
             border: none;
@@ -294,7 +287,6 @@
             font-size: 12px;
         }
 
-        /* Table - Clean */
         .table {
             margin-bottom: 0;
         }
@@ -322,7 +314,6 @@
             background: #fafbfc;
         }
 
-        /* Badge - Soft */
         .badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -345,7 +336,6 @@
             color: #975a16;
         }
 
-        /* Stat Card */
         .stat-card {
             background: #ffffff;
             border-radius: 20px;
@@ -353,7 +343,6 @@
             border: 1px solid #edf2f7;
         }
 
-        /* Alert */
         .alert {
             border-radius: 16px;
             border: none;
@@ -365,7 +354,6 @@
             color: #2c5282;
         }
 
-        /* Pagination */
         .pagination .page-link {
             border-radius: 10px;
             margin: 0 3px;
@@ -388,20 +376,157 @@
 </head>
 <body>
     <div id="app">
-        @include('layouts.sidebar')
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h5 class="mb-0">
+                    <i class="fas fa-graduation-cap me-2"></i> SIAKAD
+                </h5>
+                <small>Universitas Nugraha</small>
+            </div>
+
+            <ul class="sidebar-nav">
+                <!-- Dashboard -->
+                <li class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                @role('admin')
+                <!-- Data Master -->
+                <li class="nav-item has-submenu">
+                    <a href="#" class="nav-link {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'active' : '' }}" data-submenu="data-master">
+                        <i class="fas fa-database"></i>
+                        <span>Data Master</span>
+                        <i class="fas fa-chevron-right submenu-icon"></i>
+                    </a>
+                    <ul class="submenu" id="submenu-data-master">
+                        <li>
+                            <a href="{{ route('dosen.index') }}" class="{{ request()->routeIs('dosen.*') ? 'active' : '' }}">
+                                <i class="fas fa-chalkboard-user"></i> Data Dosen
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('mahasiswa.index') }}" class="{{ request()->routeIs('mahasiswa.*') ? 'active' : '' }}">
+                                <i class="fas fa-users"></i> Data Mahasiswa
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('matakuliah.index') }}" class="{{ request()->routeIs('matakuliah.*') ? 'active' : '' }}">
+                                <i class="fas fa-book"></i> Mata Kuliah
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <!-- Akademik -->
+                <li class="nav-item has-submenu">
+                    <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('jadwal.*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Akademik</span>
+                        <i class="fas fa-chevron-right submenu-icon"></i>
+                    </a>
+                    <ul class="submenu" id="submenu-akademik">
+                        <li>
+                            <a href="{{ route('krs.admin') }}" class="{{ request()->routeIs('krs.admin') ? 'active' : '' }}">
+                                <i class="fas fa-clipboard-list"></i> Manajemen KRS
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('admin.jadwal.index') }}" class="{{ request()->routeIs('admin.jadwal*') ? 'active' : '' }}">
+                                <i class="fas fa-calendar-alt"></i> Jadwal Kuliah
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('nilai.index') }}" class="{{ request()->routeIs('nilai.*') ? 'active' : '' }}">
+                                <i class="fas fa-chart-line"></i> Nilai Mahasiswa
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endrole
+
+                @role('dosen')
+                <!-- Menu Dosen -->
+                <li class="nav-item">
+                    <a href="{{ route('dosen.dashboard') }}" class="nav-link {{ request()->routeIs('dosen.dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard Dosen</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dosen.jadwal') }}" class="nav-link {{ request()->routeIs('dosen.jadwal*') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Jadwal Mengajar</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('dosen.mahasiswa') }}" class="nav-link {{ request()->routeIs('dosen.mahasiswa*') ? 'active' : '' }}">
+                        <i class="fas fa-users"></i>
+                        <span>Mahasiswa Bimbingan</span>
+                    </a>
+                </li>
+                @endrole
+
+                @role('mahasiswa')
+                <!-- Menu untuk Mahasiswa -->
+                <li class="nav-item">
+                    <a href="{{ route('krs.index') }}" class="nav-link {{ request()->routeIs('krs.index') ? 'active' : '' }}">
+                        <i class="fas fa-clipboard-list"></i>
+                        <span>KRS Saya</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('jadwal.index') }}" class="nav-link {{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Jadwal Kuliah</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('nilai.index') }}" class="nav-link {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Nilai Saya</span>
+                    </a>
+                </li>
+                @endrole
+            </ul>
+        </div>
         
         <div class="main-content">
-            <!-- Top Navbar - hanya tampil jika user sudah login -->
+            <!-- Top Navbar -->
             @auth
             <nav class="navbar-top">
                 <div class="dropdown">
                     <div class="user-dropdown d-flex align-items-center gap-2" data-bs-toggle="dropdown">
                         <div class="rounded-circle d-flex align-items-center justify-content-center" style="width: 38px; height: 38px; background: #ebf8ff; color: #3182ce; font-weight: 600;">
-                            {{ substr(Auth::user()->name, 0, 1) }}
+                            @php
+                                if(Auth::user()->hasRole('admin')) {
+                                    $initial = 'A';
+                                } else {
+                                    $initial = substr(Auth::user()->name, 0, 1);
+                                }
+                            @endphp
+                            {{ $initial }}
                         </div>
                         <div class="d-none d-md-block">
-                            <div class="fw-semibold" style="color: #2d3748;">{{ Auth::user()->name }}</div>
-                            <small class="text-muted" style="color: #a0aec0;">{{ Auth::user()->role }}</small>
+                            <div class="fw-semibold" style="color: #2d3748;">
+                                @if(Auth::user()->hasRole('admin'))
+                                    Admin
+                                @else
+                                    {{ Auth::user()->name }}
+                                @endif
+                            </div>
+                            <small class="text-muted" style="color: #a0aec0;">
+                                @if(Auth::user()->hasRole('admin'))
+                                    Admin Universitas Nugraha
+                                @elseif(Auth::user()->hasRole('dosen'))
+                                    Dosen
+                                @elseif(Auth::user()->hasRole('mahasiswa'))
+                                    Mahasiswa
+                                @endif
+                            </small>
                         </div>
                         <i class="fas fa-chevron-down text-muted" style="font-size: 11px;"></i>
                     </div>
@@ -421,7 +546,6 @@
             </nav>
             @endauth
             
-            <!-- Page Content -->
             @yield('content')
         </div>
     </div>

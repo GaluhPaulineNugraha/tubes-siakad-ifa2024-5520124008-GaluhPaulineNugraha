@@ -14,12 +14,11 @@ class RolePermissionSeeder extends Seeder
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
         
-        // Buat role
         Role::firstOrCreate(['name' => 'admin']);
         Role::firstOrCreate(['name' => 'dosen']);
         Role::firstOrCreate(['name' => 'mahasiswa']);
         
-        // ========== ADMIN ==========
+        // ADMIN
         $admin = User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -29,11 +28,11 @@ class RolePermissionSeeder extends Seeder
         );
         $admin->assignRole('admin');
         
-        // ========== DOSEN ==========
+        // DOSEN
         $dosenList = Dosen::all();
         foreach ($dosenList as $dosen) {
             $userDosen = User::updateOrCreate(
-                ['email' => $dosen->email],
+                ['email' => $dosen->nama . '@gmail.com'],
                 [
                     'name' => $dosen->nama,
                     'password' => bcrypt('dosen12345'),
@@ -43,11 +42,11 @@ class RolePermissionSeeder extends Seeder
             $userDosen->assignRole('dosen');
         }
         
-        // ========== MAHASISWA ==========
+        // MAHASISWA
         $mahasiswaList = Mahasiswa::all();
         foreach ($mahasiswaList as $mhs) {
             $userMhs = User::updateOrCreate(
-                ['email' => $mhs->email],
+                ['email' => $mhs->nama . '@gmail.com'],
                 [
                     'name' => $mhs->nama,
                     'password' => bcrypt('mahasiswa12345'),

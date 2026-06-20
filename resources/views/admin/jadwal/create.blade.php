@@ -61,25 +61,14 @@
                         </div>
                         
                         <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold">Jam Mulai <span class="text-danger">*</span></label>
-                            <input type="time" name="jam_mulai" class="form-control @error('jam_mulai') is-invalid @enderror" 
-                                   value="{{ old('jam_mulai') }}" required>
-                            @error('jam_mulai')
+                            <label class="form-label fw-bold">Jam <span class="text-danger">*</span></label>
+                            <input type="datetime-local" name="jam" class="form-control @error('jam') is-invalid @enderror" 
+                                   value="{{ old('jam') }}" required>
+                            @error('jam')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold">Jam Selesai <span class="text-danger">*</span></label>
-                            <input type="time" name="jam_selesai" class="form-control @error('jam_selesai') is-invalid @enderror" 
-                                   value="{{ old('jam_selesai') }}" required>
-                            @error('jam_selesai')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    
-                    <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label fw-bold">Kelas <span class="text-danger">*</span></label>
                             <select name="kelas" class="form-select @error('kelas') is-invalid @enderror" required>
@@ -91,15 +80,6 @@
                                 <option value="E" {{ old('kelas') == 'E' ? 'selected' : '' }}>E</option>
                             </select>
                             @error('kelas')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-                        
-                        <div class="col-md-4 mb-3">
-                            <label class="form-label fw-bold">Ruangan</label>
-                            <input type="text" name="ruangan" class="form-control @error('ruangan') is-invalid @enderror" 
-                                   value="{{ old('ruangan') }}" placeholder="Contoh: R.101">
-                            @error('ruangan')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>

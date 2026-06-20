@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* Background Gambar Perpustakaan */
         .background-wrapper {
             position: fixed;
             top: 0;
@@ -36,7 +35,6 @@
             object-fit: cover;
         }
 
-        /* Overlay gelap */
         .overlay {
             position: fixed;
             top: 0;
@@ -53,7 +51,6 @@
             align-items: center;
         }
 
-        /* Left Side - Branding (Transparan) */
         .brand-section {
             background: rgba(10, 37, 64, 0.85);
             backdrop-filter: blur(8px);
@@ -116,7 +113,6 @@
             letter-spacing: 1px;
         }
 
-        /* Right Side - Form */
         .form-section {
             display: flex;
             align-items: center;
@@ -163,7 +159,6 @@
             color: #6c757d;
         }
 
-        /* Navigasi Beranda */
         .nav-beranda {
             text-align: center;
             margin-bottom: 20px;
@@ -245,22 +240,6 @@
             box-shadow: 0 8px 20px rgba(10,37,64,0.3);
         }
 
-        .forgot-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-
-        .forgot-link a {
-            font-size: 12px;
-            color: #6c757d;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-
-        .forgot-link a:hover {
-            color: #0A2540;
-        }
-
         .alert-danger {
             background: #fef2f2;
             color: #dc2626;
@@ -283,7 +262,6 @@
             color: #9ca3af;
         }
 
-        /* Responsive */
         @media (max-width: 992px) {
             .brand-section {
                 display: none;
@@ -313,7 +291,6 @@
     </style>
 </head>
 <body>
-    <!-- Background Gambar Perpustakaan -->
     <div class="background-wrapper">
         <img src="{{ asset('images/perpustakaan.jpg') }}" alt="Background Perpustakaan Universitas">
     </div>
@@ -321,7 +298,6 @@
 
     <div class="container-fluid p-0">
         <div class="row g-0">
-            <!-- Left Side - Branding -->
             <div class="col-lg-6 brand-section">
                 <div class="brand-content">
                     <div class="brand-icon">
@@ -340,12 +316,10 @@
                 </div>
             </div>
 
-            <!-- Right Side - Form Login -->
             <div class="col-lg-6 form-section">
                 <div class="login-card">
-                    <!-- Navigasi Beranda -->
                     <div class="nav-beranda">
-                        <a href="{{ route('prodi.beranda') }}">
+                        <a href="{{ route('beranda') }}">
                             <i class="fas fa-home"></i> Beranda
                         </a>
                     </div>

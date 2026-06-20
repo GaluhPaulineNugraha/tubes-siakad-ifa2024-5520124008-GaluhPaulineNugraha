@@ -8,17 +8,17 @@ use App\Http\Controllers\MatakuliahController;
 use App\Http\Controllers\JadwalController;
 use App\Http\Controllers\NilaiController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ProdiController;
+use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\AdminJadwalController;
 use Illuminate\Support\Facades\Route;
 
-// Route publik (tanpa login)
+// Route publik
 Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/prodi', [ProdiController::class, 'beranda'])->name('prodi.beranda');
-Route::get('/prodi/visi-misi', [ProdiController::class, 'visiMisi'])->name('prodi.visi-misi');
+Route::get('/beranda', [BerandaController::class, 'beranda'])->name('beranda');
+Route::get('/beranda/visi-misi', [BerandaController::class, 'visiMisi'])->name('beranda.visi-misi');
 
 // Route yang membutuhkan login
 Route::get('/dashboard', [DashboardController::class, 'index'])
@@ -41,18 +41,18 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/krs', [KRSController::class, 'index'])->name('krs.admin');
     Route::get('/admin/krs/export-excel', [KRSController::class, 'exportExcel'])->name('krs.export.excel');
     
-    // Admin Jadwal Routes (CRUD)
+    // Admin Jadwal Routes
     Route::prefix('admin')->middleware(['role:admin'])->name('admin.')->group(function () {
         Route::resource('jadwal', AdminJadwalController::class);
     });
     
-    // Jadwal Routes untuk Mahasiswa (lihat saja)
+    // Jadwal Routes untuk Mahasiswa
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
     
     // Nilai Routes
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
     
-    // Route Dosen (MANUAL)
+    // Dosen Routes
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
     Route::get('/dosen/create', [DosenController::class, 'create'])->name('dosen.create');
     Route::post('/dosen', [DosenController::class, 'store'])->name('dosen.store');
@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
     // Matakuliah Resource
     Route::resource('matakuliah', MatakuliahController::class);
     
-    // Route untuk Dosen (hanya melihat)
+    // Route untuk Dosen
     Route::prefix('dosen')->middleware(['role:dosen'])->name('dosen.')->group(function () {
         Route::get('/dashboard', [DosenController::class, 'dashboard'])->name('dashboard');
         Route::get('/jadwal', [DosenController::class, 'jadwalIndex'])->name('jadwal');

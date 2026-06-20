@@ -10,17 +10,17 @@ class DosenSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['nidn' => '1234567801', 'nama' => 'Dr. Ahmad Rizki, M.Kom', 'email' => 'ahmad.rizki@gmail.com'],
-            ['nidn' => '1234567802', 'nama' => 'Prof. Siti Nurhaliza, M.Sc', 'email' => 'siti.nurhaliza@gmail.com'],
-            ['nidn' => '1234567803', 'nama' => 'Dr. Budi Santoso, M.Eng', 'email' => 'budi.santoso@gmail.com'],
-            ['nidn' => '1234567804', 'nama' => 'Dewi Lestari, S.Kom, M.Kom', 'email' => 'dewi.lestari@gmail.com'],
-            ['nidn' => '1234567805', 'nama' => 'Dr. Eko Prasetyo, M.Kom', 'email' => 'eko.prasetyo@gmail.com'],
+            ['nidn' => '1234567801', 'nama' => 'Dr. Ahmad Rizki, M.Kom'],
+            ['nidn' => '1234567802', 'nama' => 'Prof. Siti Nurhaliza, M.Sc'],
+            ['nidn' => '1234567803', 'nama' => 'Dr. Budi Santoso, M.Eng'],
+            ['nidn' => '1234567804', 'nama' => 'Dewi Lestari, S.Kom, M.Kom'],
+            ['nidn' => '1234567805', 'nama' => 'Dr. Eko Prasetyo, M.Kom'],
         ];
         
         foreach ($data as $d) {
             Dosen::updateOrCreate(
                 ['nidn' => $d['nidn']],
-                ['nama' => $d['nama'], 'email' => $d['email']]
+                ['nama' => $d['nama']]
             );
         }
     }

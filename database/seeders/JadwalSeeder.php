@@ -15,8 +15,12 @@ class JadwalSeeder extends Seeder
         $matkul = Matakuliah::all();
         $hari = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
         $kelas = ['A', 'B', 'C'];
-        $jamMulai = ['08:00', '10:00', '13:00', '15:00'];
-        $jamSelesai = ['09:40', '11:40', '14:40', '16:40'];
+        $jamList = [
+            '2024-01-01 08:00:00',
+            '2024-01-01 10:00:00',
+            '2024-01-01 13:00:00',
+            '2024-01-01 15:00:00',
+        ];
         
         foreach ($matkul as $i => $mk) {
             Jadwal::create([
@@ -24,9 +28,7 @@ class JadwalSeeder extends Seeder
                 'nidn' => $dosen->random()->nidn,
                 'kelas' => $kelas[$i % 3],
                 'hari' => $hari[$i % 5],
-                'jam_mulai' => $jamMulai[$i % 4],
-                'jam_selesai' => $jamSelesai[$i % 4],
-                'ruangan' => 'R.' . chr(65 + ($i % 5)) . ($i + 1),
+                'jam' => $jamList[$i % 4],
             ]);
         }
     }

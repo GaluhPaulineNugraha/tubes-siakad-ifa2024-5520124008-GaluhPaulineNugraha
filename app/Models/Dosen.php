@@ -11,7 +11,7 @@ class Dosen extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['nidn', 'nama', 'email', 'no_telepon', 'alamat'];
+    protected $fillable = ['nidn', 'nama'];
 
     public function mahasiswa()
     {

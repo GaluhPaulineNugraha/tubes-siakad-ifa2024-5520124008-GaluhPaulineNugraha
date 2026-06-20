@@ -11,7 +11,7 @@ class Mahasiswa extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['npm', 'nidn', 'nama', 'email', 'no_telepon', 'alamat'];
+    protected $fillable = ['npm', 'nidn', 'nama'];
 
     public function dosen()
     {

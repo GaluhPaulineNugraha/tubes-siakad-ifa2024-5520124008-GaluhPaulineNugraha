@@ -27,35 +27,15 @@
                                 <th width="5%" class="text-center">SKS</th>
                                 <th width="10%">Hari</th>
                                 <th width="15%">Jam</th>
-                                <th width="10%">Ruangan</th>
-                                <th width="20%">Dosen</th>
+                                <th width="10%">Kelas</th>
+                                <th width="15%">Dosen</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($jadwal as $index => $item)
-                            @php
-                                $kodeMK = $item->matakuliah->kode_matakuliah ?? '-';
-                                $hash = abs(crc32($kodeMK . $item->id));
-                                
-                                $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
-                                $jamMulaiList = [7, 8, 9, 10, 11, 13, 14, 15];
-                                $ruanganList = ['A101', 'A102', 'B201', 'B202', 'C301', 'C302'];
-                                $dosenList = [
-                                    'Dr. Ahmad Rizki, M.Kom',
-                                    'Prof. Siti Nurhaliza, M.Sc',
-                                    'Dr. Budi Santoso, M.Eng',
-                                    'Dewi Lestari, S.Kom, M.Kom',
-                                    'Dr. Eko Prasetyo, M.Kom'
-                                ];
-                                
-                                $randomHari = $hariList[$hash % 5];
-                                $randomJam = $jamMulaiList[$hash % 8];
-                                $randomRuangan = $ruanganList[$hash % 6];
-                                $randomDosen = $dosenList[$hash % 5];
-                            @endphp
                             <tr>
                                 <td class="text-center">{{ $index + 1 }}</td>
-                                <td><strong>{{ $kodeMK }}</strong></td>
+                                <td><strong>{{ $item->matakuliah->kode_matakuliah ?? '-' }}</strong></td>
                                 <td>{{ $item->matakuliah->nama_matakuliah ?? '-' }}</td>
                                 <td class="text-center">
                                     <span class="badge bg-primary bg-opacity-10 text-primary">
@@ -64,19 +44,20 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-info bg-opacity-10 text-info">
-                                        <i class="fas fa-calendar-day me-1"></i> {{ $randomHari }}
+                                        <i class="fas fa-calendar-day me-1"></i> {{ $item->hari }}
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-clock me-1 text-muted"></i> {{ sprintf('%02d', $randomJam) }}:00 - {{ sprintf('%02d', $randomJam + 2) }}:30
+                                    <i class="fas fa-clock me-1 text-muted"></i> {{ date('H:i', strtotime($item->jam)) }}
                                 </td>
                                 <td>
                                     <span class="badge bg-secondary bg-opacity-10 text-secondary">
-                                        <i class="fas fa-door-open me-1"></i> Ruang {{ $randomRuangan }}
+                                        <i class="fas fa-door-open me-1"></i> Kelas {{ $item->kelas }}
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-chalkboard-user me-1 text-muted"></i> {{ $randomDosen }}
+                                    <i class="fas fa-chalkboard-user me-1 text-muted"></i> 
+                                    {{ $item->dosen->nama ?? '-' }}
                                 </td>
                             </tr>
                             @empty

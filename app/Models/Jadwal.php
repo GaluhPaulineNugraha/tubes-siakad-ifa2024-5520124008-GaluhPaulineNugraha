@@ -7,11 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Jadwal extends Model
 {
     protected $table = 'jadwal';
-    protected $fillable = ['kode_matakuliah', 'nidn', 'kelas', 'hari', 'jam_mulai', 'jam_selesai', 'ruangan', 'tahun_akademik'];
+    protected $fillable = ['kode_matakuliah', 'nidn', 'kelas', 'hari', 'jam'];
 
     protected $casts = [
-        'jam_mulai' => 'string',
-        'jam_selesai' => 'string',
+        'jam' => 'datetime',
     ];
 
     public function matakuliah()

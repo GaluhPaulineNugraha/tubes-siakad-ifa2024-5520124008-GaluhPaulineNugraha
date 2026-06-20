@@ -11,7 +11,7 @@ class Matakuliah extends Model
     public $incrementing = false;
     protected $keyType = 'string';
 
-    protected $fillable = ['kode_matakuliah', 'nama_matakuliah', 'sks', 'semester'];
+    protected $fillable = ['kode_matakuliah', 'nama_matakuliah', 'sks'];
 
     public function jadwal()
     {

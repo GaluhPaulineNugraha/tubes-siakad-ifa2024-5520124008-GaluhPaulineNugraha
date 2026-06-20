@@ -18,10 +18,6 @@ class MatakuliahController extends Controller
         }
         
         $matakuliah = $query->orderBy('kode_matakuliah')->paginate(10);
-        
-        // Debug: cek apakah data ada
-        // dd($matakuliah); // Uncomment untuk cek
-        
         return view('matakuliah.index', compact('matakuliah'));
     }
 

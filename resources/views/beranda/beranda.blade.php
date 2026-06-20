@@ -21,8 +21,7 @@
                     <h1 class="display-5 fw-bold text-primary mb-3">Teknik Informatika</h1>
                     <p class="lead mb-4">Menciptakan lulusan yang unggul, inovatif, dan berdaya saing global di bidang Teknologi Informasi.</p>
                     <div class="d-flex gap-3">
-                        <a href="{{ route('prodi.visi-misi') }}" class="btn btn-primary rounded-pill px-4">Visi & Misi</a>
-                        <a href="#" class="btn btn-outline-secondary rounded-pill px-4">Program Studi</a>
+                        <a href="{{ route('beranda.visi-misi') }}" class="btn btn-primary rounded-pill px-4">Visi & Misi</a>
                     </div>
                 </div>
             </div>

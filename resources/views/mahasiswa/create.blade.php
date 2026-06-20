@@ -48,7 +48,12 @@
                     
                     <div class="alert alert-info">
                         <i class="fas fa-info-circle me-2"></i>
-                        Akun login akan dibuat otomatis dengan password = NPM mahasiswa.
+                        <strong>Informasi Akun:</strong>
+                        <ul class="mb-0 mt-1">
+                            <li>Email akan dibuat otomatis: <strong>nama@gmail.com</strong></li>
+                            <li>Password login = <strong>NPM</strong> (contoh: 2024000001)</li>
+                            <li>Mahasiswa bisa login menggunakan email dan password NPM</li>
+                        </ul>
                     </div>
                     
                     <hr>

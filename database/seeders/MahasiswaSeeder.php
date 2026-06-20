@@ -13,16 +13,16 @@ class MahasiswaSeeder extends Seeder
         $dosen = Dosen::all();
         
         $data = [
-            ['npm' => '2024000001', 'nama' => 'Galuh Pauline Nugraha', 'email' => 'galuh.pauline@gmail.com'],
-            ['npm' => '2024000002', 'nama' => 'Andi Saputra', 'email' => 'andi.saputra@gmail.com'],
-            ['npm' => '2024000003', 'nama' => 'Budi Wijaya', 'email' => 'budi.wijaya@gmail.com'],
-            ['npm' => '2024000004', 'nama' => 'Citra Amalia', 'email' => 'citra.amalia@gmail.com'],
-            ['npm' => '2024000005', 'nama' => 'Dian Permata', 'email' => 'dian.permata@gmail.com'],
-            ['npm' => '2024000006', 'nama' => 'Eka Saputri', 'email' => 'eka.saputri@gmail.com'],
-            ['npm' => '2024000007', 'nama' => 'Fajar Nugroho', 'email' => 'fajar.nugroho@gmail.com'],
-            ['npm' => '2024000008', 'nama' => 'Gita Puspita', 'email' => 'gita.puspita@gmail.com'],
-            ['npm' => '2024000009', 'nama' => 'Hendra Gunawan', 'email' => 'hendra.gunawan@gmail.com'],
-            ['npm' => '2024000010', 'nama' => 'Indah Sari', 'email' => 'indah.sari@gmail.com'],
+            ['npm' => '2024000001', 'nama' => 'Galuh Pauline Nugraha'],
+            ['npm' => '2024000002', 'nama' => 'Andi Saputra'],
+            ['npm' => '2024000003', 'nama' => 'Budi Wijaya'],
+            ['npm' => '2024000004', 'nama' => 'Citra Amalia'],
+            ['npm' => '2024000005', 'nama' => 'Dian Permata'],
+            ['npm' => '2024000006', 'nama' => 'Eka Saputri'],
+            ['npm' => '2024000007', 'nama' => 'Fajar Nugroho'],
+            ['npm' => '2024000008', 'nama' => 'Gita Puspita'],
+            ['npm' => '2024000009', 'nama' => 'Hendra Gunawan'],
+            ['npm' => '2024000010', 'nama' => 'Indah Sari'],
         ];
         
         foreach ($data as $mhs) {
@@ -31,7 +31,6 @@ class MahasiswaSeeder extends Seeder
                 [
                     'nidn' => $dosen->random()->nidn,
                     'nama' => $mhs['nama'],
-                    'email' => $mhs['email'],
                 ]
             );
         }

@@ -23,25 +23,23 @@
                                 <th width="10%">Hari</th>
                                 <th width="15%">Jam</th>
                                 <th width="15%">Kelas</th>
-                                <th width="15%">Ruangan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($jadwal as $index => $j)
                             <tr>
-                                <td class="text-center">{{ $loop->iteration }}</td
-                                <td>{{ $j->matakuliah->nama_matakuliah }}</td
-                                <td>{{ $j->hari }}</td
-                                <td>{{ $j->jam_mulai }} - {{ $j->jam_selesai }}</td
-                                <td>{{ $j->kelas }}</td
-                                <td>{{ $j->ruangan ?? '-' }}</td
-                            </table>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $j->matakuliah->nama_matakuliah }}</td>
+                                <td>{{ $j->hari }}</td>
+                                <td>{{ date('H:i', strtotime($j->jam)) }}</td>
+                                <td>{{ $j->kelas }}</td>
+                            </tr>
                             @empty
                             <tr>
-                                <td colspan="6" class="text-center py-4 text-muted">
+                                <td colspan="5" class="text-center py-4 text-muted">
                                     <i class="fas fa-inbox fa-2x mb-2 d-block"></i>
                                     Belum ada jadwal mengajar
-                                </td
+                                </td>
                             </tr>
                             @endforelse
                         </tbody>

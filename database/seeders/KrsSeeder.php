@@ -21,9 +21,8 @@ class KrsSeeder extends Seeder
                     [
                         'npm' => $mhs->npm,
                         'kode_matakuliah' => $mk->kode_matakuliah,
-                        'tahun_akademik' => '2024/2025',
                     ],
-                    ['status' => 'aktif']
+                    []
                 );
             }
         }

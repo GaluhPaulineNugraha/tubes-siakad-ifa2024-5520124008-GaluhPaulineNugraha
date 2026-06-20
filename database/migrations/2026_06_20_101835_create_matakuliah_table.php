@@ -10,9 +10,8 @@ return new class extends Migration
     {
         Schema::create('matakuliah', function (Blueprint $table) {
             $table->char('kode_matakuliah', 8)->primary();
-            $table->string('nama_matakuliah', 100);
-            $table->integer('sks')->default(3);
-            $table->integer('semester')->default(1);
+            $table->string('nama_matakuliah', 50);
+            $table->integer('sks');
             $table->timestamps();
         });
     }
