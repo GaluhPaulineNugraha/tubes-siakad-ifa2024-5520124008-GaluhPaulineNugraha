@@ -6,9 +6,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-book me-2"></i>Data Mata Kuliah</h5>
-                <a href="{{ route('matakuliah.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>Tambah Mata Kuliah
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('matakuliah.export') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </a>
+                    <a href="{{ route('matakuliah.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                        <i class="fas fa-plus me-1"></i>Tambah Mata Kuliah
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <!-- Search -->
@@ -18,7 +23,7 @@
                             <input type="text" name="search" class="form-control form-control-sm me-2" 
                                    placeholder="Cari mata kuliah..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-search"></i> Cari
+                                <i class="fas fa-search me-1"></i> Cari
                             </button>
                             @if(request('search'))
                             <a href="{{ route('matakuliah.index') }}" class="btn btn-secondary btn-sm ms-2">
@@ -31,7 +36,7 @@
 
                 <!-- Table -->
                 <div class="table-responsive">
-                    <table class="table table-bordered table-hover">
+                    <table class="table table-bordered table-hover align-middle">
                         <thead class="table-light">
                             <tr>
                                 <th width="5%" class="text-center">No</th>
@@ -53,14 +58,14 @@
                                     </span>
                                 </td>
                                 <td class="text-center">
-                                    <a href="{{ route('matakuliah.edit', $item->kode_matakuliah) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <a href="{{ route('matakuliah.edit', $item->kode_matakuliah) }}" class="btn btn-warning btn-sm rounded-pill">
+                                        <i class="fas fa-edit me-1"></i> Edit
                                     </a>
                                     <form action="{{ route('matakuliah.destroy', $item->kode_matakuliah) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus?')">
-                                            <i class="fas fa-trash"></i> Hapus
+                                        <button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Yakin hapus?')">
+                                            <i class="fas fa-trash me-1"></i> Hapus
                                         </button>
                                     </form>
                                 </td>

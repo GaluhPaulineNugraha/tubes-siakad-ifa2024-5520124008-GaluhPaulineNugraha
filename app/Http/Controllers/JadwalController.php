@@ -7,6 +7,7 @@ use App\Models\KRS;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class JadwalController extends Controller
 {
@@ -39,10 +40,8 @@ class JadwalController extends Controller
             return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
         }
         
-        // Ambil KRS mahasiswa
         $krsList = KRS::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
         
-        // Ambil jadwal berdasarkan mata kuliah yang diambil mahasiswa
         $jadwal = Jadwal::with(['matakuliah', 'dosen'])
             ->whereIn('kode_matakuliah', $krsList)
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
@@ -50,5 +49,28 @@ class JadwalController extends Controller
             ->get();
         
         return view('jadwal.mahasiswa', compact('jadwal', 'mahasiswa'));
+    }
+
+    // EXPORT PDF JADWAL MAHASISWA
+    public function exportPdf()
+    {
+        $user = Auth::user();
+        $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
+        
+        if (!$mahasiswa) {
+            return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
+        }
+        
+        $krsList = KRS::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
+        
+        $jadwal = Jadwal::with(['matakuliah', 'dosen'])
+            ->whereIn('kode_matakuliah', $krsList)
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
+            ->orderBy('jam')
+            ->get();
+        
+        $pdf = Pdf::loadView('jadwal.pdf', compact('jadwal', 'mahasiswa'));
+        $pdf->setPaper('A4', 'landscape');
+        return $pdf->download('Jadwal_Kuliah_' . $mahasiswa->npm . '_' . date('Ymd') . '.pdf');
     }
 }

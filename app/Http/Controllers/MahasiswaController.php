@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MahasiswaExport;
 
 class MahasiswaController extends Controller
 {
@@ -41,13 +43,10 @@ class MahasiswaController extends Controller
             'nama' => 'required|max:50',
         ]);
 
-        // HAPUS pengecekan email di mahasiswa karena kolom email tidak ada
-        // Buat email untuk user
         $emailBase = strtolower(str_replace(' ', '', $validated['nama']));
         $email = $emailBase . '@gmail.com';
         
         $counter = 1;
-        // Cek hanya di tabel users (karena mahasiswa tidak punya kolom email)
         while (User::where('email', $email)->exists()) {
             $email = $emailBase . $counter . '@gmail.com';
             $counter++;
@@ -93,10 +92,8 @@ class MahasiswaController extends Controller
             'nama' => $validated['nama'],
         ]);
         
-        // Update user terkait
         $user = User::where('mahasiswa_id', $npm)->first();
         if ($user) {
-            // Update email jika nama berubah
             $emailBase = strtolower(str_replace(' ', '', $validated['nama']));
             $email = $emailBase . '@gmail.com';
             $counter = 1;
@@ -122,5 +119,10 @@ class MahasiswaController extends Controller
         $mahasiswa->delete();
         
         return redirect()->route('mahasiswa.index')->with('success', 'Mahasiswa berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new MahasiswaExport, 'data_mahasiswa_' . date('Ymd_His') . '.xlsx');
     }
 }

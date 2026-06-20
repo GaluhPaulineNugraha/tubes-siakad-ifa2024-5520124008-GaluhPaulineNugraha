@@ -6,8 +6,13 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-chart-line me-2"></i>Nilai Mahasiswa</h5>
-                <div>
-                    <small class="text-muted">Total Data: {{ $nilai->total() ?? 0 }}</small>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('nilai.export') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </a>
+                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">
+                        Total: {{ $nilai->total() ?? 0 }}
+                    </span>
                 </div>
             </div>
             <div class="card-body">
@@ -47,45 +52,37 @@
                         <tbody>
                             @forelse($nilai as $index => $item)
                             @php
-                                $nilaiValue = $item->nilai ?? rand(55, 95);
+                                $nilaiValue = $item->nilai ?? '-';
+                                $grade = $item->grade ?? '-';
+                                $status = $item->status ?? '-';
                                 
                                 if($nilaiValue >= 85) {
-                                    $grade = 'A';
                                     $gradeBg = '#d1fae5';
                                     $gradeColor = '#065f46';
-                                    $status = 'Lulus';
                                     $statusBg = '#d1fae5';
                                     $statusColor = '#065f46';
                                     $icon = 'fa-check-circle';
                                 } elseif($nilaiValue >= 75) {
-                                    $grade = 'B';
                                     $gradeBg = '#dbeafe';
                                     $gradeColor = '#1e40af';
-                                    $status = 'Lulus';
                                     $statusBg = '#d1fae5';
                                     $statusColor = '#065f46';
                                     $icon = 'fa-check-circle';
                                 } elseif($nilaiValue >= 65) {
-                                    $grade = 'C';
                                     $gradeBg = '#fed7aa';
                                     $gradeColor = '#9a3412';
-                                    $status = 'Perbaikan';
                                     $statusBg = '#fed7aa';
                                     $statusColor = '#9a3412';
                                     $icon = 'fa-exclamation-triangle';
                                 } elseif($nilaiValue >= 55) {
-                                    $grade = 'D';
                                     $gradeBg = '#fecaca';
                                     $gradeColor = '#991b1b';
-                                    $status = 'Tidak Lulus';
                                     $statusBg = '#fecaca';
                                     $statusColor = '#991b1b';
                                     $icon = 'fa-times-circle';
                                 } else {
-                                    $grade = 'E';
                                     $gradeBg = '#fecaca';
                                     $gradeColor = '#991b1b';
-                                    $status = 'Tidak Lulus';
                                     $statusBg = '#fecaca';
                                     $statusColor = '#991b1b';
                                     $icon = 'fa-times-circle';
@@ -128,13 +125,13 @@
                 </div>
 
                 <!-- Keterangan Grade -->
-                <div class="alert alert-info mt-3">
+                <div class="alert alert-info mt-3 border-0 rounded-4 shadow-sm">
                     <i class="fas fa-info-circle me-2"></i>
                     <strong>Keterangan Grade:</strong>
-                    <span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">A (85-100)</span>
-                    <span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">B (75-84)</span>
-                    <span style="background: #fed7aa; color: #9a3412; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">C (65-74)</span>
-                    <span style="background: #fecaca; color: #991b1b; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">D/E (≤64)</span>
+                    <span style="background: #d1fae5; color: #065f46; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">A (85-100)</span>
+                    <span style="background: #dbeafe; color: #1e40af; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">B (75-84)</span>
+                    <span style="background: #fed7aa; color: #9a3412; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">C (65-74)</span>
+                    <span style="background: #fecaca; color: #991b1b; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">D/E (≤64)</span>
                 </div>
             </div>
         </div>

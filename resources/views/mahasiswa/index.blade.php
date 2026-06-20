@@ -6,9 +6,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-users me-2"></i>Data Mahasiswa</h5>
-                <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>Tambah Mahasiswa
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('mahasiswa.export') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </a>
+                    <a href="{{ route('mahasiswa.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                        <i class="fas fa-plus me-1"></i>Tambah Mahasiswa
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <!-- Form Search -->
@@ -18,7 +23,7 @@
                             <input type="text" name="search" class="form-control form-control-sm me-2" 
                                    placeholder="Cari mahasiswa..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-search"></i> Cari
+                                <i class="fas fa-search me-1"></i> Cari
                             </button>
                             @if(request('search'))
                             <a href="{{ route('mahasiswa.index') }}" class="btn btn-secondary btn-sm ms-2">
@@ -49,11 +54,11 @@
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->dosen->nama ?? '-' }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('mahasiswa.edit', $item->npm) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <a href="{{ route('mahasiswa.edit', $item->npm) }}" class="btn btn-warning btn-sm rounded-pill">
+                                        <i class="fas fa-edit me-1"></i> Edit
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $item->npm }}', '{{ addslashes($item->nama) }}')">
-                                        <i class="fas fa-trash"></i> Hapus
+                                    <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="confirmDelete('{{ $item->npm }}', '{{ addslashes($item->nama) }}')">
+                                        <i class="fas fa-trash me-1"></i> Hapus
                                     </button>
                                     <form id="delete-form-{{ $item->npm }}" action="{{ route('mahasiswa.destroy', $item->npm) }}" method="POST" style="display: none;">
                                         @csrf

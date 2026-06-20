@@ -6,9 +6,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Manajemen Jadwal Perkuliahan</h5>
-                <a href="{{ route('admin.jadwal.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>Tambah Jadwal
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ url('/admin/jadwal/export-excel') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </a>
+                    <a href="{{ route('admin.jadwal.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                        <i class="fas fa-plus me-1"></i>Tambah Jadwal
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 @if(session('success'))
@@ -62,14 +67,14 @@
                                 <td>{{ $j->kelas }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">
-                                        <a href="{{ route('admin.jadwal.edit', $j->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="fas fa-edit"></i> Edit
+                                        <a href="{{ route('admin.jadwal.edit', $j->id) }}" class="btn btn-warning btn-sm rounded-pill">
+                                            <i class="fas fa-edit me-1"></i> Edit
                                         </a>
                                         <form action="{{ route('admin.jadwal.destroy', $j->id) }}" method="POST" class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">
-                                                <i class="fas fa-trash"></i> Hapus
+                                            <button type="submit" class="btn btn-danger btn-sm rounded-pill" onclick="return confirm('Yakin ingin menghapus jadwal ini?')">
+                                                <i class="fas fa-trash me-1"></i> Hapus
                                             </button>
                                         </form>
                                     </div>

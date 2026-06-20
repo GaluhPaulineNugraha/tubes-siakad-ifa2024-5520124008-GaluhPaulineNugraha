@@ -44,14 +44,16 @@ Route::middleware('auth')->group(function () {
     // Admin Jadwal Routes
     Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('jadwal', AdminJadwalController::class);
+        Route::get('jadwal/export-excel', [AdminJadwalController::class, 'exportExcel'])->name('jadwal.export');
     });
     
     // Jadwal Routes untuk Mahasiswa
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
+    Route::get('/jadwal/export-pdf', [JadwalController::class, 'exportPdf'])->name('jadwal.export.pdf');
     
     // Nilai Routes
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
-    Route::put('/nilai/{id}', [NilaiController::class, 'update'])->name('nilai.update');
+    Route::get('/nilai/export-excel', [NilaiController::class, 'exportExcel'])->name('nilai.export');
     
     // Dosen Routes
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
@@ -60,18 +62,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/dosen/{nidn}/edit', [DosenController::class, 'edit'])->name('dosen.edit');
     Route::put('/dosen/{nidn}', [DosenController::class, 'update'])->name('dosen.update');
     Route::delete('/dosen/{nidn}', [DosenController::class, 'destroy'])->name('dosen.destroy');
+    Route::get('/dosen/export-excel', [DosenController::class, 'exportExcel'])->name('dosen.export');
     
     // Mahasiswa Resource
     Route::resource('mahasiswa', MahasiswaController::class);
+    Route::get('/mahasiswa/export-excel', [MahasiswaController::class, 'exportExcel'])->name('mahasiswa.export');
     
     // Matakuliah Resource
     Route::resource('matakuliah', MatakuliahController::class);
+    Route::get('/matakuliah/export-excel', [MatakuliahController::class, 'exportExcel'])->name('matakuliah.export');
     
     // Route untuk Dosen
     Route::prefix('dosen')->name('dosen.')->group(function () {
         Route::get('/dashboard', [DosenController::class, 'dashboard'])->name('dashboard');
         Route::get('/jadwal', [DosenController::class, 'jadwalIndex'])->name('jadwal');
         Route::get('/mahasiswa', [DosenController::class, 'mahasiswaIndex'])->name('mahasiswa');
+        Route::get('/jadwal/export-pdf', [DosenController::class, 'exportJadwalPdf'])->name('jadwal.export');
+        Route::get('/mahasiswa/export-pdf', [DosenController::class, 'exportMahasiswaPdf'])->name('mahasiswa.export');
     });
 });
 

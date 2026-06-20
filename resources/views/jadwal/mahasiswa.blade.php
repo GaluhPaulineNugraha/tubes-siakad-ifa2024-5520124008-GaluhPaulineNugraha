@@ -6,12 +6,17 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-calendar-alt me-2"></i>Jadwal Kuliah Saya</h5>
-                <div>
-                    <small class="text-muted">{{ $mahasiswa->nama ?? '' }} ({{ $mahasiswa->npm ?? '' }})</small>
+                <div class="text-end">
+                    <div class="d-flex flex-column align-items-end gap-1">
+                        <small class="text-muted">{{ $mahasiswa->nama ?? '' }} ({{ $mahasiswa->npm ?? '' }})</small>
+                        <a href="{{ route('jadwal.export.pdf') }}" class="btn btn-danger btn-sm rounded-pill">
+                            <i class="fas fa-file-pdf me-1"></i> Export PDF
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
-                <div class="alert alert-info mb-4">
+                <div class="alert alert-info mb-4 border-0 rounded-4 shadow-sm">
                     <i class="fas fa-info-circle me-2"></i>
                     Jadwal diurutkan berdasarkan <strong>Hari</strong> (Senin s/d Jumat)
                 </div>
@@ -80,6 +85,17 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- EXPORT PDF DI BAWAH TABEL -->
+                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
+                    <div>
+                        <small class="text-muted">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Total {{ $jadwal->count() }} Mata Kuliah
+                        </small>
+                    </div>
+                </div>
+
                 @else
                 <div class="text-center py-5">
                     <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>

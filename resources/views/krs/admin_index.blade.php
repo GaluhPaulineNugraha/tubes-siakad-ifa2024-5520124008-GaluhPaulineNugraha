@@ -6,9 +6,9 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i>Manajemen KRS</h5>
-                <div>
-                    <a href="{{ route('krs.export.excel') }}" class="btn btn-success btn-sm">
-                        <i class="fas fa-file-excel me-1"></i>Export Excel
+                <div class="d-flex gap-2">
+                    <a href="{{ route('krs.export.excel') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
                     </a>
                 </div>
             </div>
@@ -18,7 +18,7 @@
                     <div class="col-md-5">
                         <form action="{{ route('krs.admin') }}" method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control form-control-sm me-2" 
-                                   placeholder="Cari mahasiswa (Nama/NPM)..." value="{{ request('search') }}">
+                                   placeholder="Cari mahasiswa..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">
                                 <i class="fas fa-search me-1"></i> Cari
                             </button>
@@ -89,7 +89,7 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
-                                    <button type="button" class="btn btn-danger btn-sm" 
+                                    <button type="button" class="btn btn-danger btn-sm rounded-pill" 
                                             onclick="confirmDelete('{{ $krs->id }}', '{{ addslashes($krs->matakuliah->nama_matakuliah ?? 'Mata Kuliah') }}', '{{ addslashes($krs->mahasiswa->nama ?? '-') }}')">
                                         <i class="fas fa-trash me-1"></i> Hapus
                                     </button>

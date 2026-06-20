@@ -9,7 +9,12 @@
             <p class="text-muted small mb-0">Dosen: <strong>{{ $dosen->nama }}</strong></p>
         </div>
         <div class="text-end">
-            <small class="text-muted">{{ now()->format('l, d F Y') }}</small>
+            <div class="d-flex flex-column align-items-end gap-1">
+                <small class="text-muted">{{ now()->format('l, d F Y') }}</small>
+                <a href="{{ route('dosen.mahasiswa.export') }}" class="btn btn-danger btn-sm rounded-pill">
+                    <i class="fas fa-file-pdf me-1"></i> Export PDF
+                </a>
+            </div>
         </div>
     </div>
 
@@ -140,6 +145,14 @@
             </div>
         </div>
         @endif
+    </div>
+
+    <!-- Total -->
+    <div class="mt-3">
+        <small class="text-muted">
+            <i class="fas fa-info-circle me-1"></i>
+            Total {{ $mahasiswa->total() }} Mahasiswa Bimbingan
+        </small>
     </div>
 </div>
 @endsection

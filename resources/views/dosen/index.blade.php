@@ -6,9 +6,14 @@
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <h5 class="mb-0"><i class="fas fa-chalkboard-user me-2"></i>Data Dosen</h5>
-                <a href="{{ route('dosen.create') }}" class="btn btn-primary btn-sm">
-                    <i class="fas fa-plus me-1"></i>Tambah Dosen
-                </a>
+                <div class="d-flex gap-2">
+                    <a href="{{ route('dosen.export') }}" class="btn btn-success btn-sm rounded-pill">
+                        <i class="fas fa-file-excel me-1"></i> Export Excel
+                    </a>
+                    <a href="{{ route('dosen.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                        <i class="fas fa-plus me-1"></i>Tambah Dosen
+                    </a>
+                </div>
             </div>
             <div class="card-body">
                 <!-- Form Search -->
@@ -18,7 +23,7 @@
                             <input type="text" name="search" class="form-control form-control-sm me-2" 
                                    placeholder="Cari dosen..." value="{{ request('search') }}">
                             <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-search"></i> Cari
+                                <i class="fas fa-search me-1"></i> Cari
                             </button>
                             @if(request('search'))
                             <a href="{{ route('dosen.index') }}" class="btn btn-secondary btn-sm ms-2">
@@ -47,11 +52,11 @@
                                 <td><strong>{{ $item->nidn }}</strong></td>
                                 <td>{{ $item->nama }}</td>
                                 <td class="text-center">
-                                    <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm rounded-pill">
+                                        <i class="fas fa-edit me-1"></i> Edit
                                     </a>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
-                                        <i class="fas fa-trash"></i> Hapus
+                                    <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
+                                        <i class="fas fa-trash me-1"></i> Hapus
                                     </button>
                                     <form id="delete-form-{{ $item->nidn }}" action="{{ route('dosen.destroy', $item->nidn) }}" method="POST" style="display: none;">
                                         @csrf

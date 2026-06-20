@@ -6,6 +6,8 @@ use App\Models\Jadwal;
 use App\Models\Dosen;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\JadwalExport;
 
 class AdminJadwalController extends Controller
 {
@@ -77,5 +79,10 @@ class AdminJadwalController extends Controller
         $jadwal->delete();
 
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new JadwalExport, 'data_jadwal_' . date('Ymd_His') . '.xlsx');
     }
 }

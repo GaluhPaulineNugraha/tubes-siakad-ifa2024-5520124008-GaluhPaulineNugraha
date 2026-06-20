@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\KRSExport;
 
 class KRSController extends Controller
 {
@@ -95,7 +96,7 @@ class KRSController extends Controller
         $matakuliah = Matakuliah::find($validated['kode_matakuliah']);
         
         if ($currentSks + $matakuliah->sks > 24) {
-            return back()->with('error', 'Total SKS melebihi batas maksimal 24 SKS!');
+            return back()->with('error', '❌ Total SKS melebihi batas maksimal 24 SKS! Anda sudah mengambil ' . $currentSks . ' SKS, sisa kuota ' . (24 - $currentSks) . ' SKS.');
         }
         
         KRS::create([
@@ -103,7 +104,7 @@ class KRSController extends Controller
             'kode_matakuliah' => $validated['kode_matakuliah']
         ]);
         
-        return redirect()->route('krs.index')->with('success', 'Mata kuliah berhasil ditambahkan ke KRS');
+        return redirect()->route('krs.index')->with('success', '✅ Mata kuliah berhasil ditambahkan ke KRS');
     }
     
     public function destroy($id)

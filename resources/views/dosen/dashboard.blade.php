@@ -69,7 +69,7 @@
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="fw-semibold mb-0">
-                            Jadwal Mengajar Terbaru
+                            <i class="fas fa-calendar-alt me-2 text-primary"></i>Jadwal Mengajar Terbaru
                         </h6>
                         <a href="{{ route('dosen.jadwal') }}" class="btn btn-sm btn-outline-primary rounded-pill">Lihat Semua</a>
                     </div>
@@ -100,7 +100,7 @@
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="fw-semibold mb-0">
-                            Mahasiswa Bimbingan Terbaru
+                            <i class="fas fa-user-graduate me-2 text-success"></i>Mahasiswa Bimbingan Terbaru
                         </h6>
                         <a href="{{ route('dosen.mahasiswa') }}" class="btn btn-sm btn-outline-success rounded-pill">Lihat Semua</a>
                     </div>

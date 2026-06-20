@@ -131,13 +131,13 @@
                 </div>
 
                 <!-- Keterangan Grade -->
-                <div class="alert alert-info mt-3">
+                <div class="alert alert-info mt-3 border-0 rounded-4 shadow-sm">
                     <i class="fas fa-info-circle me-2"></i>
                     <strong>Keterangan Grade:</strong>
-                    <span style="background: #d1fae5; color: #065f46; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">A (85-100)</span>
-                    <span style="background: #dbeafe; color: #1e40af; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">B (75-84)</span>
-                    <span style="background: #fed7aa; color: #9a3412; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">C (65-74)</span>
-                    <span style="background: #fecaca; color: #991b1b; padding: 2px 10px; border-radius: 20px; margin: 0 5px;">D/E (≤64)</span>
+                    <span style="background: #d1fae5; color: #065f46; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">A (85-100)</span>
+                    <span style="background: #dbeafe; color: #1e40af; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">B (75-84)</span>
+                    <span style="background: #fed7aa; color: #9a3412; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">C (65-74)</span>
+                    <span style="background: #fecaca; color: #991b1b; padding: 2px 12px; border-radius: 20px; margin: 0 5px;">D/E (≤64)</span>
                 </div>
             </div>
         </div>

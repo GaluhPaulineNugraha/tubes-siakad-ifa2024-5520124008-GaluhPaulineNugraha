@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\MatakuliahExport;
 
 class MatakuliahController extends Controller
 {
@@ -69,5 +71,10 @@ class MatakuliahController extends Controller
         
         return redirect()->route('matakuliah.index')
             ->with('success', 'Mata Kuliah berhasil dihapus');
+    }
+
+    public function exportExcel()
+    {
+        return Excel::download(new MatakuliahExport, 'data_matakuliah_' . date('Ymd_His') . '.xlsx');
     }
 }

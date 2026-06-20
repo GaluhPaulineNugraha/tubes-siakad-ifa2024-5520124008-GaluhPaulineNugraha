@@ -57,7 +57,6 @@
                     <tbody>
                         @forelse($nilai as $index => $item)
                         @php
-                            // Data dummy jika kolom nilai belum ada
                             $nilaiValue = $item->nilai ?? '-';
                             $grade = $item->grade ?? '-';
                             $status = $item->status ?? '-';

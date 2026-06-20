@@ -7,6 +7,8 @@ use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\NilaiExport;
 
 class NilaiController extends Controller
 {
@@ -18,7 +20,7 @@ class NilaiController extends Controller
         $isMahasiswa = $user->mahasiswa_id != null;
         
         if ($isAdmin) {
-            // ADMIN: Lihat semua nilai (READ ONLY)
+            // ADMIN: Lihat semua nilai
             $query = KRS::with(['mahasiswa', 'matakuliah']);
             
             if ($request->search) {
@@ -33,7 +35,7 @@ class NilaiController extends Controller
         }
         
         if ($isDosen) {
-            // DOSEN: Lihat nilai mahasiswa bimbingan (READ ONLY - TIDAK BISA EDIT)
+            // DOSEN: Lihat nilai mahasiswa bimbingan (READ ONLY)
             $dosen = Dosen::where('nidn', $user->nidn)->first();
             
             if (!$dosen) {
@@ -69,4 +71,8 @@ class NilaiController extends Controller
         return view('nilai.index');
     }
 
+    public function exportExcel()
+    {
+        return Excel::download(new NilaiExport, 'data_nilai_' . date('Ymd_His') . '.xlsx');
+    }
 }
