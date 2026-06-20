@@ -62,7 +62,6 @@ class MahasiswaController extends Controller
             'password' => Hash::make($validated['npm']),
             'mahasiswa_id' => $validated['npm'],
         ]);
-        $user->assignRole('mahasiswa');
 
         return redirect()->route('mahasiswa.index')
             ->with('success', 'Mahasiswa berhasil ditambahkan! Akun login: ' . $email . ' / Password: ' . $validated['npm']);

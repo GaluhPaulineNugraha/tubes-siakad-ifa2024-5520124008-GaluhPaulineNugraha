@@ -4,13 +4,15 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use App\Models\Mahasiswa;
+use App\Models\Dosen;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Admin
+        // 1. ADMIN
         User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -19,24 +21,32 @@ class UserSeeder extends Seeder
             ]
         );
 
-        // Dosen
-        User::updateOrCreate(
-            ['email' => 'dosen@gmail.com'],
-            [
-                'name' => 'Dosen',
-                'password' => Hash::make('dosen12345'),
-                'nidn' => '1234567801',
-            ]
-        );
+        // 2. DOSEN - PASTIKAN INI BERJALAN
+        $dosenList = Dosen::all();
+        foreach ($dosenList as $dosen) {
+            $email = strtolower(str_replace([' ', '.', ',', "'"], '', $dosen->nama)) . '@gmail.com';
+            User::updateOrCreate(
+                ['email' => $email],
+                [
+                    'name' => $dosen->nama,
+                    'password' => Hash::make('dosen12345'),
+                    'nidn' => $dosen->nidn,
+                ]
+            );
+        }
 
-        // Mahasiswa
-        User::updateOrCreate(
-            ['email' => 'mahasiswa@gmail.com'],
-            [
-                'name' => 'Mahasiswa',
-                'password' => Hash::make('mahasiswa12345'),
-                'mahasiswa_id' => '2024000001',
-            ]
-        );
+        // 3. MAHASISWA
+        $mahasiswaList = Mahasiswa::all();
+        foreach ($mahasiswaList as $mhs) {
+            $email = strtolower(str_replace([' ', '.', ',', "'"], '', $mhs->nama)) . '@gmail.com';
+            User::updateOrCreate(
+                ['email' => $email],
+                [
+                    'name' => $mhs->nama,
+                    'password' => Hash::make('mahasiswa12345'),
+                    'mahasiswa_id' => $mhs->npm,
+                ]
+            );
+        }
     }
 }

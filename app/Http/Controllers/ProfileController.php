@@ -17,7 +17,7 @@ class ProfileController extends Controller
         $user = Auth::user();
         $mahasiswa = null;
         
-        if ($user->hasRole('mahasiswa')) {
+        if ($user->mahasiswa_id != null) {
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
         }
         

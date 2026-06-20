@@ -15,8 +15,9 @@ class KRSController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $isAdmin = $user->email == 'admin@gmail.com';
         
-        if ($user->hasRole('admin')) {
+        if ($isAdmin) {
             $query = KRS::with(['mahasiswa.dosen', 'matakuliah']);
             
             if ($request->search) {
@@ -109,8 +110,9 @@ class KRSController extends Controller
     {
         $krs = KRS::findOrFail($id);
         $user = Auth::user();
+        $isAdmin = $user->email == 'admin@gmail.com';
         
-        if ($user->hasRole('mahasiswa')) {
+        if (!$isAdmin) {
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
             if ($krs->npm != $mahasiswa->npm) {
                 abort(403);
@@ -119,7 +121,7 @@ class KRSController extends Controller
         
         $krs->delete();
         
-        if ($user->hasRole('admin')) {
+        if ($isAdmin) {
             return redirect()->route('krs.admin')->with('success', 'KRS berhasil dihapus');
         }
         

@@ -13,9 +13,11 @@ class NilaiController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $isAdmin = $user->email == 'admin@gmail.com';
+        $isDosen = $user->nidn != null;
+        $isMahasiswa = $user->mahasiswa_id != null;
         
-        if ($user->hasRole('admin')) {
-            // ADMIN: Hanya bisa melihat nilai (tidak bisa edit)
+        if ($isAdmin) {
             $query = KRS::with(['mahasiswa', 'matakuliah']);
             
             if ($request->search) {
@@ -26,20 +28,21 @@ class NilaiController extends Controller
             }
             
             $nilai = $query->orderBy('npm', 'asc')->paginate(10);
-            
             return view('nilai.index', compact('nilai'));
         }
         
-        if ($user->hasRole('dosen')) {
-            // DOSEN WALI: Bisa edit nilai mahasiswa bimbingannya
+        if ($isDosen) {
             $dosen = Dosen::where('user_id', $user->id)->first();
+            
+            if (!$dosen) {
+                $dosen = Dosen::where('nidn', $user->nidn)->first();
+            }
             
             if (!$dosen) {
                 return redirect()->route('dashboard')->with('error', 'Data dosen tidak ditemukan');
             }
             
-            // Ambil mahasiswa bimbingan dosen ini
-            $mahasiswaIds = Mahasiswa::where('dosen_id', $dosen->id)->pluck('npm');
+            $mahasiswaIds = Mahasiswa::where('nidn', $dosen->nidn)->pluck('npm');
             
             $query = KRS::with(['mahasiswa', 'matakuliah'])
                 ->whereIn('npm', $mahasiswaIds);
@@ -52,12 +55,10 @@ class NilaiController extends Controller
             }
             
             $nilai = $query->orderBy('npm', 'asc')->paginate(10);
-            
             return view('nilai.dosen', compact('nilai', 'dosen'));
         }
         
-        if ($user->hasRole('mahasiswa')) {
-            // MAHASISWA: Hanya bisa melihat nilai sendiri
+        if ($isMahasiswa) {
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
             $nilai = KRS::with(['matakuliah'])
                 ->where('npm', $mahasiswa->npm)
@@ -69,11 +70,12 @@ class NilaiController extends Controller
         return view('nilai.index');
     }
     
-    // DOSEN SAJA yang bisa update nilai
     public function update(Request $request, $id)
     {
-        // Cek apakah user adalah dosen
-        if (!Auth::user()->hasRole('dosen')) {
+        $user = Auth::user();
+        $isDosen = $user->nidn != null;
+        
+        if (!$isDosen) {
             return redirect()->back()->with('error', 'Hanya dosen yang dapat mengedit nilai');
         }
         
@@ -83,17 +85,15 @@ class NilaiController extends Controller
         
         $krs = KRS::findOrFail($id);
         
-        // Cek apakah dosen ini adalah wali dari mahasiswa tersebut
-        $dosen = Dosen::where('user_id', Auth::user()->id)->first();
+        $dosen = Dosen::where('nidn', $user->nidn)->first();
         $mahasiswa = Mahasiswa::where('npm', $krs->npm)->first();
         
-        if (!$dosen || $mahasiswa->dosen_id != $dosen->id) {
+        if (!$dosen || $mahasiswa->nidn != $dosen->nidn) {
             return redirect()->back()->with('error', 'Anda tidak memiliki akses ke nilai mahasiswa ini');
         }
         
         $nilai = $request->nilai;
         
-        // Tentukan grade berdasarkan nilai
         if ($nilai >= 85) {
             $grade = 'A';
             $status = 'Lulus';

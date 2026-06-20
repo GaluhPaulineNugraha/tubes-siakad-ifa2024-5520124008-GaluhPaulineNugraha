@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
             MahasiswaSeeder::class,
             JadwalSeeder::class,
             KrsSeeder::class,
-             UserSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }

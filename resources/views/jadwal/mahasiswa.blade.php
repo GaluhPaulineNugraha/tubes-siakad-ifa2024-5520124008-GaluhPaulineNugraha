@@ -16,19 +16,19 @@
                     Jadwal diurutkan berdasarkan <strong>Hari</strong> (Senin s/d Jumat)
                 </div>
 
-                <!-- Tabel Jadwal -->
+                @if($jadwal->count() > 0)
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle">
                         <thead class="table-light">
                             <tr>
                                 <th width="5%" class="text-center">No</th>
                                 <th width="10%">Kode MK</th>
-                                <th width="30%">Mata Kuliah</th>
+                                <th width="25%">Mata Kuliah</th>
                                 <th width="5%" class="text-center">SKS</th>
                                 <th width="10%">Hari</th>
                                 <th width="15%">Jam</th>
-                                <th width="10%">Kelas</th>
-                                <th width="15%">Dosen</th>
+                                <th width="8%" class="text-center">Kelas</th>
+                                <th width="22%">Dosen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -48,11 +48,16 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-clock me-1 text-muted"></i> {{ date('H:i', strtotime($item->jam)) }}
+                                    <i class="fas fa-clock me-1 text-muted"></i> 
+                                    @if($item->jam)
+                                        {{ date('H:i', strtotime($item->jam)) }}
+                                    @else
+                                        -
+                                    @endif
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-secondary bg-opacity-10 text-secondary">
-                                        <i class="fas fa-door-open me-1"></i> Kelas {{ $item->kelas }}
+                                        {{ $item->kelas }}
                                     </span>
                                 </td>
                                 <td>
@@ -76,6 +81,16 @@
                         </tbody>
                     </table>
                 </div>
+                @else
+                <div class="text-center py-5">
+                    <i class="fas fa-calendar-times fa-4x text-muted mb-3"></i>
+                    <h5>Belum Ada Jadwal</h5>
+                    <p class="text-muted">Anda belum mengambil mata kuliah, atau jadwal belum tersedia.</p>
+                    <a href="{{ route('krs.index') }}" class="btn btn-primary">
+                        <i class="fas fa-plus me-1"></i> Ambil Mata Kuliah
+                    </a>
+                </div>
+                @endif
             </div>
         </div>
     </div>

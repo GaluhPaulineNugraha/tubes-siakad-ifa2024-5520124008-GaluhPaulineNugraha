@@ -58,7 +58,6 @@ class DosenController extends Controller
             'password' => Hash::make($validated['nidn']),
             'nidn' => $validated['nidn'],
         ]);
-        $user->assignRole('dosen');
 
         return redirect()->route('dosen.index')->with('success', 'Dosen berhasil ditambahkan! Akun login: ' . $email . ' / Password: ' . $validated['nidn']);
     }

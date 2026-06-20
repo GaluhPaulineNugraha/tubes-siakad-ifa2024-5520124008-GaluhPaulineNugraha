@@ -16,15 +16,15 @@
             </a>
         </li>
 
-        @role('admin')
-        <!-- Data Master -->
+        <!-- Admin Menu -->
+        @if(Auth::user()->email == 'admin@gmail.com')
         <li class="nav-item has-submenu">
             <a href="#" class="nav-link {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'active' : '' }}" data-submenu="data-master">
                 <i class="fas fa-database"></i>
                 <span>Data Master</span>
                 <i class="fas fa-chevron-right submenu-icon"></i>
             </a>
-            <ul class="submenu" id="submenu-data-master">
+            <ul class="submenu {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'show' : '' }}" id="submenu-data-master">
                 <li>
                     <a href="{{ route('dosen.index') }}" class="{{ request()->routeIs('dosen.*') ? 'active' : '' }}">
                         <i class="fas fa-chalkboard-user"></i> Data Dosen
@@ -43,14 +43,13 @@
             </ul>
         </li>
 
-        <!-- Akademik -->
         <li class="nav-item has-submenu">
-            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('jadwal.*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
+            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
                 <i class="fas fa-graduation-cap"></i>
                 <span>Akademik</span>
                 <i class="fas fa-chevron-right submenu-icon"></i>
             </a>
-            <ul class="submenu" id="submenu-akademik">
+            <ul class="submenu {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('nilai.*') ? 'show' : '' }}" id="submenu-akademik">
                 <li>
                     <a href="{{ route('krs.admin') }}" class="{{ request()->routeIs('krs.admin') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-list"></i> Manajemen KRS
@@ -68,10 +67,10 @@
                 </li>
             </ul>
         </li>
-        @endrole
+        @endif
 
-        @role('dosen')
-        <!-- Menu Dosen -->
+        <!-- Dosen Menu -->
+        @if(Auth::user()->nidn != null)
         <li class="nav-item">
             <a href="{{ route('dosen.dashboard') }}" class="nav-link {{ request()->routeIs('dosen.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
@@ -90,10 +89,10 @@
                 <span>Mahasiswa Bimbingan</span>
             </a>
         </li>
-        @endrole
+        @endif
 
-        @role('mahasiswa')
-        <!-- Menu untuk Mahasiswa -->
+        <!-- Mahasiswa Menu -->
+        @if(Auth::user()->mahasiswa_id != null)
         <li class="nav-item">
             <a href="{{ route('krs.index') }}" class="nav-link {{ request()->routeIs('krs.index') ? 'active' : '' }}">
                 <i class="fas fa-clipboard-list"></i>
@@ -112,6 +111,6 @@
                 <span>Nilai Saya</span>
             </a>
         </li>
-        @endrole
+        @endif
     </ul>
 </div>

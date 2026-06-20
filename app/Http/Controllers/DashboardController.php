@@ -18,25 +18,24 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
         
-        if ($user->hasRole('admin')) {
-            // Data statistik utama
+        // CEK ROLE MANUAL (tanpa Spatie)
+        $isAdmin = $user->email == 'admin@gmail.com';
+        $isDosen = $user->nidn != null;
+        $isMahasiswa = $user->mahasiswa_id != null;
+        
+        if ($isAdmin) {
             $totalDosen = Dosen::count();
             $totalMahasiswa = Mahasiswa::count();
             $totalMatakuliah = Matakuliah::count();
             $totalKRS = KRS::count();
             
-            // Total SKS terambil
             $totalSKS = KRS::with('matakuliah')->get()->sum(function($krs) {
                 return $krs->matakuliah ? $krs->matakuliah->sks : 0;
             });
             
-            // Rata-rata SKS per mahasiswa
             $avgSksPerMhs = $totalMahasiswa > 0 ? round($totalSKS / $totalMahasiswa, 1) : 0;
-            
-            // Mahasiswa yang sudah mengambil KRS
             $activeKRS = KRS::distinct('npm')->count('npm');
             
-            // Data terbaru
             $latestDosen = Dosen::latest()->limit(5)->get();
             $latestMahasiswa = Mahasiswa::with('dosen')->latest()->limit(5)->get();
             
@@ -53,13 +52,11 @@ class DashboardController extends Controller
             ));
         }
         
-        if ($user->hasRole('dosen')) {
-            // Redirect ke halaman dashboard dosen
+        if ($isDosen) {
             return redirect()->route('dosen.dashboard');
         }
         
-        if ($user->hasRole('mahasiswa')) {
-            // Data untuk mahasiswa
+        if ($isMahasiswa) {
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
             
             if (!$mahasiswa) {

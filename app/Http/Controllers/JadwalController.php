@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Jadwal;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
@@ -12,8 +13,9 @@ class JadwalController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $isAdmin = $user->email == 'admin@gmail.com';
         
-        if ($user->hasRole('admin')) {
+        if ($isAdmin) {
             $query = KRS::with(['mahasiswa', 'matakuliah']);
             
             if ($request->search) {
@@ -23,7 +25,6 @@ class JadwalController extends Controller
                 });
             }
             
-            // Urutkan berdasarkan NPM (A-Z)
             $jadwal = $query->orderBy('npm', 'asc')
                             ->orderBy('created_at', 'desc')
                             ->paginate(10);
@@ -31,10 +32,21 @@ class JadwalController extends Controller
             return view('jadwal.index', compact('jadwal'));
         }
         
+        // UNTUK MAHASISWA
         $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
         
-        $jadwal = KRS::with(['matakuliah'])
-            ->where('npm', $mahasiswa->npm)
+        if (!$mahasiswa) {
+            return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
+        }
+        
+        // Ambil KRS mahasiswa
+        $krsList = KRS::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
+        
+        // Ambil jadwal berdasarkan mata kuliah yang diambil mahasiswa
+        $jadwal = Jadwal::with(['matakuliah', 'dosen'])
+            ->whereIn('kode_matakuliah', $krsList)
+            ->orderBy('hari')
+            ->orderBy('jam')
             ->get();
         
         return view('jadwal.mahasiswa', compact('jadwal', 'mahasiswa'));

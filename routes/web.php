@@ -42,7 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/krs/export-excel', [KRSController::class, 'exportExcel'])->name('krs.export.excel');
     
     // Admin Jadwal Routes
-    Route::prefix('admin')->middleware(['role:admin'])->name('admin.')->group(function () {
+    Route::prefix('admin')->name('admin.')->group(function () {
         Route::resource('jadwal', AdminJadwalController::class);
     });
     
@@ -51,6 +51,7 @@ Route::middleware('auth')->group(function () {
     
     // Nilai Routes
     Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
+    Route::put('/nilai/{id}', [NilaiController::class, 'update'])->name('nilai.update');
     
     // Dosen Routes
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
@@ -67,7 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('matakuliah', MatakuliahController::class);
     
     // Route untuk Dosen
-    Route::prefix('dosen')->middleware(['role:dosen'])->name('dosen.')->group(function () {
+    Route::prefix('dosen')->name('dosen.')->group(function () {
         Route::get('/dashboard', [DosenController::class, 'dashboard'])->name('dashboard');
         Route::get('/jadwal', [DosenController::class, 'jadwalIndex'])->name('jadwal');
         Route::get('/mahasiswa', [DosenController::class, 'mahasiswaIndex'])->name('mahasiswa');
