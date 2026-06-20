@@ -8,15 +8,13 @@
     </div>
 
     <ul class="sidebar-nav">
-        <!-- Dashboard - HANYA UNTUK ADMIN & MAHASISWA -->
-        @if(Auth::user()->email == 'admin@gmail.com' || Auth::user()->mahasiswa_id != null)
+        <!-- Dashboard -->
         <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
-        @endif
 
         <!-- Admin Menu -->
         @if(Auth::user()->email == 'admin@gmail.com')
@@ -46,12 +44,12 @@
         </li>
 
         <li class="nav-item has-submenu">
-            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('nilai.*') ? 'active' : '' }}" data-submenu="akademik">
+            <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') ? 'active' : '' }}" data-submenu="akademik">
                 <i class="fas fa-graduation-cap"></i>
                 <span>Akademik</span>
                 <i class="fas fa-chevron-right submenu-icon"></i>
             </a>
-            <ul class="submenu {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') || request()->routeIs('nilai.*') ? 'show' : '' }}" id="submenu-akademik">
+            <ul class="submenu {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') ? 'show' : '' }}" id="submenu-akademik">
                 <li>
                     <a href="{{ route('krs.admin') }}" class="{{ request()->routeIs('krs.admin') ? 'active' : '' }}">
                         <i class="fas fa-clipboard-list"></i> Manajemen KRS
@@ -62,11 +60,7 @@
                         <i class="fas fa-calendar-alt"></i> Jadwal Kuliah
                     </a>
                 </li>
-                <li>
-                    <a href="{{ route('nilai.index') }}" class="{{ request()->routeIs('nilai.*') ? 'active' : '' }}">
-                        <i class="fas fa-chart-line"></i> Nilai Mahasiswa
-                    </a>
-                </li>
+                <!-- HAPUS MENU NILAI -->
             </ul>
         </li>
         @endif
@@ -91,6 +85,7 @@
                 <span>Mahasiswa Bimbingan</span>
             </a>
         </li>
+        <!-- HAPUS MENU NILAI -->
         @endif
 
         <!-- Mahasiswa Menu -->
@@ -105,12 +100,6 @@
             <a href="{{ route('jadwal.index') }}" class="nav-link {{ request()->routeIs('jadwal.*') ? 'active' : '' }}">
                 <i class="fas fa-calendar-alt"></i>
                 <span>Jadwal Kuliah</span>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="{{ route('nilai.index') }}" class="nav-link {{ request()->routeIs('nilai.*') ? 'active' : '' }}">
-                <i class="fas fa-chart-line"></i>
-                <span>Nilai Saya</span>
             </a>
         </li>
         @endif

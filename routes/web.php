@@ -50,11 +50,7 @@ Route::middleware('auth')->group(function () {
     // Jadwal Routes untuk Mahasiswa
     Route::get('/jadwal', [JadwalController::class, 'index'])->name('jadwal.index');
     Route::get('/jadwal/export-pdf', [JadwalController::class, 'exportPdf'])->name('jadwal.export.pdf');
-    
-    // Nilai Routes
-    Route::get('/nilai', [NilaiController::class, 'index'])->name('nilai.index');
-    Route::get('/nilai/export-excel', [NilaiController::class, 'exportExcel'])->name('nilai.export');
-    
+   
     // Dosen Routes
     Route::get('/dosen', [DosenController::class, 'index'])->name('dosen.index');
     Route::get('/dosen/create', [DosenController::class, 'create'])->name('dosen.create');
