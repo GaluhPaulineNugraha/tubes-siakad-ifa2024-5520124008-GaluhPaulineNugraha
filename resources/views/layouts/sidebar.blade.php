@@ -1,4 +1,3 @@
-<!-- Sidebar -->
 <div class="sidebar" id="sidebar">
     <div class="sidebar-header">
         <h5 class="mb-0">
@@ -8,7 +7,7 @@
     </div>
 
     <ul class="sidebar-nav">
-        <!-- Dashboard -->
+       
         <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
@@ -16,13 +15,12 @@
             </a>
         </li>
 
-        <!-- Admin Menu -->
+        
         @if(Auth::user()->email == 'admin@gmail.com')
         <li class="nav-item has-submenu">
             <a href="#" class="nav-link {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'active' : '' }}" data-submenu="data-master">
                 <i class="fas fa-database"></i>
                 <span>Data Master</span>
-                <i class="fas fa-chevron-right submenu-icon"></i>
             </a>
             <ul class="submenu {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'show' : '' }}" id="submenu-data-master">
                 <li>
@@ -47,7 +45,6 @@
             <a href="#" class="nav-link {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') ? 'active' : '' }}" data-submenu="akademik">
                 <i class="fas fa-graduation-cap"></i>
                 <span>Akademik</span>
-                <i class="fas fa-chevron-right submenu-icon"></i>
             </a>
             <ul class="submenu {{ request()->routeIs('krs.admin') || request()->routeIs('admin.jadwal*') ? 'show' : '' }}" id="submenu-akademik">
                 <li>
@@ -60,12 +57,11 @@
                         <i class="fas fa-calendar-alt"></i> Jadwal Kuliah
                     </a>
                 </li>
-                <!-- HAPUS MENU NILAI -->
             </ul>
         </li>
         @endif
 
-        <!-- Dosen Menu -->
+       
         @if(Auth::user()->nidn != null)
         <li class="nav-item">
             <a href="{{ route('dosen.dashboard') }}" class="nav-link {{ request()->routeIs('dosen.dashboard') ? 'active' : '' }}">
@@ -85,10 +81,9 @@
                 <span>Mahasiswa Bimbingan</span>
             </a>
         </li>
-        <!-- HAPUS MENU NILAI -->
         @endif
 
-        <!-- Mahasiswa Menu -->
+       
         @if(Auth::user()->mahasiswa_id != null)
         <li class="nav-item">
             <a href="{{ route('krs.index') }}" class="nav-link {{ request()->routeIs('krs.index') ? 'active' : '' }}">

@@ -1,85 +1,89 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-chalkboard-user me-2"></i>Data Dosen</h5>
-                <div class="d-flex gap-2">
-                    <a href="{{ route('dosen.export') }}" class="btn btn-success btn-sm rounded-pill">
-                        <i class="fas fa-file-excel me-1"></i> Export Excel
-                    </a>
-                    <a href="{{ route('dosen.create') }}" class="btn btn-primary btn-sm rounded-pill">
-                        <i class="fas fa-plus me-1"></i>Tambah Dosen
-                    </a>
-                </div>
-            </div>
-            <div class="card-body">
-                <!-- Form Search -->
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <form action="{{ route('dosen.index') }}" method="GET" class="d-flex">
-                            <input type="text" name="search" class="form-control form-control-sm me-2" 
-                                   placeholder="Cari dosen..." value="{{ request('search') }}">
-                            <button type="submit" class="btn btn-primary btn-sm">
-                                <i class="fas fa-search me-1"></i> Cari
-                            </button>
-                            @if(request('search'))
-                            <a href="{{ route('dosen.index') }}" class="btn btn-secondary btn-sm ms-2">
-                                <i class="fas fa-sync-alt me-1"></i> Reset
-                            </a>
-                            @endif
-                        </form>
+<div class="container-fluid px-2 px-md-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm rounded-4">
+                <div class="card-header bg-white d-flex flex-wrap justify-content-between align-items-center gap-2">
+                    <h5 class="mb-0"><i class="fas fa-chalkboard-user me-2"></i>Data Dosen</h5>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a href="{{ route('dosen.export') }}" class="btn btn-success btn-sm rounded-pill">
+                            <i class="fas fa-file-excel me-1"></i> Export Excel
+                        </a>
+                        <a href="{{ route('dosen.create') }}" class="btn btn-primary btn-sm rounded-pill">
+                            <i class="fas fa-plus me-1"></i>Tambah Dosen
+                        </a>
                     </div>
                 </div>
+                <div class="card-body p-2 p-md-4">
+                    <!-- Search -->
+                    <div class="row mb-3">
+                        <div class="col-12 col-md-4">
+                            <form action="{{ route('dosen.index') }}" method="GET" class="d-flex">
+                                <input type="text" name="search" class="form-control form-control-sm me-2" 
+                                       placeholder="Cari dosen..." value="{{ request('search') }}">
+                                <button type="submit" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-search me-1"></i> Cari
+                                </button>
+                                @if(request('search'))
+                                <a href="{{ route('dosen.index') }}" class="btn btn-secondary btn-sm ms-2">
+                                    <i class="fas fa-sync-alt me-1"></i> Reset
+                                </a>
+                                @endif
+                            </form>
+                        </div>
+                    </div>
 
-                <!-- Tabel Data -->
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th width="5%" class="text-center">No</th>
-                                <th width="20%">NIDN</th>
-                                <th width="55%">Nama Dosen</th>
-                                <th width="20%" class="text-center">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($dosen as $index => $item)
-                            <tr>
-                                <td class="text-center">{{ ($dosen->currentPage() - 1) * $dosen->perPage() + $loop->iteration }}</td>
-                                <td><strong>{{ $item->nidn }}</strong></td>
-                                <td>{{ $item->nama }}</td>
-                                <td class="text-center">
-                                    <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm rounded-pill">
-                                        <i class="fas fa-edit me-1"></i> Edit
-                                    </a>
-                                    <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
-                                        <i class="fas fa-trash me-1"></i> Hapus
-                                    </button>
-                                    <form id="delete-form-{{ $item->nidn }}" action="{{ route('dosen.destroy', $item->nidn) }}" method="POST" style="display: none;">
-                                        @csrf
-                                        @method('DELETE')
-                                    </form>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="4" class="text-center py-5 text-muted">
-                                    <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
-                                    <h6>Tidak ada data dosen</h6>
-                                    <small>Silakan tambah data baru</small>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                    <!-- Table -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th width="5%" class="text-center">No</th>
+                                    <th width="20%">NIDN</th>
+                                    <th width="55%">Nama Dosen</th>
+                                    <th width="20%" class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($dosen as $index => $item)
+                                <tr>
+                                    <td class="text-center">{{ ($dosen->currentPage() - 1) * $dosen->perPage() + $loop->iteration }}</td>
+                                    <td><strong>{{ $item->nidn }}</strong></td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td class="text-center">
+                                        <div class="d-flex flex-wrap justify-content-center gap-1">
+                                            <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm rounded-pill">
+                                                <i class="fas fa-edit me-1"></i> Edit
+                                            </a>
+                                            <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
+                                                <i class="fas fa-trash me-1"></i> Hapus
+                                            </button>
+                                            <form id="delete-form-{{ $item->nidn }}" action="{{ route('dosen.destroy', $item->nidn) }}" method="POST" style="display: none;">
+                                                @csrf
+                                                @method('DELETE')
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="4" class="text-center py-5 text-muted">
+                                        <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
+                                        <h6>Tidak ada data dosen</h6>
+                                        <small>Silakan tambah data baru</small>
+                                    </td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
 
-                <!-- Pagination -->
-                <div class="d-flex justify-content-center mt-3">
-                    {{ $dosen->appends(request()->query())->links('pagination::bootstrap-5') }}
+                    <!-- Pagination -->
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ $dosen->appends(request()->query())->links('pagination::bootstrap-5') }}
+                    </div>
                 </div>
             </div>
         </div>
