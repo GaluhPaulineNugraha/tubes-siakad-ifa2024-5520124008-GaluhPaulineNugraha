@@ -64,6 +64,7 @@
                             <label class="form-label fw-bold">Jam <span class="text-danger">*</span></label>
                             <input type="datetime-local" name="jam" class="form-control @error('jam') is-invalid @enderror" 
                                    value="{{ old('jam') }}" required>
+                            <small class="text-muted">Format: HH:MM WIB</small>
                             @error('jam')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

@@ -28,17 +28,6 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
-                    
-                    <div class="alert alert-info">
-                        <i class="fas fa-info-circle me-2"></i>
-                        <strong>Informasi:</strong>
-                        <ul class="mb-0 mt-1">
-                            <li>Email akan dibuat otomatis dengan format <strong>nama@gmail.com</strong></li>
-                            <li>Akun login akan dibuat dengan password = <strong>NIDN</strong></li>
-                            <li>Dosen bisa login menggunakan email dan password NIDN</li>
-                        </ul>
-                    </div>
-                    
                     <hr>
                     <div class="d-flex justify-content-between">
                         <a href="{{ route('dosen.index') }}" class="btn btn-secondary">

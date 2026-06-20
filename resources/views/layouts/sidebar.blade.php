@@ -8,13 +8,15 @@
     </div>
 
     <ul class="sidebar-nav">
-        <!-- Dashboard -->
+        <!-- Dashboard - HANYA UNTUK ADMIN & MAHASISWA -->
+        @if(Auth::user()->email == 'admin@gmail.com' || Auth::user()->mahasiswa_id != null)
         <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
+        @endif
 
         <!-- Admin Menu -->
         @if(Auth::user()->email == 'admin@gmail.com')

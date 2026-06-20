@@ -44,13 +44,13 @@
                                 </td>
                                 <td>
                                     <span class="badge bg-info bg-opacity-10 text-info">
-                                        <i class="fas fa-calendar-day me-1"></i> {{ $item->hari }}
+                                        {{ $item->hari }}
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-clock me-1 text-muted"></i> 
                                     @if($item->jam)
                                         {{ date('H:i', strtotime($item->jam)) }}
+                                        <span class="text-muted ms-1" style="font-size: 11px;">WIB</span>
                                     @else
                                         -
                                     @endif
@@ -61,7 +61,6 @@
                                     </span>
                                 </td>
                                 <td>
-                                    <i class="fas fa-chalkboard-user me-1 text-muted"></i> 
                                     {{ $item->dosen->nama ?? '-' }}
                                 </td>
                             </tr>

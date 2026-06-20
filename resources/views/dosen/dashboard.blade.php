@@ -69,9 +69,9 @@
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="fw-semibold mb-0">
-                            <i class="fas fa-calendar-alt me-2 text-primary"></i>Jadwal Mengajar Terbaru
+                            Jadwal Mengajar Terbaru
                         </h6>
-                        <a href="{{ route('dosen.jadwal') }}" class="btn btn-sm btn-outline-primary">Lihat Semua</a>
+                        <a href="{{ route('dosen.jadwal') }}" class="btn btn-sm btn-outline-primary rounded-pill">Lihat Semua</a>
                     </div>
                 </div>
                 <div class="card-body p-4">
@@ -79,9 +79,14 @@
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                         <div>
                             <div class="fw-semibold">{{ $j->matakuliah->nama_matakuliah }}</div>
-                            <small class="text-muted">{{ $j->hari }}, {{ date('H:i', strtotime($j->jam)) }} | Kelas {{ $j->kelas }}</small>
+                            <small class="text-muted">
+                                {{ $j->hari }}, 
+                                {{ date('H:i', strtotime($j->jam)) }}
+                                <span class="text-muted ms-1" style="font-size: 11px;">WIB</span>
+                                | Kelas {{ $j->kelas }}
+                            </small>
                         </div>
-                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ $j->kelas }}</span>
+                        <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2">{{ $j->kelas }}</span>
                     </div>
                     @empty
                     <div class="text-center py-3 text-muted">Belum ada jadwal mengajar</div>
@@ -95,9 +100,9 @@
                 <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
                     <div class="d-flex justify-content-between align-items-center">
                         <h6 class="fw-semibold mb-0">
-                            <i class="fas fa-user-graduate me-2 text-success"></i>Mahasiswa Bimbingan Terbaru
+                            Mahasiswa Bimbingan Terbaru
                         </h6>
-                        <a href="{{ route('dosen.mahasiswa') }}" class="btn btn-sm btn-outline-success">Lihat Semua</a>
+                        <a href="{{ route('dosen.mahasiswa') }}" class="btn btn-sm btn-outline-success rounded-pill">Lihat Semua</a>
                     </div>
                 </div>
                 <div class="card-body p-4">
@@ -107,7 +112,7 @@
                             <div class="fw-semibold">{{ $mhs->nama }}</div>
                             <small class="text-muted">{{ $mhs->npm }}</small>
                         </div>
-                        <span class="badge bg-success bg-opacity-10 text-success">{{ App\Models\KRS::where('npm', $mhs->npm)->count() }} MK</span>
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">{{ App\Models\KRS::where('npm', $mhs->npm)->count() }} MK</span>
                     </div>
                     @empty
                     <div class="text-center py-3 text-muted">Belum ada mahasiswa bimbingan</div>

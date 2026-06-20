@@ -55,7 +55,10 @@
                                 <td>{{ $j->matakuliah->nama_matakuliah }}</td>
                                 <td>{{ $j->dosen->nama }}</td>
                                 <td>{{ $j->hari }}</td>
-                                <td>{{ date('H:i', strtotime($j->jam)) }}</td>
+                                <td>
+                                    {{ date('H:i', strtotime($j->jam)) }}
+                                    <span class="text-muted ms-1" style="font-size: 11px;">WIB</span>
+                                </td>
                                 <td>{{ $j->kelas }}</td>
                                 <td>
                                     <div class="d-flex gap-2 justify-content-center">

@@ -78,11 +78,37 @@
         .nav-beranda i { margin-right: 6px; }
         .form-group { margin-bottom: 24px; }
         .form-group label { font-weight: 600; font-size: 14px; margin-bottom: 8px; display: block; color: #374151; }
-        .input-group-custom { position: relative; }
-        .input-group-custom i { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: #9ca3af; font-size: 16px; }
+        .input-group-custom {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .input-group-custom .input-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            font-size: 16px;
+            z-index: 10;
+        }
+        .input-group-custom .toggle-password {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9ca3af;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 16px;
+            transition: color 0.2s;
+        }
+        .input-group-custom .toggle-password:hover {
+            color: #0A2540;
+        }
         .form-control {
             border-radius: 14px;
-            padding: 14px 16px 14px 45px;
+            padding: 14px 45px 14px 45px;
             border: 1.5px solid #e5e7eb;
             width: 100%;
             font-size: 14px;
@@ -171,15 +197,16 @@
                         <div class="form-group">
                             <label>Email Address</label>
                             <div class="input-group-custom">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" name="email" class="form-control" required autofocus>
+                                <i class="fas fa-envelope input-icon"></i>
+                                <input type="email" name="email" class="form-control" value="{{ old('email') }}" required autofocus>
                             </div>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
                             <div class="input-group-custom">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" name="password" class="form-control" required>
+                                <i class="fas fa-lock input-icon"></i>
+                                <input type="password" name="password" id="password" class="form-control" required>
+                                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
                             </div>
                         </div>
                         <button type="submit" class="btn-login"><i class="fas fa-sign-in-alt me-2"></i> MASUK</button>
@@ -192,5 +219,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+
+        togglePassword.addEventListener('click', function() {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        });
+    </script>
 </body>
 </html>

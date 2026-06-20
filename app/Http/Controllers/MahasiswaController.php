@@ -41,11 +41,14 @@ class MahasiswaController extends Controller
             'nama' => 'required|max:50',
         ]);
 
+        // HAPUS pengecekan email di mahasiswa karena kolom email tidak ada
+        // Buat email untuk user
         $emailBase = strtolower(str_replace(' ', '', $validated['nama']));
         $email = $emailBase . '@gmail.com';
         
         $counter = 1;
-        while (Mahasiswa::where('email', $email)->exists() || User::where('email', $email)->exists()) {
+        // Cek hanya di tabel users (karena mahasiswa tidak punya kolom email)
+        while (User::where('email', $email)->exists()) {
             $email = $emailBase . $counter . '@gmail.com';
             $counter++;
         }
@@ -90,10 +93,21 @@ class MahasiswaController extends Controller
             'nama' => $validated['nama'],
         ]);
         
+        // Update user terkait
         $user = User::where('mahasiswa_id', $npm)->first();
         if ($user) {
+            // Update email jika nama berubah
+            $emailBase = strtolower(str_replace(' ', '', $validated['nama']));
+            $email = $emailBase . '@gmail.com';
+            $counter = 1;
+            while (User::where('email', $email)->where('id', '!=', $user->id)->exists()) {
+                $email = $emailBase . $counter . '@gmail.com';
+                $counter++;
+            }
+            
             $user->update([
                 'name' => $validated['nama'],
+                'email' => $email,
             ]);
         }
         

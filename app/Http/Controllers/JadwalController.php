@@ -45,7 +45,7 @@ class JadwalController extends Controller
         // Ambil jadwal berdasarkan mata kuliah yang diambil mahasiswa
         $jadwal = Jadwal::with(['matakuliah', 'dosen'])
             ->whereIn('kode_matakuliah', $krsList)
-            ->orderBy('hari')
+            ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->orderBy('jam')
             ->get();
         

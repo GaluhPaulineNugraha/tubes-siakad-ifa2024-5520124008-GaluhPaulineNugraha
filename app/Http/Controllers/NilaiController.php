@@ -18,6 +18,7 @@ class NilaiController extends Controller
         $isMahasiswa = $user->mahasiswa_id != null;
         
         if ($isAdmin) {
+            // ADMIN: Lihat semua nilai (READ ONLY)
             $query = KRS::with(['mahasiswa', 'matakuliah']);
             
             if ($request->search) {
@@ -32,11 +33,8 @@ class NilaiController extends Controller
         }
         
         if ($isDosen) {
-            $dosen = Dosen::where('user_id', $user->id)->first();
-            
-            if (!$dosen) {
-                $dosen = Dosen::where('nidn', $user->nidn)->first();
-            }
+            // DOSEN: Lihat nilai mahasiswa bimbingan (READ ONLY - TIDAK BISA EDIT)
+            $dosen = Dosen::where('nidn', $user->nidn)->first();
             
             if (!$dosen) {
                 return redirect()->route('dashboard')->with('error', 'Data dosen tidak ditemukan');
@@ -59,6 +57,7 @@ class NilaiController extends Controller
         }
         
         if ($isMahasiswa) {
+            // MAHASISWA: Lihat nilai sendiri
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
             $nilai = KRS::with(['matakuliah'])
                 ->where('npm', $mahasiswa->npm)
@@ -69,54 +68,5 @@ class NilaiController extends Controller
         
         return view('nilai.index');
     }
-    
-    public function update(Request $request, $id)
-    {
-        $user = Auth::user();
-        $isDosen = $user->nidn != null;
-        
-        if (!$isDosen) {
-            return redirect()->back()->with('error', 'Hanya dosen yang dapat mengedit nilai');
-        }
-        
-        $request->validate([
-            'nilai' => 'required|numeric|min:0|max:100',
-        ]);
-        
-        $krs = KRS::findOrFail($id);
-        
-        $dosen = Dosen::where('nidn', $user->nidn)->first();
-        $mahasiswa = Mahasiswa::where('npm', $krs->npm)->first();
-        
-        if (!$dosen || $mahasiswa->nidn != $dosen->nidn) {
-            return redirect()->back()->with('error', 'Anda tidak memiliki akses ke nilai mahasiswa ini');
-        }
-        
-        $nilai = $request->nilai;
-        
-        if ($nilai >= 85) {
-            $grade = 'A';
-            $status = 'Lulus';
-        } elseif ($nilai >= 75) {
-            $grade = 'B';
-            $status = 'Lulus';
-        } elseif ($nilai >= 65) {
-            $grade = 'C';
-            $status = 'Perbaikan';
-        } elseif ($nilai >= 55) {
-            $grade = 'D';
-            $status = 'Tidak Lulus';
-        } else {
-            $grade = 'E';
-            $status = 'Tidak Lulus';
-        }
-        
-        $krs->update([
-            'nilai' => $nilai,
-            'grade' => $grade,
-            'status' => $status
-        ]);
-        
-        return redirect()->route('nilai.index')->with('success', 'Nilai berhasil diupdate');
-    }
+
 }
