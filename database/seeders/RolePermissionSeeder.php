@@ -32,11 +32,9 @@ class RolePermissionSeeder extends Seeder
         
         $dosenList = Dosen::all();
         foreach ($dosenList as $dosen) {
-            // Buat email dari nama (lowercase, tanpa spasi)
             $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dosen->nama));
             $email = $emailBase . '@gmail.com';
             
-            // Cek jika email sudah ada, tambahkan angka
             $counter = 1;
             $originalEmail = $email;
             while (User::where('email', $email)->exists()) {

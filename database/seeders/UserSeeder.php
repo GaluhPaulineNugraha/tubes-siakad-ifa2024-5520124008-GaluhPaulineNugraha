@@ -21,14 +21,13 @@ class UserSeeder extends Seeder
             ]
         );
 
-        // 2. DOSEN - Buat user untuk semua dosen
+        // 2. DOSEN 
         $dosenList = Dosen::all();
         foreach ($dosenList as $dosen) {
             // Buat email dari nama
             $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dosen->nama));
             $email = $emailBase . '@gmail.com';
             
-            // Cek jika email sudah ada, tambahkan angka
             $counter = 1;
             $originalEmail = $email;
             while (User::where('email', $email)->exists()) {
@@ -47,14 +46,12 @@ class UserSeeder extends Seeder
             );
         }
 
-        // 3. MAHASISWA - Buat user untuk semua mahasiswa
+        // 3. MAHASISWA 
         $mahasiswaList = Mahasiswa::all();
         foreach ($mahasiswaList as $mhs) {
-            // Buat email dari nama
             $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $mhs->nama));
             $email = $emailBase . '@gmail.com';
             
-            // Cek jika email sudah ada, tambahkan angka
             $counter = 1;
             $originalEmail = $email;
             while (User::where('email', $email)->exists()) {

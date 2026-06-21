@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="mb-1 fw-semibold">Dashboard Mahasiswa</h4>

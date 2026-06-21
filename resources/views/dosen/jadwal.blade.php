@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="mb-1 fw-semibold">Jadwal Mengajar Saya</h4>
@@ -18,13 +17,11 @@
         </div>
     </div>
 
-    <!-- Alert Info -->
     <div class="alert alert-info mb-4 border-0 rounded-4 shadow-sm">
         <i class="fas fa-info-circle me-2"></i>
         Jadwal mengajar ini dikelola oleh Admin. Jika ada perubahan, silakan hubungi Admin.
     </div>
 
-    <!-- Tabel Jadwal -->
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body p-0">
             <div class="table-responsive">

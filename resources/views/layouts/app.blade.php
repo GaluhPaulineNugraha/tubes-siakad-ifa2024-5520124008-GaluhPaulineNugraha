@@ -12,7 +12,6 @@
         * { font-family: 'Inter', sans-serif; }
         body { background: #f7f9fc; }
 
-        /* SIDEBAR */
         .sidebar {
             width: 280px;
             background: #ffffff;
@@ -125,7 +124,6 @@
             border-radius: 10px;
         }
 
-        /* SIDEBAR TOGGLE - Hanya tampil di mobile */
         .sidebar-toggle {
             display: none;
             position: fixed;
@@ -145,7 +143,6 @@
             background: #f7fafc;
         }
 
-        /* SIDEBAR OVERLAY (untuk mobile) */
         .sidebar-overlay {
             display: none;
             position: fixed;
@@ -160,14 +157,12 @@
             display: block;
         }
 
-        /* MAIN CONTENT */
         .main-content {
             margin-left: 280px;
             padding: 24px 32px;
             transition: all 0.3s;
         }
 
-        /* NAVBAR TOP */
         .navbar-top {
             background: #ffffff;
             padding: 12px 24px;
@@ -188,7 +183,6 @@
             background: #f7fafc;
         }
 
-        /* CARDS */
         .card {
             border-radius: 20px;
             border: 1px solid #edf2f7;
@@ -204,7 +198,6 @@
             border-radius: 20px 20px 0 0 !important;
         }
 
-        /* BUTTONS */
         .btn-primary {
             background: #3182ce;
             border: none;
@@ -254,7 +247,6 @@
             font-size: 12px;
         }
 
-        /* TABLES - Responsive */
         .table-responsive {
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
@@ -285,7 +277,6 @@
             background: #fafbfc;
         }
 
-        /* BADGES */
         .badge {
             padding: 4px 12px;
             border-radius: 20px;
@@ -305,7 +296,6 @@
             color: #975a16;
         }
 
-        /* ALERTS */
         .alert {
             border-radius: 16px;
             border: none;
@@ -334,7 +324,7 @@
             background: #f7fafc;
         }
 
-        /* STATISTIK CARDS - Responsif */
+      
         .stat-card {
             background: #ffffff;
             border-radius: 20px;
@@ -343,7 +333,6 @@
             height: 100%;
         }
 
-        /* RESPONSIVE */
         @media (max-width: 992px) {
             .sidebar {
                 margin-left: -280px;

@@ -8,7 +8,6 @@
                 <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Jadwal Perkuliahan</h5>
             </div>
             <div class="card-body">
-                <!-- TAMPILKAN ERROR BENTROK -->
                 @if(session('error'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
                     <i class="fas fa-exclamation-triangle me-2"></i>

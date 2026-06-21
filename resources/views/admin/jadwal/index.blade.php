@@ -30,7 +30,6 @@
                 </div>
                 @endif
 
-                <!-- TABS KELAS -->
                 <ul class="nav nav-pills mb-4 gap-2 flex-wrap" id="kelasTab" role="tablist">
                     @php
                         $kelasList = ['A', 'B', 'C', 'D', 'E'];
@@ -52,11 +51,9 @@
                     @endforeach
                 </ul>
 
-                <!-- CONTENT TAB -->
                 <div class="tab-content" id="kelasTabContent">
                     @foreach($kelasList as $kelas)
                     @php
-                        // AMBIL DATA PER KELAS (SUDAH TERURUT DARI CONTROLLER)
                         $jadwalKelas = $jadwal->where('kelas', $kelas);
                     @endphp
                     <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="kelas-{{ strtolower($kelas) }}" role="tabpanel">
@@ -115,15 +112,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- TOTAL - DIHAPUS -->
-                        {{-- 
-                        <div class="mt-2 text-end">
-                            <small class="text-muted">
-                                <i class="fas fa-info-circle me-1"></i>
-                                Total <strong>{{ $jadwalKelas->count() }}</strong> Jadwal Kelas {{ $kelas }}
-                            </small>
-                        </div>
-                        --}}
                         @else
                         <div class="text-center py-4 text-muted">
                             <i class="fas fa-inbox fa-2x mb-2 d-block"></i>

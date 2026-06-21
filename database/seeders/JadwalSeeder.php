@@ -11,7 +11,6 @@ class JadwalSeeder extends Seeder
 {
     public function run(): void
     {
-        // Hapus semua jadwal lama
         Jadwal::truncate();
 
         $dosen = Dosen::all();

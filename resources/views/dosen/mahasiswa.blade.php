@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="mb-1 fw-semibold">Mahasiswa Bimbingan</h4>
@@ -18,7 +17,7 @@
         </div>
     </div>
 
-    <!-- Statistik Ringkas - TANPA RATA-RATA MK -->
+    <!-- Statistik -->
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">

@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-2 px-md-4">
-    <!-- Header -->
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
         <div>
             <h4 class="mb-1 fw-semibold">Dashboard Admin</h4>
@@ -183,26 +182,22 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // ==========================================
-    // 1. GRAFIK JADWAL PER HARI
-    // ==========================================
+   
+    // GRAFIK JADWAL PER HARI
     const ctxJadwal = document.getElementById('jadwalChart').getContext('2d');
-    
-    // Data dari server (dikirim dari controller)
+   
     const hariLabels = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
     const jadwalData = @json($jadwalPerHari ?? []);
     
-    // Warna gradasi untuk grafik
     const colors = [
-        '#4F46E5', // Indigo
-        '#7C3AED', // Violet
-        '#2563EB', // Blue
-        '#0891B2', // Cyan
-        '#059669', // Emerald
-        '#D97706'  // Amber
+        '#4F46E5',
+        '#7C3AED', 
+        '#2563EB', 
+        '#0891B2', 
+        '#059669',
+        '#D97706' 
     ];
     
-    // Warna background dengan opacity
     const backgroundColors = colors.map(c => c + '40');
     
     const jadwalChart = new Chart(ctxJadwal, {
@@ -271,15 +266,13 @@
         }
     });
 
-    // ==========================================
-    // 2. GRAFIK MAHASISWA PER DOSEN WALI
-    // ==========================================
+   
+    // GRAFIK MAHASISWA PER DOSEN WALI
     const ctxMahasiswa = document.getElementById('mahasiswaChart').getContext('2d');
     
     const dosenLabels = @json($dosenWaliLabels ?? []);
     const mahasiswaData = @json($mahasiswaPerDosen ?? []);
     
-    // Warna gradasi untuk batang horizontal
     const colors2 = [
         '#4F46E5', '#7C3AED', '#2563EB', '#0891B2', 
         '#059669', '#D97706', '#DC2626', '#7C3AED'
@@ -353,9 +346,8 @@
         }
     });
 
-    // ==========================================
-    // 3. FUNGSI REFRESH CHART
-    // ==========================================
+    
+    // FUNGSI REFRESH CHART
     function refreshChart(chartId) {
         if (chartId === 'jadwalChart') {
             // Refresh data dari server (AJAX)

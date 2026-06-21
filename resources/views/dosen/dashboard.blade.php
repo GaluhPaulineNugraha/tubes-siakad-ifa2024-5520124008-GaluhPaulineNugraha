@@ -2,7 +2,6 @@
 
 @section('content')
 <div class="container-fluid px-4">
-    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="mb-1 fw-semibold">Dashboard Dosen</h4>
@@ -62,7 +61,6 @@
         </div>
     </div>
 
-    <!-- Data Terbaru -->
     <div class="row g-4">
         <div class="col-md-6">
             <div class="card border-0 shadow-sm rounded-4">
