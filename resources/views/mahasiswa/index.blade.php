@@ -16,7 +16,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <!-- Form Search -->
+                <!-- Search -->
                 <div class="row mb-3">
                     <div class="col-md-4">
                         <form action="{{ route('mahasiswa.index') }}" method="GET" class="d-flex">
@@ -34,25 +34,34 @@
                     </div>
                 </div>
 
-                <!-- Tabel Data -->
+                <!-- Tabel -->
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover align-middle">
                         <thead class="table-light">
                             <tr>
                                 <th width="5%" class="text-center">No</th>
                                 <th width="15%">NPM</th>
-                                <th width="35%">Nama Mahasiswa</th>
-                                <th width="25%">Dosen Wali</th>
+                                <th width="30%">Nama Mahasiswa</th>
+                                <th width="20%">Dosen Wali</th>
+                                <th width="10%" class="text-center">Status</th>
                                 <th width="20%" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($mahasiswa as $index => $item)
+                            @php
+                                $status = App\Models\KRS::where('npm', $item->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
+                            @endphp
                             <tr>
                                 <td class="text-center">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $loop->iteration }}</td>
                                 <td><strong>{{ $item->npm }}</strong></td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->dosen->nama ?? '-' }}</td>
+                                <td class="text-center">
+                                    <span class="badge {{ $status == 'Aktif' ? 'bg-success' : 'bg-danger' }}">
+                                        {{ $status }}
+                                    </span>
+                                </td>
                                 <td class="text-center">
                                     <a href="{{ route('mahasiswa.edit', $item->npm) }}" class="btn btn-warning btn-sm rounded-pill">
                                         <i class="fas fa-edit me-1"></i> Edit
@@ -68,7 +77,7 @@
                             </tr>
                             @empty
                             <tr>
-                                <td colspan="5" class="text-center py-5 text-muted">
+                                <td colspan="6" class="text-center py-5 text-muted">
                                     <i class="fas fa-inbox fa-3x mb-3 d-block"></i>
                                     <h6>Tidak ada data mahasiswa</h6>
                                     <small>Silakan tambah data baru</small>
@@ -88,7 +97,7 @@
     </div>
 </div>
 
-<!-- Modal Konfirmasi Hapus -->
+<!-- Modal Hapus -->
 <div class="modal fade" id="deleteModal" tabindex="-1" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content border-0 shadow-lg rounded-4">

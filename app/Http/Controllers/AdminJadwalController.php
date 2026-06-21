@@ -23,7 +23,12 @@ class AdminJadwalController extends Controller
             });
         }
         
-        $jadwal = $query->orderBy('hari')->paginate(10);
+        // SORTING: Berdasarkan Hari (Senin - Jumat) lalu Jam
+        $hariOrder = "FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')";
+        $jadwal = $query->orderByRaw($hariOrder)
+                        ->orderBy('jam')
+                        ->get();
+        
         return view('admin.jadwal.index', compact('jadwal'));
     }
 
@@ -44,7 +49,27 @@ class AdminJadwalController extends Controller
             'jam' => 'required',
         ]);
 
-        Jadwal::create($request->all());
+        $jamInput = date('H:i', strtotime($request->jam));
+
+        $bentrok = Jadwal::where('hari', $request->hari)
+            ->where('kelas', $request->kelas)
+            ->whereRaw("TIME_FORMAT(jam, '%H:%i') = ?", [$jamInput])
+            ->exists();
+
+        if ($bentrok) {
+            return back()->with('error', 'Jadwal bentrok! Pada hari ' . $request->hari . ', kelas ' . $request->kelas . ' jam ' . $jamInput . ' sudah terisi.')
+                   ->withInput();
+        }
+
+        $jam = date('Y-m-d H:i:s', strtotime($request->jam));
+
+        Jadwal::create([
+            'kode_matakuliah' => $request->kode_matakuliah,
+            'nidn' => $request->nidn,
+            'kelas' => $request->kelas,
+            'hari' => $request->hari,
+            'jam' => $jam,
+        ]);
 
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil ditambahkan');
     }
@@ -67,8 +92,30 @@ class AdminJadwalController extends Controller
             'jam' => 'required',
         ]);
 
+        $jamInput = date('H:i', strtotime($request->jam));
+
+        $bentrok = Jadwal::where('hari', $request->hari)
+            ->where('kelas', $request->kelas)
+            ->whereRaw("TIME_FORMAT(jam, '%H:%i') = ?", [$jamInput])
+            ->where('id', '!=', $id)
+            ->exists();
+
+        if ($bentrok) {
+            return back()->with('error', 'Jadwal bentrok! Pada hari ' . $request->hari . ', kelas ' . $request->kelas . ' jam ' . $jamInput . ' sudah terisi.')
+                   ->withInput();
+        }
+
         $jadwal = Jadwal::findOrFail($id);
-        $jadwal->update($request->all());
+        
+        $jam = date('Y-m-d H:i:s', strtotime($request->jam));
+
+        $jadwal->update([
+            'kode_matakuliah' => $request->kode_matakuliah,
+            'nidn' => $request->nidn,
+            'kelas' => $request->kelas,
+            'hari' => $request->hari,
+            'jam' => $jam,
+        ]);
 
         return redirect()->route('admin.jadwal.index')->with('success', 'Jadwal berhasil diupdate');
     }

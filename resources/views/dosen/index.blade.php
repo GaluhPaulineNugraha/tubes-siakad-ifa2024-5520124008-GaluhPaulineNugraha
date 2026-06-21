@@ -17,7 +17,6 @@
                     </div>
                 </div>
                 <div class="card-body p-2 p-md-4">
-                    <!-- Search -->
                     <div class="row mb-3">
                         <div class="col-12 col-md-4">
                             <form action="{{ route('dosen.index') }}" method="GET" class="d-flex">
@@ -35,7 +34,6 @@
                         </div>
                     </div>
 
-                    <!-- Table -->
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
                             <thead class="table-light">
@@ -57,14 +55,17 @@
                                             <a href="{{ route('dosen.edit', $item->nidn) }}" class="btn btn-warning btn-sm rounded-pill">
                                                 <i class="fas fa-edit me-1"></i> Edit
                                             </a>
-                                            <button type="button" class="btn btn-danger btn-sm rounded-pill" onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
+                                            <button type="button" class="btn btn-danger btn-sm rounded-pill" 
+                                                    onclick="confirmDelete('{{ $item->nidn }}', '{{ addslashes($item->nama) }}')">
                                                 <i class="fas fa-trash me-1"></i> Hapus
                                             </button>
-                                            <form id="delete-form-{{ $item->nidn }}" action="{{ route('dosen.destroy', $item->nidn) }}" method="POST" style="display: none;">
-                                                @csrf
-                                                @method('DELETE')
-                                            </form>
                                         </div>
+                                        <form id="delete-form-{{ $item->nidn }}" 
+                                              action="{{ route('dosen.destroy', $item->nidn) }}" 
+                                              method="POST" style="display: none;">
+                                            @csrf
+                                            @method('DELETE')
+                                        </form>
                                     </td>
                                 </tr>
                                 @empty
@@ -80,7 +81,6 @@
                         </table>
                     </div>
 
-                    <!-- Pagination -->
                     <div class="d-flex justify-content-center mt-3">
                         {{ $dosen->appends(request()->query())->links('pagination::bootstrap-5') }}
                     </div>
@@ -102,9 +102,9 @@
             </div>
             <div class="modal-body p-4 text-center">
                 <div class="mb-3">
-                    <i class="fas fa-trash-alt fa-4x text-danger"></i>
+                    <i class="fas fa-chalkboard-user fa-4x text-danger"></i>
                 </div>
-                <h5 class="mb-2">Yakin ingin menghapus data ini?</h5>
+                <h5 class="mb-2">Yakin ingin menghapus data dosen ini?</h5>
                 <p class="text-muted mb-0" id="deleteMessage">Data yang dihapus tidak dapat dikembalikan!</p>
             </div>
             <div class="modal-footer border-0 justify-content-center pb-4">

@@ -7,15 +7,17 @@
     </div>
 
     <ul class="sidebar-nav">
-       
+        <!-- Dashboard -->
+        @if(Auth::user()->email == 'admin@gmail.com' || Auth::user()->mahasiswa_id != null)
         <li class="nav-item">
             <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
                 <i class="fas fa-tachometer-alt"></i>
                 <span>Dashboard</span>
             </a>
         </li>
+        @endif
 
-        
+        <!-- Admin Menu -->
         @if(Auth::user()->email == 'admin@gmail.com')
         <li class="nav-item has-submenu">
             <a href="#" class="nav-link {{ request()->routeIs('dosen.*') || request()->routeIs('mahasiswa.*') || request()->routeIs('matakuliah.*') ? 'active' : '' }}" data-submenu="data-master">
@@ -61,7 +63,7 @@
         </li>
         @endif
 
-       
+        <!-- Dosen Menu -->
         @if(Auth::user()->nidn != null)
         <li class="nav-item">
             <a href="{{ route('dosen.dashboard') }}" class="nav-link {{ request()->routeIs('dosen.dashboard') ? 'active' : '' }}">
@@ -83,7 +85,7 @@
         </li>
         @endif
 
-       
+        <!-- Mahasiswa Menu -->
         @if(Auth::user()->mahasiswa_id != null)
         <li class="nav-item">
             <a href="{{ route('krs.index') }}" class="nav-link {{ request()->routeIs('krs.index') ? 'active' : '' }}">

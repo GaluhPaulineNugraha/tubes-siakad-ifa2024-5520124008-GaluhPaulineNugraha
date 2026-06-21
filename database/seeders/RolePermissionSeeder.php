@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use App\Models\User;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
+use Illuminate\Support\Facades\Hash;
 
 class RolePermissionSeeder extends Seeder
 {
@@ -18,7 +19,7 @@ class RolePermissionSeeder extends Seeder
         Role::firstOrCreate(['name' => 'dosen']);
         Role::firstOrCreate(['name' => 'mahasiswa']);
         
-        // ADMIN
+        
         $admin = User::updateOrCreate(
             ['email' => 'admin@gmail.com'],
             [
@@ -28,11 +29,23 @@ class RolePermissionSeeder extends Seeder
         );
         $admin->assignRole('admin');
         
-        // DOSEN
+        
         $dosenList = Dosen::all();
         foreach ($dosenList as $dosen) {
+            // Buat email dari nama (lowercase, tanpa spasi)
+            $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dosen->nama));
+            $email = $emailBase . '@gmail.com';
+            
+            // Cek jika email sudah ada, tambahkan angka
+            $counter = 1;
+            $originalEmail = $email;
+            while (User::where('email', $email)->exists()) {
+                $email = str_replace('@gmail.com', $counter . '@gmail.com', $originalEmail);
+                $counter++;
+            }
+            
             $userDosen = User::updateOrCreate(
-                ['email' => $dosen->nama . '@gmail.com'],
+                ['email' => $email],
                 [
                     'name' => $dosen->nama,
                     'password' => bcrypt('dosen12345'),
@@ -42,11 +55,23 @@ class RolePermissionSeeder extends Seeder
             $userDosen->assignRole('dosen');
         }
         
-        // MAHASISWA
+        
         $mahasiswaList = Mahasiswa::all();
         foreach ($mahasiswaList as $mhs) {
+           
+            $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $mhs->nama));
+            $email = $emailBase . '@gmail.com';
+            
+           
+            $counter = 1;
+            $originalEmail = $email;
+            while (User::where('email', $email)->exists()) {
+                $email = str_replace('@gmail.com', $counter . '@gmail.com', $originalEmail);
+                $counter++;
+            }
+            
             $userMhs = User::updateOrCreate(
-                ['email' => $mhs->nama . '@gmail.com'],
+                ['email' => $email],
                 [
                     'name' => $mhs->nama,
                     'password' => bcrypt('mahasiswa12345'),

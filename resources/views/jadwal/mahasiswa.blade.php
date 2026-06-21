@@ -15,11 +15,6 @@
                     </div>
                 </div>
             </div>
-            <div class="card-body">
-                <div class="alert alert-info mb-4 border-0 rounded-4 shadow-sm">
-                    <i class="fas fa-info-circle me-2"></i>
-                    Jadwal diurutkan berdasarkan <strong>Hari</strong> (Senin s/d Jumat)
-                </div>
 
                 @if($jadwal->count() > 0)
                 <div class="table-responsive">
@@ -84,16 +79,6 @@
                             @endforelse
                         </tbody>
                     </table>
-                </div>
-
-                <!-- EXPORT PDF DI BAWAH TABEL -->
-                <div class="d-flex justify-content-between align-items-center mt-4 pt-3 border-top">
-                    <div>
-                        <small class="text-muted">
-                            <i class="fas fa-info-circle me-1"></i>
-                            Total {{ $jadwal->count() }} Mata Kuliah
-                        </small>
-                    </div>
                 </div>
 
                 @else

@@ -15,6 +15,8 @@ class DosenSeeder extends Seeder
             ['nidn' => '1234567803', 'nama' => 'Dr. Budi Santoso, M.Eng'],
             ['nidn' => '1234567804', 'nama' => 'Dewi Lestari, S.Kom, M.Kom'],
             ['nidn' => '1234567805', 'nama' => 'Dr. Eko Prasetyo, M.Kom'],
+            ['nidn' => '1234567806', 'nama' => 'Dr. Fitriani Rahayu, M.Pd'],
+            ['nidn' => '1234567807', 'nama' => 'Dr. Gatot Subroto, M.Kom'],
         ];
         
         foreach ($data as $d) {

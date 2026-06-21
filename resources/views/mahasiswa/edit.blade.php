@@ -8,6 +8,10 @@
                 <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Mahasiswa</h5>
             </div>
             <div class="card-body">
+                @php
+                    $status = App\Models\KRS::where('npm', $mahasiswa->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
+                @endphp
+
                 <form action="{{ route('mahasiswa.update', $mahasiswa->npm) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -16,7 +20,7 @@
                         <div class="col-md-6 mb-3">
                             <label class="form-label fw-bold">NPM <span class="text-danger">*</span></label>
                             <input type="text" name="npm" class="form-control @error('npm') is-invalid @enderror" 
-                                   value="{{ old('npm', $mahasiswa->npm) }}" required maxlength="10" readonly style="background: #f0f0f0;">
+                                   value="{{ old('npm', $mahasiswa->npm) }}" readonly style="background: #f0f0f0;">
                             <small class="text-muted">NPM tidak dapat diubah</small>
                             @error('npm')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -24,13 +28,19 @@
                         </div>
                         
                         <div class="col-md-6 mb-3">
-                            <label class="form-label fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
-                            <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" 
-                                   value="{{ old('nama', $mahasiswa->nama) }}" required>
-                            @error('nama')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <label class="form-label fw-bold">Status</label>
+                            <input type="text" class="form-control" value="{{ $status }}" readonly style="background: #f0f0f0;">
+                            <small class="text-muted">Status ditentukan berdasarkan pengambilan KRS</small>
                         </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Nama Lengkap <span class="text-danger">*</span></label>
+                        <input type="text" name="nama" class="form-control @error('nama') is-invalid @enderror" 
+                               value="{{ old('nama', $mahasiswa->nama) }}" required>
+                        @error('nama')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
                     </div>
                     
                     <div class="mb-3">

@@ -21,14 +21,14 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
                             <small class="text-muted text-uppercase">Mata Kuliah Diambil</small>
-                            <h2 class="mb-0 fw-bold mt-1">{{ $totalMatakuliah }}</h2>
+                            <h2 class="mb-0 fw-bold mt-1">{{ $totalMatakuliah ?? 0 }}</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #e8f0fe;">
                             <i class="fas fa-book fa-2x text-primary"></i>
                         </div>
                     </div>
                     <div class="progress mt-3" style="height: 6px;">
-                        <div class="progress-bar bg-primary" style="width: {{ min(100, ($totalMatakuliah/10)*100) }}%"></div>
+                        <div class="progress-bar bg-primary" style="width: {{ min(100, (($totalMatakuliah ?? 0)/10)*100) }}%"></div>
                     </div>
                     <small class="text-muted mt-2 d-block">Maksimal 10 Mata Kuliah</small>
                 </div>
@@ -40,16 +40,16 @@
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
                             <small class="text-muted text-uppercase">Total SKS</small>
-                            <h2 class="mb-0 fw-bold mt-1">{{ $totalSks }} / 24</h2>
+                            <h2 class="mb-0 fw-bold mt-1">{{ $totalSks ?? 0 }} / 24</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #e6f4ea;">
                             <i class="fas fa-star fa-2x text-success"></i>
                         </div>
                     </div>
                     <div class="progress mt-3" style="height: 6px;">
-                        <div class="progress-bar bg-success" style="width: {{ min(100, ($totalSks/24)*100) }}%"></div>
+                        <div class="progress-bar bg-success" style="width: {{ min(100, (($totalSks ?? 0)/24)*100) }}%"></div>
                     </div>
-                    <small class="text-muted mt-2 d-block">Sisa kuota: {{ 24 - $totalSks }} SKS</small>
+                    <small class="text-muted mt-2 d-block">Sisa kuota: {{ 24 - ($totalSks ?? 0) }} SKS</small>
                 </div>
             </div>
         </div>
@@ -58,23 +58,22 @@
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center mb-3">
                         <div>
-                            <small class="text-muted text-uppercase">IPK Semester Ini</small>
-                            <h2 class="mb-0 fw-bold mt-1">3.25</h2>
+                            <small class="text-muted text-uppercase">Status</small>
+                            <h2 class="mb-0 fw-bold mt-1 text-success">Aktif</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #fef3e6;">
-                            <i class="fas fa-chart-line fa-2x text-warning"></i>
+                            <i class="fas fa-check-circle fa-2x text-success"></i>
                         </div>
                     </div>
                     <div class="progress mt-3" style="height: 6px;">
-                        <div class="progress-bar bg-warning" style="width: 65%"></div>
+                        <div class="progress-bar bg-success" style="width: 100%"></div>
                     </div>
-                    <small class="text-muted mt-2 d-block">Predikat: Memuaskan</small>
+                    <small class="text-muted mt-2 d-block">Semester Genap 2024/2025</small>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Informasi Mahasiswa -->
     <div class="card border-0 shadow-sm rounded-4 mb-4">
         <div class="card-body p-4">
             <h6 class="fw-semibold mb-3">
@@ -117,7 +116,7 @@
         </div>
     </div>
 
-    <!-- Mata Kuliah yang Diambil -->
+    
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-header bg-white border-0 pt-4 pb-0 px-4 d-flex justify-content-between align-items-center">
             <h6 class="fw-semibold mb-0">
@@ -140,7 +139,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($latestKRS as $index => $krs)
+                        @forelse($latestKRS ?? [] as $index => $krs)
                         <tr>
                             <td class="text-center">{{ $index + 1 }}</td>
                             <td><strong>{{ $krs->matakuliah->kode_matakuliah ?? '-' }}</strong></td>
@@ -162,12 +161,12 @@
         </div>
     </div>
 
-    <!-- Catatan -->
+    
     <div class="alert alert-info mt-4">
         <i class="fas fa-info-circle me-2"></i>
         <strong>Informasi:</strong> Maksimal pengambilan SKS adalah 24 SKS per semester.
-        @if($totalSks < 24)
-            Anda masih dapat mengambil {{ 24 - $totalSks }} SKS lagi.
+        @if(($totalSks ?? 0) < 24)
+            Anda masih dapat mengambil {{ 24 - ($totalSks ?? 0) }} SKS lagi.
         @else
             Kuota SKS Anda sudah penuh.
         @endif

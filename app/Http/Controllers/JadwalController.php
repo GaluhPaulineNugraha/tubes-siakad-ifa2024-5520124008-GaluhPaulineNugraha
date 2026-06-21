@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Jadwal;
 use App\Models\KRS;
 use App\Models\Mahasiswa;
+use App\Models\Dosen;
+use App\Models\Matakuliah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -51,7 +53,6 @@ class JadwalController extends Controller
         return view('jadwal.mahasiswa', compact('jadwal', 'mahasiswa'));
     }
 
-    // EXPORT PDF JADWAL MAHASISWA
     public function exportPdf()
     {
         $user = Auth::user();

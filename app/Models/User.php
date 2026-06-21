@@ -40,4 +40,34 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Dosen::class, 'nidn', 'nidn');
     }
+    
+    
+    public function hasRole($role)
+    {
+        if ($role == 'admin' && $this->email == 'admin@gmail.com') {
+            return true;
+        }
+        if ($role == 'dosen' && $this->nidn != null) {
+            return true;
+        }
+        if ($role == 'mahasiswa' && $this->mahasiswa_id != null) {
+            return true;
+        }
+        return false;
+    }
+    
+  
+    public function getRole()
+    {
+        if ($this->email == 'admin@gmail.com') {
+            return 'admin';
+        }
+        if ($this->nidn != null) {
+            return 'dosen';
+        }
+        if ($this->mahasiswa_id != null) {
+            return 'mahasiswa';
+        }
+        return 'guest';
+    }
 }

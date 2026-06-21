@@ -75,6 +75,47 @@ class MatakuliahController extends Controller
 
     public function exportExcel()
     {
-        return Excel::download(new MatakuliahExport, 'data_matakuliah_' . date('Ymd_His') . '.xlsx');
+        try {
+            $matakuliah = Matakuliah::all();
+            
+            $data = [];
+            $no = 1;
+            foreach ($matakuliah as $m) {
+                $data[] = [
+                    $no++,
+                    $m->kode_matakuliah,
+                    $m->nama_matakuliah,
+                    $m->sks,
+                ];
+            }
+            
+            return Excel::download(
+                new class($data) implements 
+                    \Maatwebsite\Excel\Concerns\FromArray, 
+                    \Maatwebsite\Excel\Concerns\WithHeadings 
+                {
+                    private $data;
+                    
+                    public function __construct($data)
+                    {
+                        $this->data = $data;
+                    }
+                    
+                    public function array(): array
+                    {
+                        return $this->data;
+                    }
+                    
+                    public function headings(): array
+                    {
+                        return ['NO', 'KODE MK', 'NAMA MATA KULIAH', 'SKS'];
+                    }
+                }, 
+                'data_matakuliah_' . date('Ymd_His') . '.xlsx'
+            );
+            
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal export Excel: ' . $e->getMessage());
+        }
     }
 }

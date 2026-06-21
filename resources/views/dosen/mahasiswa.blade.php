@@ -18,9 +18,9 @@
         </div>
     </div>
 
-    <!-- Statistik Ringkas -->
+    <!-- Statistik Ringkas - TANPA RATA-RATA MK -->
     <div class="row g-3 mb-4">
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
@@ -35,7 +35,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
@@ -52,7 +52,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-between align-items-center">
@@ -62,23 +62,6 @@
                         </div>
                         <div class="rounded-3 p-3" style="background: #fef3e6;">
                             <i class="fas fa-check-circle fa-2x text-success"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card border-0 shadow-sm rounded-4">
-                <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-muted text-uppercase">Rata-rata MK</small>
-                            <h2 class="mb-0 fw-bold mt-1">
-                                {{ $mahasiswa->count() > 0 ? round($mahasiswa->sum(function($m) { return App\Models\KRS::where('npm', $m->npm)->count(); }) / $mahasiswa->count(), 1) : 0 }}
-                            </h2>
-                        </div>
-                        <div class="rounded-3 p-3" style="background: #e6f7ff;">
-                            <i class="fas fa-chart-bar fa-2x text-info"></i>
                         </div>
                     </div>
                 </div>
@@ -104,6 +87,7 @@
                         @forelse($mahasiswa as $index => $mhs)
                         @php
                             $jumlahMK = App\Models\KRS::where('npm', $mhs->npm)->count();
+                            $status = $jumlahMK > 0 ? 'Aktif' : 'Tidak Aktif';
                         @endphp
                         <tr>
                             <td class="text-center">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $loop->iteration }}</td>
@@ -119,10 +103,17 @@
                                 </span>
                             </td>
                             <td class="text-center">
+                                @if($status == 'Aktif')
                                 <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">
                                     <span class="d-inline-block rounded-circle bg-success me-1" style="width: 6px; height: 6px;"></span>
                                     Aktif
                                 </span>
+                                @else
+                                <span class="badge bg-danger bg-opacity-10 text-danger px-3 py-2">
+                                    <span class="d-inline-block rounded-circle bg-danger me-1" style="width: 6px; height: 6px;"></span>
+                                    Tidak Aktif
+                                </span>
+                                @endif
                             </td>
                         </tr>
                         @empty
@@ -145,14 +136,6 @@
             </div>
         </div>
         @endif
-    </div>
-
-    <!-- Total -->
-    <div class="mt-3">
-        <small class="text-muted">
-            <i class="fas fa-info-circle me-1"></i>
-            Total {{ $mahasiswa->total() }} Mahasiswa Bimbingan
-        </small>
     </div>
 </div>
 @endsection

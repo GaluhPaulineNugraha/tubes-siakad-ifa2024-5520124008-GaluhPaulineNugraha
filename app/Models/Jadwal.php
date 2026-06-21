@@ -9,9 +9,6 @@ class Jadwal extends Model
     protected $table = 'jadwal';
     protected $fillable = ['kode_matakuliah', 'nidn', 'kelas', 'hari', 'jam'];
 
-    protected $casts = [
-        'jam' => 'datetime',
-    ];
 
     public function matakuliah()
     {

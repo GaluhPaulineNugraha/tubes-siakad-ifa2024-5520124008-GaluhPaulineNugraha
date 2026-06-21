@@ -8,6 +8,23 @@
                 <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Jadwal Perkuliahan</h5>
             </div>
             <div class="card-body">
+                <!-- TAMPILKAN ERROR BENTROK -->
+                @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-triangle me-2"></i>
+                    {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                @endif
+
+                @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle me-2"></i>
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+                @endif
+
                 <form action="{{ route('admin.jadwal.update', $jadwal->id) }}" method="POST">
                     @csrf
                     @method('PUT')
@@ -63,9 +80,9 @@
                         
                         <div class="col-md-4 mb-3">
                             <label class="form-label fw-bold">Jam <span class="text-danger">*</span></label>
-                            <input type="datetime-local" name="jam" class="form-control @error('jam') is-invalid @enderror" 
-                                   value="{{ old('jam', $jadwal->jam ? $jadwal->jam->format('Y-m-d\TH:i') : '') }}" required>
-                            <small class="text-muted">Format: HH:MM WIB</small>
+                            <input type="time" name="jam" class="form-control @error('jam') is-invalid @enderror" 
+                                   value="{{ old('jam', $jadwal->jam ? date('H:i', strtotime($jadwal->jam)) : '') }}" required>
+                            <small class="text-muted">Format: HH:MM (contoh: 08:00, 13:30)</small>
                             @error('jam')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

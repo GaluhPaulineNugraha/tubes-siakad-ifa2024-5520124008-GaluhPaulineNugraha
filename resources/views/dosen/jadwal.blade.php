@@ -43,7 +43,7 @@
                         <tr>
                             <td class="text-center">{{ ($jadwal->currentPage() - 1) * $jadwal->perPage() + $loop->iteration }}</td>
                             <td>
-                                <span class="fw-semibold">{{ $j->matakuliah->nama_matakuliah }}</span>
+                                <span class="fw-semibold">{{ $j->matakuliah->nama_matakuliah ?? '-' }}</span>
                                 <br>
                                 <small class="text-muted">{{ $j->matakuliah->kode_matakuliah ?? '' }}</small>
                             </td>
@@ -82,14 +82,6 @@
             </div>
         </div>
         @endif
-    </div>
-
-    <!-- Total -->
-    <div class="mt-3">
-        <small class="text-muted">
-            <i class="fas fa-info-circle me-1"></i>
-            Total {{ $jadwal->total() }} Jadwal Mengajar
-        </small>
     </div>
 </div>
 @endsection

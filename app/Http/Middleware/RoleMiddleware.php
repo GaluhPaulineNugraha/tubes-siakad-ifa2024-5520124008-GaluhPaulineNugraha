@@ -16,15 +16,28 @@ class RoleMiddleware
         }
         
         $user = Auth::user();
+        $userRole = $this->getUserRole($user);
         
-        // Cek apakah user memiliki salah satu role yang diizinkan
         foreach ($roles as $role) {
-            if ($user->hasRole($role)) {
+            if ($userRole == $role) {
                 return $next($request);
             }
         }
         
-        // Jika tidak punya akses, lempar error 403
         abort(403, 'Unauthorized access. Anda tidak memiliki akses ke halaman ini.');
+    }
+    
+    private function getUserRole($user)
+    {
+        if ($user->email == 'admin@gmail.com') {
+            return 'admin';
+        }
+        if ($user->nidn != null) {
+            return 'dosen';
+        }
+        if ($user->mahasiswa_id != null) {
+            return 'mahasiswa';
+        }
+        return 'guest';
     }
 }

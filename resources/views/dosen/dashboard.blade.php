@@ -6,7 +6,7 @@
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
             <h4 class="mb-1 fw-semibold">Dashboard Dosen</h4>
-            <p class="text-muted small mb-0">Selamat datang, <strong>{{ $dosen->nama }}</strong></p>
+            <p class="text-muted small mb-0">Selamat datang, <strong>{{ $dosen->nama ?? '' }}</strong></p>
         </div>
         <div class="text-end">
             <small class="text-muted">{{ now()->format('l, d F Y') }}</small>
@@ -21,7 +21,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted text-uppercase">Mahasiswa Bimbingan</small>
-                            <h2 class="mb-0 fw-bold mt-1">{{ $totalMahasiswaBimbingan }}</h2>
+                            <h2 class="mb-0 fw-bold mt-1">{{ $totalMahasiswaBimbingan ?? 0 }}</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #e8f0fe;">
                             <i class="fas fa-users fa-2x text-primary"></i>
@@ -36,7 +36,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted text-uppercase">Jadwal Mengajar</small>
-                            <h2 class="mb-0 fw-bold mt-1">{{ $totalJadwalMengajar }}</h2>
+                            <h2 class="mb-0 fw-bold mt-1">{{ $totalJadwalMengajar ?? 0 }}</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #e6f4ea;">
                             <i class="fas fa-calendar-alt fa-2x text-success"></i>
@@ -51,7 +51,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <small class="text-muted text-uppercase">Total Pengambilan KRS</small>
-                            <h2 class="mb-0 fw-bold mt-1">{{ $totalKRS }}</h2>
+                            <h2 class="mb-0 fw-bold mt-1">{{ $totalKRS ?? 0 }}</h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #fef3e6;">
                             <i class="fas fa-clipboard-list fa-2x text-warning"></i>
@@ -75,10 +75,10 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    @forelse($jadwalTerbaru as $j)
+                    @forelse($jadwalTerbaru ?? [] as $j)
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                         <div>
-                            <div class="fw-semibold">{{ $j->matakuliah->nama_matakuliah }}</div>
+                            <div class="fw-semibold">{{ $j->matakuliah->nama_matakuliah ?? '-' }}</div>
                             <small class="text-muted">
                                 {{ $j->hari }}, 
                                 {{ date('H:i', strtotime($j->jam)) }}
@@ -106,7 +106,7 @@
                     </div>
                 </div>
                 <div class="card-body p-4">
-                    @forelse($mahasiswaBimbingan as $mhs)
+                    @forelse($mahasiswaBimbingan ?? [] as $mhs)
                     <div class="d-flex justify-content-between align-items-center mb-3 pb-2 border-bottom">
                         <div>
                             <div class="fw-semibold">{{ $mhs->nama }}</div>

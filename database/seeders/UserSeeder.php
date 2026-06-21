@@ -21,49 +21,52 @@ class UserSeeder extends Seeder
             ]
         );
 
-        // 2. DOSEN
+        // 2. DOSEN - Buat user untuk semua dosen
         $dosenList = Dosen::all();
         foreach ($dosenList as $dosen) {
-            $emailDosen = match($dosen->nidn) {
-                '1234567801' => 'ahmadrizki@gmail.com',
-                '1234567802' => 'profsitinurhaliza@gmail.com',
-                '1234567803' => 'drbudisantoso@gmail.com',
-                '1234567804' => 'dewilestari@gmail.com',
-                '1234567805' => 'drekoprasetyo@gmail.com',
-                default => strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dosen->nama)) . '@gmail.com',
-            };
+            // Buat email dari nama
+            $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $dosen->nama));
+            $email = $emailBase . '@gmail.com';
+            
+            // Cek jika email sudah ada, tambahkan angka
+            $counter = 1;
+            $originalEmail = $email;
+            while (User::where('email', $email)->exists()) {
+                $email = str_replace('@gmail.com', $counter . '@gmail.com', $originalEmail);
+                $counter++;
+            }
             
             User::updateOrCreate(
-                ['email' => $emailDosen],
+                ['nidn' => $dosen->nidn],
                 [
                     'name' => $dosen->nama,
+                    'email' => $email,
                     'password' => Hash::make('dosen12345'),
                     'nidn' => $dosen->nidn,
                 ]
             );
         }
 
-        // 3. MAHASISWA
+        // 3. MAHASISWA - Buat user untuk semua mahasiswa
         $mahasiswaList = Mahasiswa::all();
         foreach ($mahasiswaList as $mhs) {
-            $emailMhs = match($mhs->npm) {
-                '2024000001' => 'galuhpaulinenugraha@gmail.com',
-                '2024000002' => 'andisaputra@gmail.com',
-                '2024000003' => 'budiwijaya@gmail.com',
-                '2024000004' => 'citraamalia@gmail.com',
-                '2024000005' => 'dianpermata@gmail.com',
-                '2024000006' => 'ekasaputri@gmail.com',
-                '2024000007' => 'fajarnugroho@gmail.com',
-                '2024000008' => 'gitapuspita@gmail.com',
-                '2024000009' => 'hendragunawan@gmail.com',
-                '2024000010' => 'indahsari@gmail.com',
-                default => strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $mhs->nama)) . '@gmail.com',
-            };
+            // Buat email dari nama
+            $emailBase = strtolower(preg_replace('/[^a-zA-Z0-9]/', '', $mhs->nama));
+            $email = $emailBase . '@gmail.com';
+            
+            // Cek jika email sudah ada, tambahkan angka
+            $counter = 1;
+            $originalEmail = $email;
+            while (User::where('email', $email)->exists()) {
+                $email = str_replace('@gmail.com', $counter . '@gmail.com', $originalEmail);
+                $counter++;
+            }
             
             User::updateOrCreate(
-                ['email' => $emailMhs],
+                ['mahasiswa_id' => $mhs->npm],
                 [
                     'name' => $mhs->nama,
+                    'email' => $email,
                     'password' => Hash::make('mahasiswa12345'),
                     'mahasiswa_id' => $mhs->npm,
                 ]

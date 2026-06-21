@@ -38,9 +38,13 @@ class KRSController extends Controller
             
             $mahasiswa = Mahasiswa::all();
             
-            $totalSks = KRS::with('matakuliah')->get()->sum(function($krs) {
-                return $krs->matakuliah ? $krs->matakuliah->sks : 0;
-            });
+            $totalSks = 0;
+            $allKrs = KRS::with('matakuliah')->get();
+            foreach ($allKrs as $krs) {
+                if ($krs->matakuliah) {
+                    $totalSks += $krs->matakuliah->sks;
+                }
+            }
             
             return view('krs.admin_index', compact('krsList', 'mahasiswa', 'totalSks'));
         } else {
@@ -73,6 +77,10 @@ class KRSController extends Controller
         $user = Auth::user();
         $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
         
+        if (!$mahasiswa) {
+            return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
+        }
+        
         $validated = $request->validate([
             'kode_matakuliah' => 'required|exists:matakuliah,kode_matakuliah'
         ]);
@@ -95,6 +103,10 @@ class KRSController extends Controller
         
         $matakuliah = Matakuliah::find($validated['kode_matakuliah']);
         
+        if (!$matakuliah) {
+            return back()->with('error', 'Mata kuliah tidak ditemukan');
+        }
+        
         if ($currentSks + $matakuliah->sks > 24) {
             return back()->with('error', '❌ Total SKS melebihi batas maksimal 24 SKS! Anda sudah mengambil ' . $currentSks . ' SKS, sisa kuota ' . (24 - $currentSks) . ' SKS.');
         }
@@ -115,8 +127,8 @@ class KRSController extends Controller
         
         if (!$isAdmin) {
             $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
-            if ($krs->npm != $mahasiswa->npm) {
-                abort(403);
+            if (!$mahasiswa || $krs->npm != $mahasiswa->npm) {
+                abort(403, 'Unauthorized action.');
             }
         }
         
@@ -131,27 +143,31 @@ class KRSController extends Controller
     
     public function exportPdf()
     {
-        $user = Auth::user();
-        $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
-        
-        if (!$mahasiswa) {
-            return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
-        }
-        
-        $krsList = KRS::with(['matakuliah'])
-            ->where('npm', $mahasiswa->npm)
-            ->get();
-        
-        $totalSks = 0;
-        foreach ($krsList as $krs) {
-            if ($krs->matakuliah) {
-                $totalSks += $krs->matakuliah->sks;
+        try {
+            $user = Auth::user();
+            $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
+            
+            if (!$mahasiswa) {
+                return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
+            
+            $krsList = KRS::with(['matakuliah'])
+                ->where('npm', $mahasiswa->npm)
+                ->get();
+            
+            $totalSks = 0;
+            foreach ($krsList as $krs) {
+                if ($krs->matakuliah) {
+                    $totalSks += $krs->matakuliah->sks;
+                }
+            }
+            
+            $pdf = Pdf::loadView('krs.pdf', compact('krsList', 'mahasiswa', 'totalSks'));
+            $pdf->setPaper('A4', 'portrait');
+            return $pdf->download('KRS_' . $mahasiswa->npm . '_' . date('Ymd') . '.pdf');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal export PDF: ' . $e->getMessage());
         }
-        
-        $pdf = Pdf::loadView('krs.pdf', compact('krsList', 'mahasiswa', 'totalSks'));
-        $pdf->setPaper('A4', 'portrait');
-        return $pdf->download('KRS_' . $mahasiswa->npm . '_' . date('Ymd') . '.pdf');
     }
     
     public function exportExcel()
@@ -175,28 +191,30 @@ class KRSController extends Controller
                 ];
             }
             
-            $headers = ['NO', 'NPM', 'NAMA MAHASISWA', 'DOSEN WALI', 'KODE MK', 'NAMA MATA KULIAH', 'SKS', 'TANGGAL AMBIL'];
-            
-            return Excel::download(new class($data, $headers) implements \Maatwebsite\Excel\Concerns\FromArray, \Maatwebsite\Excel\Concerns\WithHeadings {
-                private $data;
-                private $headers;
-                
-                public function __construct($data, $headers)
+            return Excel::download(
+                new class($data) implements 
+                    \Maatwebsite\Excel\Concerns\FromArray, 
+                    \Maatwebsite\Excel\Concerns\WithHeadings 
                 {
-                    $this->data = $data;
-                    $this->headers = $headers;
-                }
-                
-                public function array(): array
-                {
-                    return $this->data;
-                }
-                
-                public function headings(): array
-                {
-                    return $this->headers;
-                }
-            }, 'laporan_krs_' . date('Ymd_His') . '.xlsx');
+                    private $data;
+                    
+                    public function __construct($data)
+                    {
+                        $this->data = $data;
+                    }
+                    
+                    public function array(): array
+                    {
+                        return $this->data;
+                    }
+                    
+                    public function headings(): array
+                    {
+                        return ['NO', 'NPM', 'NAMA MAHASISWA', 'DOSEN WALI', 'KODE MK', 'NAMA MATA KULIAH', 'SKS', 'TANGGAL AMBIL'];
+                    }
+                }, 
+                'laporan_krs_' . date('Ymd_His') . '.xlsx'
+            );
             
         } catch (\Exception $e) {
             return back()->with('error', 'Gagal export Excel: ' . $e->getMessage());

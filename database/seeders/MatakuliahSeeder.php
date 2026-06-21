@@ -20,6 +20,8 @@ class MatakuliahSeeder extends Seeder
             ['kode_matakuliah' => 'IF53408', 'nama_matakuliah' => 'Rekayasa Perangkat Lunak', 'sks' => 3],
             ['kode_matakuliah' => 'IF53409', 'nama_matakuliah' => 'Pemrograman Mobile', 'sks' => 3],
             ['kode_matakuliah' => 'IF53410', 'nama_matakuliah' => 'Kecerdasan Buatan', 'sks' => 3],
+            ['kode_matakuliah' => 'IF53411', 'nama_matakuliah' => 'Sistem Operasi', 'sks' => 3],
+            ['kode_matakuliah' => 'IF53412', 'nama_matakuliah' => 'Keamanan Informasi', 'sks' => 3],
         ];
         
         foreach ($data as $mk) {

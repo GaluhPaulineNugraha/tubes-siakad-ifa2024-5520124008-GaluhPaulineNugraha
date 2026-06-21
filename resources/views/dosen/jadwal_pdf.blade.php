@@ -17,7 +17,7 @@
         .data-table th { background-color: #0A2540; color: white; padding: 10px 12px; font-size: 11px; text-align: center; text-transform: uppercase; letter-spacing: 0.5px; }
         .data-table td { border: 1px solid #ddd; padding: 10px 12px; font-size: 11px; text-align: center; }
         .data-table tr:nth-child(even) { background-color: #f9f9f9; }
-        .footer { margin-top: 30px; text-align: center; border-top: 1px solid #ddd; padding-top: 15px; font-size: 10px; color: #999; }
+        .footer { margin-top: 30px; padding-top: 15px; border-top: 1px solid #ddd; font-size: 10px; color: #999; text-align: right; }
         .badge { background: #e8f0fe; color: #0A2540; padding: 2px 10px; border-radius: 12px; font-size: 10px; font-weight: 600; }
     </style>
 </head>
@@ -62,8 +62,8 @@
     </table>
 
     <div class="footer">
-        <span>📄 Dokumen resmi Jadwal Mengajar - Universitas Nugraha</span><br>
-        <span>Dicetak pada: {{ date('d/m/Y H:i:s') }}</span>
+        <div>Dokumen resmi Jadwal Mengajar - Universitas Nugraha</div>
+        <div>Dicetak pada: {{ date('d/m/Y H:i:s') }}</div>
     </div>
 </body>
 </html>

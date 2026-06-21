@@ -79,14 +79,13 @@
 <body>
     <div class="container-fluid px-0">
         <div class="main-content">
-            <!-- Top Navbar Publik -->
-            <nav class="navbar-top">
+            {{-- <nav class="navbar-top">
                 <div>
                     <a href="{{ route('login') }}" class="btn btn-primary btn-sm rounded-pill px-4">
                         <i class="fas fa-sign-in-alt me-1"></i> Login
                     </a>
                 </div>
-            </nav>
+            </nav> --}}
             
             @yield('content')
         </div>

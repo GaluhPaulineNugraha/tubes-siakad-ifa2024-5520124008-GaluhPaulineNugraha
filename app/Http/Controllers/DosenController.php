@@ -10,9 +10,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\DosenExport;
-use Barryvdh\DomPDF\Facade\Pdf;
 
 class DosenController extends Controller
 {
@@ -107,6 +107,10 @@ class DosenController extends Controller
         $user = Auth::user();
         $dosen = Dosen::where('nidn', $user->nidn)->first();
         
+        if (!$dosen) {
+            return redirect()->route('dashboard')->with('error', 'Data dosen tidak ditemukan');
+        }
+        
         $totalMahasiswaBimbingan = Mahasiswa::where('nidn', $dosen->nidn)->count();
         $totalJadwalMengajar = Jadwal::where('nidn', $dosen->nidn)->count();
         $totalKRS = KRS::whereIn('npm', Mahasiswa::where('nidn', $dosen->nidn)->pluck('npm'))->count();
@@ -155,13 +159,11 @@ class DosenController extends Controller
         return view('dosen.mahasiswa', compact('mahasiswa', 'dosen'));
     }
 
-    // EXPORT EXCEL
     public function exportExcel()
     {
         return Excel::download(new DosenExport, 'data_dosen_' . date('Ymd_His') . '.xlsx');
     }
 
-    // EXPORT PDF JADWAL MENGAJAR
     public function exportJadwalPdf()
     {
         $user = Auth::user();
@@ -177,7 +179,7 @@ class DosenController extends Controller
         $pdf->setPaper('A4', 'landscape');
         return $pdf->download('Jadwal_Mengajar_' . $dosen->nama . '_' . date('Ymd') . '.pdf');
     }
-    
+
     public function exportMahasiswaPdf()
     {
         $user = Auth::user();
