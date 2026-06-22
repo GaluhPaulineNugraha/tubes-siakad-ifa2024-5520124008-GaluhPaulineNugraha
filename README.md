@@ -311,7 +311,7 @@ composer install
 7.2.4 Buat file .env dari contoh yang tersedia:
 cp .env.example .env
 
-7.2.5 Buka file .env dan sesuaikan konfigurasi database Anda:
+7.2.5 Buka file .env dan sesuaikan konfigurasi database berikut:
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -518,7 +518,6 @@ https://github.com/GaluhPaulineNugraha/tubes-siakad-ifa2024-5520124008-GaluhPaul
 #### 10.2 Link Hosting
 
 Aplikasi ini di-hosting secara online dan dapat diakses melalui URL:
-https://siakad-universitas-nugraha.com
-
+https://gpauline.ifalgorithm24.web.id/
 ---
 
