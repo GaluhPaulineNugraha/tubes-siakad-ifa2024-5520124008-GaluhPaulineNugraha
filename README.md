@@ -7,6 +7,19 @@
 
 ---
 
+### LINK REPOSITORI DAN HOSTING
+
+#### Link Repository
+
+Repository GitHub untuk source code aplikasi ini dapat diakses di:
+https://github.com/GaluhPaulineNugraha/tubes-siakad-ifa2024-5520124008-GaluhPaulineNugraha
+
+#### Link Hosting
+
+Aplikasi ini di-hosting secara online dan dapat diakses melalui URL:
+https://gpauline.ifalgorithm24.web.id/
+---
+
 ### 1. JUDUL PROJECT
 
 SIAKAD - Sistem Informasi Akademik Sederhana
@@ -508,16 +521,5 @@ Daftar akun mahasiswa yang tersedia beserta email dan password:
 
 ---
 
-### 10. LINK REPOSITORI DAN HOSTING
 
-#### 10.1 Link Repository
-
-Repository GitHub untuk source code aplikasi ini dapat diakses di:
-https://github.com/GaluhPaulineNugraha/tubes-siakad-ifa2024-5520124008-GaluhPaulineNugraha
-
-#### 10.2 Link Hosting
-
-Aplikasi ini di-hosting secara online dan dapat diakses melalui URL:
-https://gpauline.ifalgorithm24.web.id/
----
 
