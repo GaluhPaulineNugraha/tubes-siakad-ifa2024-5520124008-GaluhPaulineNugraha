@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KRS;
+use App\Models\Krs;
 use App\Models\Mahasiswa;
 use App\Models\Matakuliah;
 use Illuminate\Http\Request;

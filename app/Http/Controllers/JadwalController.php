@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jadwal;
-use App\Models\KRS;
+use App\Models\Krs;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use App\Models\Matakuliah;

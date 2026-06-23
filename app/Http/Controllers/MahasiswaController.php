@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Mahasiswa;
 use App\Models\Dosen;
 use App\Models\User;
-use App\Models\KRS;
+use App\Models\Krs;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;

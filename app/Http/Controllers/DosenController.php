@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Dosen;
 use App\Models\Mahasiswa;
 use App\Models\Jadwal;
-use App\Models\KRS;
+use App\Models\Krs;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
