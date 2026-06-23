@@ -20,7 +20,6 @@ class DashboardController extends Controller
             return redirect()->route('login');
         }
         
-        // CEK ROLE
         $isAdmin = $user->email == 'admin@gmail.com';
         $isDosen = $user->nidn != null;
         $isMahasiswa = $user->mahasiswa_id != null;
@@ -29,11 +28,10 @@ class DashboardController extends Controller
             $totalDosen = Dosen::count();
             $totalMahasiswa = Mahasiswa::count();
             $totalMatakuliah = Matakuliah::count();
-            $totalKRS = KRS::count();
+            $totalKRS = Krs::count();
             
-            // Hitung total SKS
             $totalSKS = 0;
-            $allKrs = KRS::with('matakuliah')->get();
+            $allKrs = Krs::with('matakuliah')->get();
             foreach ($allKrs as $krs) {
                 if ($krs->matakuliah) {
                     $totalSKS += $krs->matakuliah->sks;
@@ -41,29 +39,22 @@ class DashboardController extends Controller
             }
             
             $avgSksPerMhs = $totalMahasiswa > 0 ? round($totalSKS / $totalMahasiswa, 1) : 0;
-            $activeKRS = KRS::distinct('npm')->count('npm');
+            $activeKRS = Krs::distinct('npm')->count('npm');
             
             $latestDosen = Dosen::latest()->limit(5)->get();
             $latestMahasiswa = Mahasiswa::with('dosen')->latest()->limit(5)->get();
             
-            // ==========================================
-            // DATA GRAFIK JADWAL PER HARI
-            // ==========================================
-            $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
             $jadwalPerHari = [];
             foreach ($hariList as $hari) {
                 $jadwalPerHari[] = Jadwal::where('hari', $hari)->count();
             }
             
-            // ==========================================
-            // DATA GRAFIK MAHASISWA PER DOSEN WALI
-            // ==========================================
             $dosenList = Dosen::withCount('mahasiswa')->get();
             $dosenWaliLabels = [];
             $mahasiswaPerDosen = [];
             
             foreach ($dosenList as $dosen) {
-                // Ambil nama singkat (maksimal 20 karakter)
                 $namaSingkat = strlen($dosen->nama) > 20 ? substr($dosen->nama, 0, 18) . '..' : $dosen->nama;
                 $dosenWaliLabels[] = $namaSingkat;
                 $mahasiswaPerDosen[] = $dosen->mahasiswa_count;
@@ -96,17 +87,17 @@ class DashboardController extends Controller
                 return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
             
-            $totalMatakuliah = KRS::where('npm', $mahasiswa->npm)->count();
+            $totalMatakuliah = Krs::where('npm', $mahasiswa->npm)->count();
             
             $totalSks = 0;
-            $krsList = KRS::with('matakuliah')->where('npm', $mahasiswa->npm)->get();
+            $krsList = Krs::with('matakuliah')->where('npm', $mahasiswa->npm)->get();
             foreach ($krsList as $krs) {
                 if ($krs->matakuliah) {
                     $totalSks += $krs->matakuliah->sks;
                 }
             }
             
-            $latestKRS = KRS::with('matakuliah')
+            $latestKRS = Krs::with('matakuliah')
                 ->where('npm', $mahasiswa->npm)
                 ->latest()
                 ->limit(5)
@@ -118,10 +109,9 @@ class DashboardController extends Controller
         return view('dashboard');
     }
     
-    // API untuk refresh chart (AJAX)
     public function chartJadwal()
     {
-        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+        $hariList = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
         $data = [];
         foreach ($hariList as $hari) {
             $data[] = Jadwal::where('hari', $hari)->count();
