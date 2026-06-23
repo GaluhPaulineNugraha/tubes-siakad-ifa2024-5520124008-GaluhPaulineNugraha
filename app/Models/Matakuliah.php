@@ -20,6 +20,6 @@ class Matakuliah extends Model
 
     public function krs()
     {
-        return $this->hasMany(KRS::class, 'kode_matakuliah', 'kode_matakuliah');
+        return $this->hasMany(Krs::class, 'kode_matakuliah', 'kode_matakuliah');
     }
 }

@@ -50,7 +50,7 @@
                         <tbody>
                             @forelse($mahasiswa as $index => $item)
                             @php
-                                $status = App\Models\KRS::where('npm', $item->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
+                                $status = App\Models\Krs::where('npm', $item->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
                             @endphp
                             <tr>
                                 <td class="text-center">{{ ($mahasiswa->currentPage() - 1) * $mahasiswa->perPage() + $loop->iteration }}</td>

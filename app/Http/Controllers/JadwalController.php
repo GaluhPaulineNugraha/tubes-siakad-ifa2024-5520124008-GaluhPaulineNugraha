@@ -19,7 +19,7 @@ class JadwalController extends Controller
         $isAdmin = $user->email == 'admin@gmail.com';
         
         if ($isAdmin) {
-            $query = KRS::with(['mahasiswa', 'matakuliah']);
+            $query = Krs::with(['mahasiswa', 'matakuliah']);
             
             if ($request->search) {
                 $query->whereHas('mahasiswa', function($q) use ($request) {
@@ -35,14 +35,13 @@ class JadwalController extends Controller
             return view('jadwal.index', compact('jadwal'));
         }
         
-        // UNTUK MAHASISWA
         $mahasiswa = Mahasiswa::where('npm', $user->mahasiswa_id)->first();
         
         if (!$mahasiswa) {
             return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
         }
         
-        $krsList = KRS::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
+        $krsList = Krs::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
         
         $jadwal = Jadwal::with(['matakuliah', 'dosen'])
             ->whereIn('kode_matakuliah', $krsList)
@@ -62,7 +61,7 @@ class JadwalController extends Controller
             return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
         }
         
-        $krsList = KRS::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
+        $krsList = Krs::where('npm', $mahasiswa->npm)->pluck('kode_matakuliah');
         
         $jadwal = Jadwal::with(['matakuliah', 'dosen'])
             ->whereIn('kode_matakuliah', $krsList)

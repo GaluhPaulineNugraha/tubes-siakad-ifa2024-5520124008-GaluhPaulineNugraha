@@ -9,7 +9,7 @@
             </div>
             <div class="card-body">
                 @php
-                    $status = App\Models\KRS::where('npm', $mahasiswa->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
+                    $status = App\Models\Krs::where('npm', $mahasiswa->npm)->exists() ? 'Aktif' : 'Tidak Aktif';
                 @endphp
 
                 <form action="{{ route('mahasiswa.update', $mahasiswa->npm) }}" method="POST">

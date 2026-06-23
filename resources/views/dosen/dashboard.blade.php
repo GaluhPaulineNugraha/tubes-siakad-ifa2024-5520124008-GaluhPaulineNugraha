@@ -12,7 +12,6 @@
         </div>
     </div>
 
-    <!-- Statistik Cards -->
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">
@@ -110,7 +109,7 @@
                             <div class="fw-semibold">{{ $mhs->nama }}</div>
                             <small class="text-muted">{{ $mhs->npm }}</small>
                         </div>
-                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">{{ App\Models\KRS::where('npm', $mhs->npm)->count() }} MK</span>
+                        <span class="badge bg-success bg-opacity-10 text-success px-3 py-2">{{ App\Models\Krs::where('npm', $mhs->npm)->count() }} MK</span>
                     </div>
                     @empty
                     <div class="text-center py-3 text-muted">Belum ada mahasiswa bimbingan</div>

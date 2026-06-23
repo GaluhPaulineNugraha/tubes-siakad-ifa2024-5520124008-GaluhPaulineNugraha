@@ -17,7 +17,6 @@
         </div>
     </div>
 
-    <!-- Statistik -->
     <div class="row g-3 mb-4">
         <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4">
@@ -41,7 +40,7 @@
                         <div>
                             <small class="text-muted text-uppercase">Total MK Diambil</small>
                             <h2 class="mb-0 fw-bold mt-1">
-                                {{ $mahasiswa->sum(function($m) { return App\Models\KRS::where('npm', $m->npm)->count(); }) }}
+                                {{ $mahasiswa->sum(function($m) { return App\Models\Krs::where('npm', $m->npm)->count(); }) }}
                             </h2>
                         </div>
                         <div class="rounded-3 p-3" style="background: #e6f4ea;">
@@ -68,7 +67,6 @@
         </div>
     </div>
 
-    <!-- Tabel Mahasiswa -->
     <div class="card border-0 shadow-sm rounded-4">
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -85,7 +83,7 @@
                     <tbody>
                         @forelse($mahasiswa as $index => $mhs)
                         @php
-                            $jumlahMK = App\Models\KRS::where('npm', $mhs->npm)->count();
+                            $jumlahMK = App\Models::Krs::where('npm', $mhs->npm)->count();
                             $status = $jumlahMK > 0 ? 'Aktif' : 'Tidak Aktif';
                         @endphp
                         <tr>

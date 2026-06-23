@@ -20,7 +20,7 @@ class Mahasiswa extends Model
 
     public function krs()
     {
-        return $this->hasMany(KRS::class, 'npm', 'npm');
+        return $this->hasMany(Krs::class, 'npm', 'npm');
     }
 
     public function user()

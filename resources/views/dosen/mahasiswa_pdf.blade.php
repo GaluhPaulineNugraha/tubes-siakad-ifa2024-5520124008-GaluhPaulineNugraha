@@ -48,7 +48,7 @@
         </thead>
         <tbody>
             @forelse($mahasiswa as $index => $mhs)
-            @php $jumlahMK = App\Models\KRS::where('npm', $mhs->npm)->count(); @endphp
+            @php $jumlahMK = App\Models\Krs::where('npm', $mhs->npm)->count(); @endphp
             <tr>
                 <td>{{ $index + 1 }}</td>
                 <td><strong>{{ $mhs->npm }}</strong></td>

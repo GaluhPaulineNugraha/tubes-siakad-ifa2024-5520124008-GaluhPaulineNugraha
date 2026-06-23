@@ -113,7 +113,7 @@ class DosenController extends Controller
         
         $totalMahasiswaBimbingan = Mahasiswa::where('nidn', $dosen->nidn)->count();
         $totalJadwalMengajar = Jadwal::where('nidn', $dosen->nidn)->count();
-        $totalKRS = KRS::whereIn('npm', Mahasiswa::where('nidn', $dosen->nidn)->pluck('npm'))->count();
+        $totalKRS = Krs::whereIn('npm', Mahasiswa::where('nidn', $dosen->nidn)->pluck('npm'))->count();
         
         $jadwalTerbaru = Jadwal::with(['matakuliah'])
             ->where('nidn', $dosen->nidn)

@@ -14,7 +14,7 @@ class KRSExport implements FromCollection, WithHeadings, WithMapping, ShouldAuto
     
     public function collection()
     {
-        return KRS::with(['mahasiswa.dosen', 'matakuliah'])->get();
+        return Krs::with(['mahasiswa.dosen', 'matakuliah'])->get();
     }
     
     public function headings(): array

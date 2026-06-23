@@ -19,7 +19,7 @@ class KRSController extends Controller
         $isAdmin = $user->email == 'admin@gmail.com';
         
         if ($isAdmin) {
-            $query = KRS::with(['mahasiswa.dosen', 'matakuliah']);
+            $query = Krs::with(['mahasiswa.dosen', 'matakuliah']);
             
             if ($request->search) {
                 $query->whereHas('mahasiswa', function($q) use ($request) {
@@ -39,7 +39,7 @@ class KRSController extends Controller
             $mahasiswa = Mahasiswa::all();
             
             $totalSks = 0;
-            $allKrs = KRS::with('matakuliah')->get();
+            $allKrs = Krs::with('matakuliah')->get();
             foreach ($allKrs as $krs) {
                 if ($krs->matakuliah) {
                     $totalSks += $krs->matakuliah->sks;
@@ -54,7 +54,7 @@ class KRSController extends Controller
                 return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
             
-            $krsList = KRS::with(['matakuliah'])
+            $krsList = Krs::with(['matakuliah'])
                 ->where('npm', $mahasiswa->npm)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -85,7 +85,7 @@ class KRSController extends Controller
             'kode_matakuliah' => 'required|exists:matakuliah,kode_matakuliah'
         ]);
         
-        $exists = KRS::where('npm', $mahasiswa->npm)
+        $exists = Krs::where('npm', $mahasiswa->npm)
             ->where('kode_matakuliah', $validated['kode_matakuliah'])
             ->exists();
             
@@ -94,7 +94,7 @@ class KRSController extends Controller
         }
         
         $currentSks = 0;
-        $krsList = KRS::with('matakuliah')->where('npm', $mahasiswa->npm)->get();
+        $krsList = Krs::with('matakuliah')->where('npm', $mahasiswa->npm)->get();
         foreach ($krsList as $krs) {
             if ($krs->matakuliah) {
                 $currentSks += $krs->matakuliah->sks;
@@ -111,7 +111,7 @@ class KRSController extends Controller
             return back()->with('error', '❌ Total SKS melebihi batas maksimal 24 SKS! Anda sudah mengambil ' . $currentSks . ' SKS, sisa kuota ' . (24 - $currentSks) . ' SKS.');
         }
         
-        KRS::create([
+        Krs::create([
             'npm' => $mahasiswa->npm,
             'kode_matakuliah' => $validated['kode_matakuliah']
         ]);
@@ -121,7 +121,7 @@ class KRSController extends Controller
     
     public function destroy($id)
     {
-        $krs = KRS::findOrFail($id);
+        $krs = Krs::findOrFail($id);
         $user = Auth::user();
         $isAdmin = $user->email == 'admin@gmail.com';
         
@@ -151,7 +151,7 @@ class KRSController extends Controller
                 return redirect()->route('dashboard')->with('error', 'Data mahasiswa tidak ditemukan');
             }
             
-            $krsList = KRS::with(['matakuliah'])
+            $krsList = Krs::with(['matakuliah'])
                 ->where('npm', $mahasiswa->npm)
                 ->get();
             
@@ -173,7 +173,7 @@ class KRSController extends Controller
     public function exportExcel()
     {
         try {
-            $krsList = KRS::with(['mahasiswa.dosen', 'matakuliah'])->get();
+            $krsList = Krs::with(['mahasiswa.dosen', 'matakuliah'])->get();
             
             $data = [];
             $no = 1;
